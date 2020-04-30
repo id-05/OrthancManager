@@ -36,19 +36,19 @@ public class HttpUserDialogPreference extends DialogPreference
         super(context, attrs);
 
         // get attributes specified in XML
-//        TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NumberPickerDialogPreference, 0, 0);
-//        try
-//        {
-//           // setMinValue(a.getInteger(R.styleable.NumberPickerDialogPreference_min, DEFAULT_MIN_VALUE));
-//           // setMaxValue(a.getInteger(R.styleable.NumberPickerDialogPreference_android_max, DEFAULT_MAX_VALUE));
-//        }
-//        finally
-//        {
-//            a.recycle();
-//        }
+       //TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NumberPickerDialogPreference, 0, 0);
+        //try
+        //{
+           // setMinValue(a.getInteger(R.styleable.NumberPickerDialogPreference_min, DEFAULT_MIN_VALUE));
+           // setMaxValue(a.getInteger(R.styleable.NumberPickerDialogPreference_android_max, DEFAULT_MAX_VALUE));
+        //}
+        //finally
+       // {
+          //  a.recycle();
+        //}
 
         // !!!!!!!!!!!!!!!!!!!!!в это месте заменили с R.layout.http_users_dialog
-        setDialogLayoutResource(R.layout.http_users_dialog);
+        setDialogLayoutResource(R.layout.http_users_dialog_recyclerview);
         setPositiveButtonText(android.R.string.ok);
         setNegativeButtonText(android.R.string.cancel);
         setDialogIcon(null);
@@ -71,10 +71,10 @@ public class HttpUserDialogPreference extends DialogPreference
     {
         super.onBindDialogView(view);
 
-        TextView dialogMessageText = (TextView) view.findViewById(R.id.text_dialog_message);
-        dialogMessageText.setText(getDialogMessage());
+        //TextView dialogMessageText = (TextView) view.findViewById(R.id.text_dialog_message);
+        //dialogMessageText.setText(getDialogMessage());
 
-        jsonEdit = (EditText) view.findViewById(R.id.jsontext);
+        //jsonEdit = (EditText) view.findViewById(R.id.jsontext);
 
         JsonParser parser = new JsonParser();
         JsonObject orthancJson=new JsonObject();
@@ -85,18 +85,18 @@ public class HttpUserDialogPreference extends DialogPreference
         Object[] jsonkeys = keys.toArray();
         try {
             RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewHttp);
-            recyclerView.setHasFixedSize(true);
+            //recyclerView.setHasFixedSize(true);
             //LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
-            HttpUserDialogAdapter adapter = new HttpUserDialogAdapter();
+            HttpUserDialogAdapter adapter;
             adapter = new HttpUserDialogAdapter(jsonStr, this.getContext());
             recyclerView.setAdapter(adapter);
         }catch (Exception e){
             MainActivity.print("onBindDialogView  "+e.toString());
         }
         MainActivity.print("onbind "+jsonkeys[0].toString()+":"+buf.get(jsonkeys[0].toString()).getAsString());
-        jsonEdit.setText(jsonkeys[0].toString());
+        //jsonEdit.setText(jsonkeys[0].toString());
     }
 
     public String getValue()

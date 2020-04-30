@@ -39,9 +39,9 @@ public class HttpUserDialogAdapter extends RecyclerView.Adapter<HttpUserDialogAd
         return httpUserDialogViewHolder;
     }
 
-    //HttpUserDialogAdapter(Context context){
-    //    this.context = context;
-    //}
+    HttpUserDialogAdapter(Context context){
+        this.context = context;
+    }
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
@@ -50,6 +50,7 @@ public class HttpUserDialogAdapter extends RecyclerView.Adapter<HttpUserDialogAd
 
     @Override
     public void onBindViewHolder(@NonNull HttpUserDialogAdapter.HttpUserDialogViewHolder holder, int position) {
+        //MainActivity.print("onbind ");
         try {
             JsonParser parser = new JsonParser();
             JsonObject orthancJson = new JsonObject();
@@ -59,9 +60,9 @@ public class HttpUserDialogAdapter extends RecyclerView.Adapter<HttpUserDialogAd
             Set<String> keys = buf.keySet();
             Object[] jsonkeys = keys.toArray();
             String buf2 = buf.get(jsonkeys[position].toString()).getAsString();
+            MainActivity.print("onbind "+jsonkeys[position].toString()+":"+buf.get(jsonkeys[position].toString()).getAsString());
             holder.viewLogin.setText(jsonkeys[position].toString());
             holder.viewPassword.setText(buf2);
-            //MainActivity.print("onbind "+jsonkeys[position-1].toString()+":"+buf.get(jsonkeys[position].toString()).getAsString());
         }catch (Exception e){
             MainActivity.print("bindviewholder = "+e.toString());
         }
@@ -69,7 +70,7 @@ public class HttpUserDialogAdapter extends RecyclerView.Adapter<HttpUserDialogAd
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 1;
     }
 
     public class HttpUserDialogViewHolder extends RecyclerView.ViewHolder {
