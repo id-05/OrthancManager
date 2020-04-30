@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">Orthanc Manager</string>
+    <string name="titleAddServer">Добавить сервер</string>
+    <string name="titleSettings">Настройки</string>
+    <string name="titleSettingsForm">Настройки приложения</string>
+    <string name="titleAddNewServer">Добавить новый сервер</string>
+    <string name="ipadressNewServer">IP Адресс</string>
+    <string name="loginUserNewServer">Логин</string>
+    <string name="passwordNewServer">Пароль</string>
+    <string name="savebutton">Сохранить</string>
+    <string name="canselbutton">Отмена</string>
+    <string name="portNewServer">Порт</string>
+    <string name="checkConnect">Тест соединения</string>
+    <string name="pathToJson">Путь к файлу orthanc.json</string>
+    <string name="nameNewServer">Имя</string>
+    <string name="failureName">!</string>
+    <string name="failureIP">Не указан IP адрес!</string>
+    <string name="failurePORT">Не указан порт!</string>
+    <string name="deleteserver">Удалить</string>
+    <string name="confirmdeletion">Пожтверждение удаления</string>
+    <string name="areyousure">Вы уверены что хотите удалить сервер?</string>
+    <string name="didnotconnect">Имя ещё не прочитано</string>
+    <string name="nameofserver">имя сервера</string>
+    <string name="ipaddress">ipaddress</string>
+    <string name="zero">0</string>
+    <string-array name="chooseOC">
+        <item> <string name="chooseOChint">Выбирете ОС</string> </item>
+        <item>Linux</item>
+        <item>Windows</item>
+    </string-array>
+    <string name="general">Основные настройки</string>
+    <string name="settingnamesummary">Логическое название этого экземпляра Orthanc. Имя отображается в Orthanc Explorer и в URI \ "/ system \""</string>
+    <string name="settingname">Имя сервера</string>
+    <string name="storagedirectory">Каталог хранения</string>
+    <string name="storagedirectorysum">Путь к каталогу, содержащему тяжелые файлы (то есть необработанные экземпляры DICOM). Обратная косая черта должна быть либо удвоена, либо заменена прямой косой чертой "/"</string>
+    <string name="indexdirectory">Каталог указателей</string>
+    <string name="indexdirectorysum">Путь к каталогу, который содержит индекс SQLite (если не установлен, используется значение StorageDirectory). Этот индекс может быть сохранен на RAM-диске или SSD-устройстве из соображений производительности</string>
+    <string name="storagecompression">Сжатие хранилища</string>
+    <string name="storagecompressionsum">Включить прозрачное сжатие экземпляров DICOM</string>
+    <string name="MaximumStorageSize">Максимальный размер хранилища</string>
+    <string name="MaximumStorageSizesum">Максимальный размер хранилища в МБ (значение «0» означает отсутствие ограничений на размер хранилища)</string>
+    <string name="MaximumPatientCount">Максимальное количество пациентов</string>
+    <string name="MaximumPatientCountsum">Максимальное количество пациентов, которое может храниться в данное время в хранилище (значение «0» указывает на отсутствие ограничения на количество пациентов)</string>
+    <string name="ConcurrentJobs">Одновременные задания</string>
+    <string name="ConcurrentJobssum"><![CDATA[Максимальное количество заданий обработки, которые одновременно выполняются в любой момент времени. Значение \ "0 \" указывает на использование всех доступных логических ядер ЦП. Чтобы эмулировать Orthanc <= 1.3.2, установите это значение равным \ "1 \"]]></string>
+    <string name="httpsetting">Конфигурация HTTP сервера</string>
+    <string name="HttpServerEnabled">Включить Http Server</string>>
+    <string name="HttpServerEnabledsum">Если этот параметр выключен», Orthanc действует как чистый DICOM-сервер. REST API и Orthanc Explorer будут недоступны</string>
+    <string name="HttpPort">Http порт</string>
+    <string name="HttpPortsum">HTTP порт для служб REST и для графического интерфейса</string>
+    <string name="HttpDescribeErrors">Http описание ошибок</string>
+    <string name="HttpDescribeErrorssum">Если включено, и при вызове REST API возникает ошибка, в ответ HTTP добавляется сообщение JSON с описанием ошибки. Эту функцию можно отключить, если HTTP-клиент неправильно обрабатывает такие ответы</string>
+    <string name="HttpCompressionEnabled">Http сжатие</string>
+    <string name="HttpCompressionEnabledsum">Включите сжатие HTTP, чтобы улучшить использование полосы пропускания сети за счет большего количества вычислений на сервере. Orthanc поддерживает HTTP-кодировки «gzip» и «deflate»</string>
+    <string name="dicomconfig">Конфигурация DICOM сервера</string>
+    <string name="DicomServerEnabled">Dicom Server</string>
+    <string name="DicomServerEnabledsum">Если выключено, Orthanc действует как чистый REST-сервер. Получение файлов, а так же запросы по птороколу DICOM будут невозможны</string>
+    <string name="DicomAet">DicomAet</string>
+    <string name="DicomAetsum">Уникальное в рамках используеймой DICOM сети, название сервера</string>
+    <string name="DicomCheckCalledAet">Dicom проверка вызываемого Aet</string>
+    <string name="DicomCheckCalledAetsum">Проверка соответствия вызываемого AET, во время входящего запроса SCU DICOM</string>
+    <string name="DicomPort">Dicom порт</string>
+    <string name="DefaultEncoding">Кодировка по умолачнию</string>
+    <string name="DefaultEncodingsum">Кодировка используемая для файлов DICOM без DICOM-тега «SpecificCharacterSet», который используется при ответе на C-Find запросы (включая рабочие списки)</string>
+    <string name="DeflatedTransfer">Deflated Transfer</string>
+    <string name="syntaxtransfer">Синтаксис передачи</string>
+    <string name="JpegTransfer">Jpeg Transfer</string>
+    <string name="Jpeg2000Transfer">"Jpeg2000 Transfer "</string>
+    <string name="JpegLosslessTransfer">Jpeg Lossless Transfer</string>
+    <string name="JpipTransferSyntaxAccepted">Jpip Transfer</string>
+    <string name="Mpeg2Transfer">Mpeg2 Transfer</string>
+    <string name="RleTransfer">Rle Transfer</string>
+    <string name="UnknownSopClassAccepted">Unknown Sop Class Accepted</string>
+    <string name="UnknownSopClassAcceptedsum">Принимает или нет, роль S-Store SCP для неизвестного хранилища SOP классы («Неразборчивый режим»)</string>
+    <string name="DicomScpTimeout">Dicom Scp Timeout</string>
+    <string name="DicomScpTimeoutsum">Установите время ожидания (в секундах), после которого Orthanc закроет соединение, если больше нет DIMSE-команд от SCU (клиента).</string>
+    <string name="Securityhttp">Параметры безопасности HTTP-сервера</string>
+
+</resources>

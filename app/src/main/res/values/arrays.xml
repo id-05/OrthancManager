@@ -1,0 +1,31 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+
+    <string-array name="DefaultEncodingList">
+        <item>Ascii</item>
+        <item>Utf8</item>
+        <item>Latin1</item>
+        <item>Latin2</item>
+        <item>Latin3</item>
+        <item>Latin4</item>
+        <item>Latin5</item>
+        <item>Cyrillic</item>
+        <item>Windows1251</item>
+        <item>Arabic</item>
+        <item>Greek</item>
+        <item>Hebrew</item>
+        <item>Thai</item>
+        <item>Japanese</item>
+        <item>Chinese</item>
+    </string-array>
+
+</resources>

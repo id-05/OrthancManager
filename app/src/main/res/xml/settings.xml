@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/general">
+
+        <!--
+       <com.example.orthancmanager.NumberPickerDialogPreference
+           android:defaultValue="200"
+           android:dialogMessage="Выберите суточный паёк для кота в граммах:"
+           android:max="250"
+           android:title="Печёнка для кота (гр)"
+           android:visibility="visible"
+           custom:min="100" />
+        -->
+       <com.example.orthancmanager.HttpUserDialogPreference
+           android:key="HttpUserJson"
+           android:defaultValue="priver"
+           android:dialogMessage="Пользователи orthanc:"
+           android:title="users"
+           android:visibility="visible" />
+       <!--
+       <com.example.orthancmanager.SeekBarDialogPreference
+           android:defaultValue="20"
+           android:dialogMessage="Выберите нужное значение:"
+           android:key="height"
+           android:max="50"
+           android:summary="Высота кота в см"
+           android:title="Рост кота"
+           custom:min="1"
+           custom:progressTextSuffix=" см" />
+           -->
+        <!--
+        <com.example.orthancmanager.HttpUserDialogPreference
+            android:defaultValue="false"
+            android:dialogMessage="Выберите нужное значение:"
+            android:key="sadasd"
+            android:summary="тестовый компонент"
+            android:title="Тестовый преференс" />
+            -->
+        <EditTextPreference
+            android:key="servername"
+            android:selectAllOnFocus="true"
+            android:summary="@string/settingnamesummary"
+            android:title="@string/settingname"
+            android:visibility="visible" />
+        <EditTextPreference
+            android:defaultValue="false"
+            android:key="StorageDirectory"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/storagedirectorysum"
+            android:title="@string/storagedirectory" />
+        <EditTextPreference
+            android:defaultValue="true"
+            android:key="IndexDirectory"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/indexdirectorysum"
+            android:title="@string/indexdirectory" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="StorageCompression"
+            android:summary="@string/storagecompressionsum"
+            android:title="@string/storagecompression" />
+        <EditTextPreference
+            android:defaultValue="false"
+            android:key="MaximumStorageSize"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/MaximumStorageSizesum"
+            android:title="@string/MaximumStorageSize" />
+        <EditTextPreference
+            android:defaultValue="false"
+            android:key="MaximumPatientCount"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/MaximumPatientCountsum"
+            android:title="@string/MaximumPatientCount" />
+        <EditTextPreference
+            android:defaultValue="false"
+            android:key="ConcurrentJobs"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/ConcurrentJobssum"
+            android:title="@string/ConcurrentJobs" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/httpsetting">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="HttpServerEnabled"
+            android:summary="@string/HttpServerEnabledsum"
+            android:title="@string/HttpServerEnabled" />
+        <EditTextPreference
+            android:defaultValue="false"
+            android:key="HttpPort"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/HttpPortsum"
+            android:title="@string/HttpPort" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="HttpDescribeErrors"
+            android:summary="@string/HttpDescribeErrorssum"
+            android:title="@string/HttpDescribeErrors" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="HttpCompressionEnabled"
+            android:summary="@string/HttpCompressionEnabledsum"
+            android:title="@string/HttpCompressionEnabled" />
+
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/dicomconfig">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="DicomServerEnabled"
+            android:summary="@string/DicomServerEnabledsum"
+            android:title="@string/DicomServerEnabled" />
+        <EditTextPreference
+            android:defaultValue="false"
+            android:key="DicomAet"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/DicomAetsum"
+            android:title="@string/DicomAet" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="DicomCheckCalledAet"
+            android:summary="@string/DicomCheckCalledAetsum"
+            android:title="@string/DicomCheckCalledAet" />
+        <EditTextPreference
+            android:defaultValue="false"
+            android:key="DicomPort"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/DicomPortsum"
+            android:title="@string/DicomPort" />
+        <ListPreference
+            android:defaultValue="false"
+            android:entries="@array/DefaultEncodingList"
+            android:entryValues="@array/DefaultEncodingList"
+            android:key="DefaultEncoding"
+            android:summary="@string/DefaultEncodingsum"
+            android:title="@string/DefaultEncoding" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="DeflatedTransferSyntaxAccepted"
+            android:summary="@string/syntaxtransfer"
+            android:title="@string/DeflatedTransfer" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="JpegTransferSyntaxAccepted"
+            android:summary="@string/syntaxtransfer"
+            android:title="@string/JpegTransfer" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="Jpeg2000TransferSyntaxAccepted"
+            android:summary="@string/syntaxtransfer"
+            android:title="@string/Jpeg2000Transfer" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="JpegLosslessTransferSyntaxAccepted"
+            android:summary="@string/syntaxtransfer"
+            android:title="@string/JpegLosslessTransfer" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="JpipTransferSyntaxAccepted"
+            android:summary="@string/syntaxtransfer"
+            android:title="@string/JpipTransferSyntaxAccepted" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="Mpeg2TransferSyntaxAccepted"
+            android:summary="@string/syntaxtransfer"
+            android:title="@string/Mpeg2Transfer" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="RleTransferSyntaxAccepted"
+            android:summary="@string/syntaxtransfer"
+            android:title="@string/RleTransfer" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="UnknownSopClassAccepted"
+            android:summary="@string/UnknownSopClassAcceptedsum"
+            android:title="@string/UnknownSopClassAccepted" />
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="DicomScpTimeout"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/DicomScpTimeoutsum"
+            android:title="@string/DicomScpTimeout" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/Securityhttp">
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
