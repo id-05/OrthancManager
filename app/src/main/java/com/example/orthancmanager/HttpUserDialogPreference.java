@@ -2,12 +2,15 @@ package com.example.orthancmanager;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -20,6 +23,7 @@ import com.google.gson.JsonParser;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -27,7 +31,8 @@ public class HttpUserDialogPreference extends DialogPreference
 {
     private String jsonStr;
     private EditText jsonEdit;
-
+    static ArrayList<String> bufLogin = new ArrayList<String>();
+    static ArrayList<String> bufPassword = new ArrayList<String>();
 
 
 
@@ -70,11 +75,9 @@ public class HttpUserDialogPreference extends DialogPreference
     protected void onBindDialogView(View view)
     {
         super.onBindDialogView(view);
-
-        //TextView dialogMessageText = (TextView) view.findViewById(R.id.text_dialog_message);
-        //dialogMessageText.setText(getDialogMessage());
-
-        //jsonEdit = (EditText) view.findViewById(R.id.jsontext);
+        final EditText editLogin = (EditText)view.findViewById(R.id.addLogin);
+        final EditText editPassword = (EditText)view.findViewById(R.id.addPassword);
+        ImageView addItem = (ImageView)view.findViewById(R.id.addItem);
 
         JsonParser parser = new JsonParser();
         JsonObject orthancJson=new JsonObject();
@@ -83,20 +86,48 @@ public class HttpUserDialogPreference extends DialogPreference
         buf = orthancJson.get("RegisteredUsers").getAsJsonObject();
         Set<String> keys = buf.keySet();
         Object[] jsonkeys = keys.toArray();
+        bufLogin.clear();
+        bufPassword.clear();
+        for(int i=0; i<=jsonkeys.length-1; i++){
+            bufLogin.add(jsonkeys[i].toString());
+            bufPassword.add(buf.get(jsonkeys[i].toString()).getAsString());
+        }
         try {
             RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewHttp);
-            //recyclerView.setHasFixedSize(true);
-            //LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
-            HttpUserDialogAdapter adapter;
-            adapter = new HttpUserDialogAdapter(jsonStr, this.getContext());
+            final HttpUserDialogAdapter adapter;
+            adapter = new HttpUserDialogAdapter(bufLogin, bufPassword, this.getContext());
             recyclerView.setAdapter(adapter);
+
+            addItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!(editLogin.getText().toString().equals(""))&
+                            (!editPassword.getText().toString().equals("")))
+                    {
+                        bufLogin.add(editLogin.getText().toString());
+                        bufPassword.add(editPassword.getText().toString());
+                        adapter.notifyDataSetChanged();
+                        editLogin.setText("");
+                        editPassword.setText("");
+                    }
+                }
+            });
+
         }catch (Exception e){
             MainActivity.print("onBindDialogView  "+e.toString());
         }
-        MainActivity.print("onbind "+jsonkeys[0].toString()+":"+buf.get(jsonkeys[0].toString()).getAsString());
+
+
+        //MainActivity.print("onbind "+jsonkeys[0].toString()+":"+buf.get(jsonkeys[0].toString()).getAsString());
         //jsonEdit.setText(jsonkeys[0].toString());
+    }
+
+    public static void delItem(int i){
+        bufLogin.remove(i);
+        bufPassword.remove(i);
+        //notifyDataSetChanged();
     }
 
     public String getValue()
@@ -106,8 +137,6 @@ public class HttpUserDialogPreference extends DialogPreference
 
     public void setValue(String value)
     {
-        //value = Math.max(Math.min(value, mMaxValue), mMinValue);
-
         //if (value != mValue)
        // {
             jsonStr = value;
@@ -124,7 +153,7 @@ public class HttpUserDialogPreference extends DialogPreference
         // when the user selects "OK", persist the new value
         if (positiveResult)
         {
-            MainActivity.print("pltcm");
+            //MainActivity.print("pltcm");
            // String jsonEditValue = jsonEdit.getText().toString();
            // if (callChangeListener(jsonEditValue))
             {
@@ -141,8 +170,6 @@ public class HttpUserDialogPreference extends DialogPreference
 
         // set the state's value with the class member that holds current setting value
         final SavedState myState = new SavedState(superState);
-        //myState.minValue = getMinValue();
-        //myState.maxValue = getMaxValue();
         myState.value = getValue();
         return myState;
     }
@@ -179,7 +206,7 @@ public class HttpUserDialogPreference extends DialogPreference
         public SavedState(Parcel source)
         {
             super(source);
-            MainActivity.print("pltcm");
+            //MainActivity.print("pltcm");
             value = source.readString();
         }
 

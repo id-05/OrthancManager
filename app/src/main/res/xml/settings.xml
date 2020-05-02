@@ -18,7 +18,8 @@
            android:key="HttpUserJson"
            android:defaultValue="priver"
            android:dialogMessage="Пользователи orthanc:"
-           android:title="users"
+           android:title="@string/RegisteredUsers"
+           android:summary="@string/RegisteredUserssum"
            android:visibility="visible" />
        <!--
        <com.example.orthancmanager.SeekBarDialogPreference

@@ -218,17 +218,21 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
+        /////////////01.05.2020
+
         jsonSetting = data;
         MainActivity.print("data = "+data);
         JsonParser parser = new JsonParser();
         JsonObject orthancJson = parser.parse(data).getAsJsonObject();
         JsonObject users = new JsonObject();
         users= orthancJson.get("RegisteredUsers").getAsJsonObject();
-        print(users.toString());
-        Set<String> keys = users.keySet();
-        for(String key:keys){
-            print(key.toString());
-        }
+        //print(users.toString());
+        //Set<String> keys = users.keySet();
+        //for(String key:keys){
+        //    print(key.toString());
+        //}
+
+
         //Iterator<String> iter = users. //This should be the iterator you want.
         //while(keys){
         //    String key = iter.next();

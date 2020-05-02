@@ -82,6 +82,8 @@
     <string name="DicomScpTimeout">Dicom Scp Timeout</string>
     <string name="DicomScpTimeoutsum">Set the timeout (in seconds) after which the DICOM associations are closed by the Orthanc SCP (server) if no further DIMSE command is received from the SCU (client)</string>
     <string name="Securityhttp">Security-related options for the HTTP server</string>
+    <string name="RegisteredUsers">Registered Users</string>
+    <string name="RegisteredUserssum">The list of the registered users. Because Orthanc uses HTTP Basic Authentication, the passwords are stored as plain text</string>
     <string-array name="chooseOC">
         <item> <string name="chooseOChint">Choose OS</string> </item>
         <item>Linux</item>

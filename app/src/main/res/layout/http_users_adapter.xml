@@ -10,6 +10,7 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:cardBackgroundColor="#C9CBCE"
         app:cardCornerRadius="10dp"
         app:cardPreventCornerOverlap="true">
 
@@ -25,7 +26,7 @@
                 <TextView
                     android:id="@+id/textLogin"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="TextView" />
@@ -33,7 +34,7 @@
                 <TextView
                     android:id="@+id/textPassword"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="TextView" />
@@ -42,9 +43,9 @@
                     android:id="@+id/deleteItem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:srcCompat="@android:drawable/btn_dialog"
-                    tools:srcCompat="@android:drawable/btn_dialog" />
+                    android:layout_weight="0"
+                    android:contentDescription="TODO"
+                    app:srcCompat="@drawable/ic_clear_24dp" />
             </LinearLayout>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

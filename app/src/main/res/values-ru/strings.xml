@@ -29,7 +29,7 @@
         <item>Windows</item>
     </string-array>
     <string name="general">Основные настройки</string>
-    <string name="settingnamesummary">Логическое название этого экземпляра Orthanc. Имя отображается в Orthanc Explorer и в URI \ "/ system \""</string>
+    <string name="settingnamesummary">Логическое название этого экземпляра Orthanc. Имя отображается в Orthanc Explorer и в URI \ "/ system \"</string>
     <string name="settingname">Имя сервера</string>
     <string name="storagedirectory">Каталог хранения</string>
     <string name="storagedirectorysum">Путь к каталогу, содержащему тяжелые файлы (то есть необработанные экземпляры DICOM). Обратная косая черта должна быть либо удвоена, либо заменена прямой косой чертой "/"</string>
@@ -44,11 +44,11 @@
     <string name="ConcurrentJobs">Одновременные задания</string>
     <string name="ConcurrentJobssum"><![CDATA[Максимальное количество заданий обработки, которые одновременно выполняются в любой момент времени. Значение \ "0 \" указывает на использование всех доступных логических ядер ЦП. Чтобы эмулировать Orthanc <= 1.3.2, установите это значение равным \ "1 \"]]></string>
     <string name="httpsetting">Конфигурация HTTP сервера</string>
-    <string name="HttpServerEnabled">Включить Http Server</string>>
+    <string name="HttpServerEnabled">Включить HTTP Server</string>>
     <string name="HttpServerEnabledsum">Если этот параметр выключен», Orthanc действует как чистый DICOM-сервер. REST API и Orthanc Explorer будут недоступны</string>
-    <string name="HttpPort">Http порт</string>
+    <string name="HttpPort">HTTP порт</string>
     <string name="HttpPortsum">HTTP порт для служб REST и для графического интерфейса</string>
-    <string name="HttpDescribeErrors">Http описание ошибок</string>
+    <string name="HttpDescribeErrors">HTTP описание ошибок</string>
     <string name="HttpDescribeErrorssum">Если включено, и при вызове REST API возникает ошибка, в ответ HTTP добавляется сообщение JSON с описанием ошибки. Эту функцию можно отключить, если HTTP-клиент неправильно обрабатывает такие ответы</string>
     <string name="HttpCompressionEnabled">Http сжатие</string>
     <string name="HttpCompressionEnabledsum">Включите сжатие HTTP, чтобы улучшить использование полосы пропускания сети за счет большего количества вычислений на сервере. Orthanc поддерживает HTTP-кодировки «gzip» и «deflate»</string>
@@ -59,7 +59,7 @@
     <string name="DicomAetsum">Уникальное в рамках используеймой DICOM сети, название сервера</string>
     <string name="DicomCheckCalledAet">Dicom проверка вызываемого Aet</string>
     <string name="DicomCheckCalledAetsum">Проверка соответствия вызываемого AET, во время входящего запроса SCU DICOM</string>
-    <string name="DicomPort">Dicom порт</string>
+    <string name="DicomPort">DICOM порт</string>
     <string name="DefaultEncoding">Кодировка по умолачнию</string>
     <string name="DefaultEncodingsum">Кодировка используемая для файлов DICOM без DICOM-тега «SpecificCharacterSet», который используется при ответе на C-Find запросы (включая рабочие списки)</string>
     <string name="DeflatedTransfer">Deflated Transfer</string>
@@ -75,5 +75,7 @@
     <string name="DicomScpTimeout">Dicom Scp Timeout</string>
     <string name="DicomScpTimeoutsum">Установите время ожидания (в секундах), после которого Orthanc закроет соединение, если больше нет DIMSE-команд от SCU (клиента).</string>
     <string name="Securityhttp">Параметры безопасности HTTP-сервера</string>
+    <string name="RegisteredUsers">Регистрация пользователей</string>
+    <string name="RegisteredUserssum">Списко зарегистрированных пользователей. Поскольку Orthanc использует HTTP Basic Authentication, пароли хранятся как текст</string>
 
 </resources>
