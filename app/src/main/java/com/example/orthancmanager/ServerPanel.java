@@ -221,7 +221,7 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
         /////////////01.05.2020
 
         jsonSetting = data;
-        MainActivity.print("data = "+data);
+        //MainActivity.print("data = "+data);
         JsonParser parser = new JsonParser();
         JsonObject orthancJson = parser.parse(data).getAsJsonObject();
         JsonObject users = new JsonObject();

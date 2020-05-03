@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -27,36 +28,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class HttpUserDialogPreference extends DialogPreference
+public class TransferSyntaxDialogPreference extends DialogPreference
 {
     private String jsonStr;
-    private EditText jsonEdit;
-    static ArrayList<String> bufLogin = new ArrayList<String>();
-    static ArrayList<String> bufPassword = new ArrayList<String>();
+    boolean DeflatedTransferSyntaxAccepted;
+    boolean JpegTransferSyntaxAccepted;
+    boolean Jpeg2000TransferSyntaxAccepted;
+    boolean JpegLosslessTransferSyntaxAccepted;
+    boolean JpipTransferSyntaxAccepted;
+    boolean Mpeg2TransferSyntaxAccepted;
+    boolean RleTransferSyntaxAccepted;
+    Switch DeflatedTransfer;
+    Switch JpegTransfer;
+    Switch Jpeg2000Transfer;
+    Switch JpegLosslessTransfer;
+    Switch JpipTransfer;
+    Switch Mpeg2Transfer;
+    Switch RleTransfer;
 
 
 
-    public HttpUserDialogPreference(Context context, AttributeSet attrs)
+
+    public TransferSyntaxDialogPreference(Context context, AttributeSet attrs)
     {
         super(context, attrs);
 
-        // get attributes specified in XML
-       //TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NumberPickerDialogPreference, 0, 0);
-        //try
-        //{
-           // setMinValue(a.getInteger(R.styleable.NumberPickerDialogPreference_min, DEFAULT_MIN_VALUE));
-           // setMaxValue(a.getInteger(R.styleable.NumberPickerDialogPreference_android_max, DEFAULT_MAX_VALUE));
-        //}
-        //finally
-       // {
-          //  a.recycle();
-        //}
-
-        // !!!!!!!!!!!!!!!!!!!!!в это месте заменили с R.layout.transfer_syntax
-        setDialogLayoutResource(R.layout.http_users_dialog_recyclerview);
+        setDialogLayoutResource(R.layout.transfer_syntax);
         setPositiveButtonText(android.R.string.ok);
         setNegativeButtonText(android.R.string.cancel);
         setDialogIcon(null);
+
     }
 
     @Override
@@ -75,59 +76,33 @@ public class HttpUserDialogPreference extends DialogPreference
     protected void onBindDialogView(View view)
     {
         super.onBindDialogView(view);
-        final EditText editLogin = (EditText)view.findViewById(R.id.addLogin);
-        final EditText editPassword = (EditText)view.findViewById(R.id.addPassword);
-        ImageView addItem = (ImageView)view.findViewById(R.id.addItem);
 
         JsonParser parser = new JsonParser();
         JsonObject orthancJson=new JsonObject();
         orthancJson = parser.parse(jsonStr).getAsJsonObject();
-        JsonObject buf = new JsonObject();
-        buf = orthancJson.get("RegisteredUsers").getAsJsonObject();
-        Set<String> keys = buf.keySet();
-        Object[] jsonkeys = keys.toArray();
-        bufLogin.clear();
-        bufPassword.clear();
-        for(int i=0; i<=jsonkeys.length-1; i++){
-            bufLogin.add(jsonkeys[i].toString());
-            bufPassword.add(buf.get(jsonkeys[i].toString()).getAsString());
-        }
-        try {
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewHttp);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
-            recyclerView.setLayoutManager(linearLayoutManager);
-            final HttpUserDialogAdapter adapter;
-            adapter = new HttpUserDialogAdapter(bufLogin, bufPassword, this.getContext());
-            recyclerView.setAdapter(adapter);
+        if (orthancJson.has("DeflatedTransfer")) DeflatedTransferSyntaxAccepted=orthancJson.get("DeflatedTransfer").getAsBoolean();
+        if (orthancJson.has("JpegTransfer")) JpegTransferSyntaxAccepted=orthancJson.get("JpegTransfer").getAsBoolean();
+        if (orthancJson.has("Jpeg2000Transfer")) Jpeg2000TransferSyntaxAccepted=orthancJson.get("Jpeg2000Transfer").getAsBoolean();
+        if (orthancJson.has("JpegLosslessTransfer")) JpegLosslessTransferSyntaxAccepted=orthancJson.get("JpegLosslessTransfer").getAsBoolean();
+        if (orthancJson.has("JpipTransfer")) JpipTransferSyntaxAccepted=orthancJson.get("JpipTransfer").getAsBoolean();
+        if (orthancJson.has("Mpeg2Transfer")) Mpeg2TransferSyntaxAccepted=orthancJson.get("Mpeg2Transfer").getAsBoolean();
+        if (orthancJson.has("RleTransfer")) RleTransferSyntaxAccepted=orthancJson.get("RleTransfer").getAsBoolean();
 
-            addItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(!(editLogin.getText().toString().equals(""))&
-                            (!editPassword.getText().toString().equals("")))
-                    {
-                        bufLogin.add(editLogin.getText().toString());
-                        bufPassword.add(editPassword.getText().toString());
-                        adapter.notifyDataSetChanged();
-                        editLogin.setText("");
-                        editPassword.setText("");
-                    }
-                }
-            });
+        DeflatedTransfer = (Switch)view.findViewById(R.id.DeflatedTransfer);
+        JpegTransfer = (Switch)view.findViewById(R.id.JpegTransfer);
+        Jpeg2000Transfer = (Switch)view.findViewById(R.id.Jpeg2000Transfer);
+        JpegLosslessTransfer = (Switch)view.findViewById(R.id.JpegLosslessTransfer);
+        JpipTransfer = (Switch)view.findViewById(R.id.JpipTransfer);
+        Mpeg2Transfer = (Switch)view.findViewById(R.id.Mpeg2Transfer);
+        RleTransfer = (Switch)view.findViewById(R.id.RleTransfer);
 
-        }catch (Exception e){
-            MainActivity.print("onBindDialogView  "+e.toString());
-        }
-
-
-        //MainActivity.print("onbind "+jsonkeys[0].toString()+":"+buf.get(jsonkeys[0].toString()).getAsString());
-        //jsonEdit.setText(jsonkeys[0].toString());
-    }
-
-    public static void delItem(int i){
-        bufLogin.remove(i);
-        bufPassword.remove(i);
-        //notifyDataSetChanged();
+        DeflatedTransfer.setChecked(DeflatedTransferSyntaxAccepted);
+        JpegTransfer.setChecked(JpegTransferSyntaxAccepted);
+        Jpeg2000Transfer.setChecked(Jpeg2000TransferSyntaxAccepted);
+        JpegLosslessTransfer.setChecked(JpegLosslessTransferSyntaxAccepted);
+        JpipTransfer.setChecked(JpipTransferSyntaxAccepted);
+        Mpeg2Transfer.setChecked(Mpeg2TransferSyntaxAccepted);
+        RleTransfer.setChecked(RleTransferSyntaxAccepted);
     }
 
     public String getValue()
@@ -138,10 +113,10 @@ public class HttpUserDialogPreference extends DialogPreference
     public void setValue(String value)
     {
         //if (value != mValue)
-       // {
-            jsonStr = value;
-            persistString(value);
-            notifyChanged();
+        // {
+        jsonStr = value;
+        persistString(value);
+        notifyChanged();
         //}
     }
 
@@ -154,10 +129,19 @@ public class HttpUserDialogPreference extends DialogPreference
         if (positiveResult)
         {
             //MainActivity.print("pltcm");
-           // String jsonEditValue = jsonEdit.getText().toString();
-           // if (callChangeListener(jsonEditValue))
+            // String jsonEditValue = jsonEdit.getText().toString();
+            // if (callChangeListener(jsonEditValue))
             {
-             //   setValue(jsonEditValue);
+                JsonObject transferSyntax = new JsonObject();
+                transferSyntax.addProperty("DeflatedTransfer",DeflatedTransfer.isChecked());
+                transferSyntax.addProperty("JpegTransfer",JpegTransfer.isChecked());
+                transferSyntax.addProperty("Jpeg2000Transfer",Jpeg2000Transfer.isChecked());
+                transferSyntax.addProperty("JpegLosslessTransfer",JpegLosslessTransfer.isChecked());
+                transferSyntax.addProperty("JpipTransfer",JpipTransfer.isChecked());
+                transferSyntax.addProperty("Mpeg2Transfer",Mpeg2Transfer.isChecked());
+                transferSyntax.addProperty("RleTransfer",RleTransfer.isChecked());
+                setValue(transferSyntax.toString());
+                MainActivity.print(transferSyntax.toString());
             }
         }
     }
@@ -167,7 +151,6 @@ public class HttpUserDialogPreference extends DialogPreference
     {
         // save the instance state so that it will survive screen orientation changes and other events that may temporarily destroy it
         final Parcelable superState = super.onSaveInstanceState();
-
         // set the state's value with the class member that holds current setting value
         final SavedState myState = new SavedState(superState);
         myState.value = getValue();
@@ -212,9 +195,6 @@ public class HttpUserDialogPreference extends DialogPreference
         {
             super.writeToParcel(dest, flags);
 
-            //dest.writeInt(minValue);
-            //dest.writeInt(maxValue);
-            //
             dest.writeString(value);
         }
 

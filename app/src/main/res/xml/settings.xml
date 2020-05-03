@@ -5,43 +5,8 @@
 
     <PreferenceCategory android:title="@string/general">
 
-        <!--
-       <com.example.orthancmanager.NumberPickerDialogPreference
-           android:defaultValue="200"
-           android:dialogMessage="Выберите суточный паёк для кота в граммах:"
-           android:max="250"
-           android:title="Печёнка для кота (гр)"
-           android:visibility="visible"
-           custom:min="100" />
-        -->
-       <com.example.orthancmanager.HttpUserDialogPreference
-           android:key="HttpUserJson"
-           android:defaultValue="priver"
-           android:dialogMessage="Пользователи orthanc:"
-           android:title="@string/RegisteredUsers"
-           android:summary="@string/RegisteredUserssum"
-           android:visibility="visible" />
-       <!--
-       <com.example.orthancmanager.SeekBarDialogPreference
-           android:defaultValue="20"
-           android:dialogMessage="Выберите нужное значение:"
-           android:key="height"
-           android:max="50"
-           android:summary="Высота кота в см"
-           android:title="Рост кота"
-           custom:min="1"
-           custom:progressTextSuffix=" см" />
-           -->
-        <!--
-        <com.example.orthancmanager.HttpUserDialogPreference
-            android:defaultValue="false"
-            android:dialogMessage="Выберите нужное значение:"
-            android:key="sadasd"
-            android:summary="тестовый компонент"
-            android:title="Тестовый преференс" />
-            -->
         <EditTextPreference
-            android:key="servername"
+            android:key="orthancName"
             android:selectAllOnFocus="true"
             android:summary="@string/settingnamesummary"
             android:title="@string/settingname"
@@ -147,41 +112,14 @@
             android:key="DefaultEncoding"
             android:summary="@string/DefaultEncodingsum"
             android:title="@string/DefaultEncoding" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="DeflatedTransferSyntaxAccepted"
-            android:summary="@string/syntaxtransfer"
-            android:title="@string/DeflatedTransfer" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="JpegTransferSyntaxAccepted"
-            android:summary="@string/syntaxtransfer"
-            android:title="@string/JpegTransfer" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="Jpeg2000TransferSyntaxAccepted"
-            android:summary="@string/syntaxtransfer"
-            android:title="@string/Jpeg2000Transfer" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="JpegLosslessTransferSyntaxAccepted"
-            android:summary="@string/syntaxtransfer"
-            android:title="@string/JpegLosslessTransfer" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="JpipTransferSyntaxAccepted"
-            android:summary="@string/syntaxtransfer"
-            android:title="@string/JpipTransferSyntaxAccepted" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="Mpeg2TransferSyntaxAccepted"
-            android:summary="@string/syntaxtransfer"
-            android:title="@string/Mpeg2Transfer" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="RleTransferSyntaxAccepted"
-            android:summary="@string/syntaxtransfer"
-            android:title="@string/RleTransfer" />
+
+        <com.example.orthancmanager.TransferSyntaxDialogPreference
+            android:key="TransferSyntax"
+            android:defaultValue="priver"
+            android:title="@string/TransferSyntax"
+            android:summary="@string/TransferSyntaxsum"
+            android:visibility="visible" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="UnknownSopClassAccepted"
@@ -196,6 +134,117 @@
             android:title="@string/DicomScpTimeout" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/Securityhttp">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="RemoteAccessAllowed"
+            android:summary="@string/RemoteAccessAllowedsum"
+            android:title="@string/RemoteAccessAllowed" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="SslEnabled"
+            android:summary="@string/SslEnabledsum"
+            android:title="@string/SslEnabled" />
+
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="SslCertificate"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/SslCertificatesum"
+            android:title="@string/SslCertificate" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="AuthenticationEnabled"
+            android:summary="@string/AuthenticationEnabledsum"
+            android:title="@string/AuthenticationEnabled" />
+
+        <com.example.orthancmanager.HttpUserDialogPreference
+            android:key="HttpUserJson"
+            android:defaultValue="priver"
+            android:dialogMessage="Пользователи orthanc:"
+            android:title="@string/RegisteredUsers"
+            android:summary="@string/RegisteredUserssum"
+            android:visibility="visible" />
+
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/Networktopology">
+        <!--
+        DICOMMODALITIES
+        !-->
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="DicomModalitiesInDatabase"
+            android:summary="@string/DicomModalitiesInDatabasesum"
+            android:title="@string/DicomModalitiesInDatabase" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="DicomAlwaysAllowEcho"
+            android:summary="@string/DicomAlwaysAllowEchosum"
+            android:title="@string/DicomAlwaysAllowEcho" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="DicomAlwaysAllowStore"
+            android:summary="@string/DicomAlwaysAllowStoresum"
+            android:title="@string/DicomAlwaysAllowStore" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="DicomCheckModalityHost"
+            android:summary="@string/DicomCheckModalityHostsum"
+            android:title="@string/DicomCheckModalityHost" />
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="DicomScuTimeout"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/DicomScuTimeoutsum"
+            android:title="@string/DicomScuTimeout" />
+
+        <!--
+      OrthancPeers
+      !-->
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="OrthancPeersInDatabase"
+            android:summary="@string/OrthancPeersInDatabasesum"
+            android:title="@string/OrthancPeersInDatabase" />
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="HttpProxy"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/HttpProxysum"
+            android:title="@string/HttpProxy" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="HttpVerbose"
+            android:summary="@string/HttpVerbosesum"
+            android:title="@string/HttpVerbose" />
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="HttpTimeout"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/HttpTimeoutsum"
+            android:title="@string/HttpTimeout" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="HttpsVerifyPeers"
+            android:summary="@string/HttpsVerifyPeerssum"
+            android:title="@string/HttpsVerifyPeers" />
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="HttpsCACertificates"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/HttpsCACertificatessum"
+            android:title="@string/HttpsCACertificates" />
+
+
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/Advancedoptions">
 
     </PreferenceCategory>
 

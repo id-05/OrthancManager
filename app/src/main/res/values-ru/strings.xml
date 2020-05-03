@@ -50,7 +50,7 @@
     <string name="HttpPortsum">HTTP порт для служб REST и для графического интерфейса</string>
     <string name="HttpDescribeErrors">HTTP описание ошибок</string>
     <string name="HttpDescribeErrorssum">Если включено, и при вызове REST API возникает ошибка, в ответ HTTP добавляется сообщение JSON с описанием ошибки. Эту функцию можно отключить, если HTTP-клиент неправильно обрабатывает такие ответы</string>
-    <string name="HttpCompressionEnabled">Http сжатие</string>
+    <string name="HttpCompressionEnabled">HTTP сжатие</string>
     <string name="HttpCompressionEnabledsum">Включите сжатие HTTP, чтобы улучшить использование полосы пропускания сети за счет большего количества вычислений на сервере. Orthanc поддерживает HTTP-кодировки «gzip» и «deflate»</string>
     <string name="dicomconfig">Конфигурация DICOM сервера</string>
     <string name="DicomServerEnabled">Dicom Server</string>
@@ -63,7 +63,8 @@
     <string name="DefaultEncoding">Кодировка по умолачнию</string>
     <string name="DefaultEncodingsum">Кодировка используемая для файлов DICOM без DICOM-тега «SpecificCharacterSet», который используется при ответе на C-Find запросы (включая рабочие списки)</string>
     <string name="DeflatedTransfer">Deflated Transfer</string>
-    <string name="syntaxtransfer">Синтаксис передачи</string>
+    <string name="TransferSyntax">Синтаксис передачи</string>
+    <string name="TransferSyntaxsum">The transfer syntaxe</string>
     <string name="JpegTransfer">Jpeg Transfer</string>
     <string name="Jpeg2000Transfer">"Jpeg2000 Transfer "</string>
     <string name="JpegLosslessTransfer">Jpeg Lossless Transfer</string>
@@ -77,5 +78,39 @@
     <string name="Securityhttp">Параметры безопасности HTTP-сервера</string>
     <string name="RegisteredUsers">Регистрация пользователей</string>
     <string name="RegisteredUserssum">Списко зарегистрированных пользователей. Поскольку Orthanc использует HTTP Basic Authentication, пароли хранятся как текст</string>
+    <string name="RemoteAccessAllowedsum">Whether remote hosts can connect to the HTTP server</string>
+    <string name="RemoteAccessAllowed">Разрешение удаленного доступа</string>
+    <string name="SslEnabledsum">Включение протокола SSL</string>
+    <string name="SslEnabled">SSL Enabled</string>
+    <string name="SslCertificate">SSL Certificate</string>
+    <string name="SslCertificatesum">Путь к SSL-сертификату в формате PEM (значимый только в том случае, если включен SSL)</string>
+    <string name="AuthenticationEnabled">Включение аутентификации</string>
+    <string name="AuthenticationEnabledsum">Включение доступа по логину и паролю из списка Зарегистрированные пользователи</string>
+    <string name="Networktopology">Топология сети</string>
+    <string name="DicomModalitiesInDatabase">Dicom Modalities In Database</string>
+    <string name="DicomModalitiesInDatabasesum">Разрешает ли SCP Orthanc входящие запросы C-Echo, даже от условий SCU, о которых он не знает (т.е. которые не перечислены в варианте \"DicomMethods\" выше). Orthanc 1.3.0 - единственная версия, которая ведет себя так, как если бы этому аргументу было присвоено значение \"false\"</string>
+    <string name="DicomAlwaysAllowEcho">Dicom Always Allow Echo</string>
+    <string name="DicomAlwaysAllowEchosum">Разрешает ли SCP Orthanc входящие запросы C-Echo, даже Из условий SCU, о которых он не знает (т. е.Перечислены в варианте "DicomMethods" выше). Orthanc 1.3.0 Является единственной версией, которая ведет себя так, как если бы этому аргументу было присвоено значение "false"</string>
+    <string name="DicomAlwaysAllowStore">Dicom Always Allow Store</string>
+    <string name="DicomAlwaysAllowStoresum">Разрешает ли SCP Orthanc входящие запросы C-Store, даже от условий SCU, о которых он не знает (т.е. которые не перечислены в варианте "DicomMethods" выше)</string>
+    <string name="DicomCheckModalityHost">Dicom Check Modality Host</string>
+    <string name="DicomCheckModalityHostsum">Проверяет ли Orthanc адрес IP/имя хоста удаленного метода, инициирующего соединение DICOM (как указано в опции "DicomMethods" выше). Если для этой опции установлено значение "false", Orthanc проверяет только AET удаленной модальности</string>
+    <string name="DicomScuTimeout">Dicom Scu Timeout</string>
+    <string name="DicomScuTimeoutsum">Тайм-аут (в секундах), по истечении которого ассоциации DICOM считаются закрытыми Orthanc SCU (клиентом), если удаленный SCP (сервер) DICOM не отвечает</string>
+    <string name="OrthancPeersInDatabase">Orthanc Peers In Database</string>
+    <string name="OrthancPeersInDatabasesum">Сохранение одноранговых узлов Orthanc в базе данных Orthanc, а не в этом файле конфигурации (новый в Orthanc 1.5.0)</string>
+    <string name="HttpProxy">HTTP Proxy</string>
+    <string name="HttpProxysum">Параметры прокси-сервера HTTP, используемого Orthanc. Если установлена пустая строка, HTTP-прокси не используется. Например:
+«HttpProxy»: «192.168.0.1:3128»
+«HttpProxy»: «proxyUser:proxyPassword@192.168.0.1:3128»</string>
+    <string name="HttpVerbose">HTTP Verbose</string>
+    <string name="HttpVerbosesum">Если установлено значение "true", отладочные сообщения из libcurl будут выдаваться всякий раз, когда Orthanc делает исходящий HTTP-запрос. Это особенно полезно для отладки проблем, связанных с HTTPS</string>
+    <string name="HttpTimeout">HTTP Timeout</string>
+    <string name="HttpTimeoutsum">Установка времени ожидания для запросов HTTP, выданных Orthanc (в секундах)</string>
+    <string name="HttpsVerifyPeers">HTTPS Verify Peers</string>
+    <string name="HttpsVerifyPeerssum">Включите проверку одноранговых узлов во время запросов HTTPS. Этот параметр должен иметь значение "false", если используются самозаверяющие сертификаты. Обратите внимание, что установка этого параметра в значение "false" приводит к угрозам безопасности! Ссылка: http://curl.haxx.se/docs/sslcerts.html</string>
+    <string name="HttpsCACertificates">HTTPS CA Certificates</string>
+    <string name="HttpsCACertificatessum">Включите проверку одноранговых узлов во время запросов HTTPS. Этот параметр должен иметь значение "false", если используются самозаверяющие сертификаты. Обратите внимание, что установка этого параметра в значение "false" приводит к угрозам безопасности! Ссылка: http://curl.haxx.se/docs/sslcerts.html</string>
+    <string name="Advancedoptions">Дополнительные параметры</string>
 
 </resources>
