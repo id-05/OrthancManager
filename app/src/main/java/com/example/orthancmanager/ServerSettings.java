@@ -246,12 +246,14 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                    editor.putBoolean("SslEnabled", json.SslEnabled);
                    editor.putString("SslCertificate", json.SslCertificate);
                    editor.putBoolean("AuthenticationEnabled", json.AuthenticationEnabled);
-                   editor.putString("HttpUserJson",data);
+                   editor.putString("HttpUserJson",json.users.toString());
+                   editor.putString("DicomModalities",json.dicomNode.toString());
                    editor.putBoolean("DicomModalitiesInDatabase", json.dicomModalitiesInDb);
                    editor.putBoolean("DicomAlwaysAllowEcho", json.dicomAlwaysAllowEcho);
                    editor.putBoolean("DicomAlwaysAllowStore", json.DicomAlwaysStore);
                    editor.putBoolean("DicomCheckModalityHost", json.CheckModalityHost);
                    editor.putString("DicomScuTimeout",String.valueOf(json.DicomScuTimeout));
+                   editor.putString("OrthancPeers",json.orthancPeer.toString());
                    editor.putBoolean("OrthancPeersInDatabase", json.orthancPeerInDb);
                    editor.putString("HttpProxy", json.HttpProxy);
                    editor.putBoolean("HttpVerbose", json.httpVerbose);

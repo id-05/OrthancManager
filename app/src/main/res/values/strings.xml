@@ -44,6 +44,15 @@
         <item>/etc/orthanc</item>
         <item>C://orthanc/orthanc</item>
     </string-array>
+    <string-array name="Property">
+        <item>Generic</item>
+        <item>GenericNoWildcardInDates</item>
+        <item>StoreScp</item>
+        <item>ClearCanvas</item>
+        <item>Dcm4Chee</item>
+        <item>Vitrea</item>
+        <item>GE</item>
+    </string-array>>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -99,19 +108,19 @@
     <string name="HttpCompressionEnabled">HttpCompressionEnabled</string>
     <string name="HttpCompressionEnabledsum">Enable HTTP compression to improve network bandwidth utilization, at the expense of more computations on the server. Orthanc supports the \"gzip\" and \"deflate\" HTTP encodings</string>
     <string name="dicomconfig">Configuration of the DICOM server</string>
-    <string name="DicomServerEnabled">Dicom Server Enabled</string>
+    <string name="DicomServerEnabled">DICOM Server Enabled</string>
     <string name="DicomServerEnabledsum">Enable the DICOM server. If this parameter is set to "false", Orthanc acts as a pure REST server. It will not be possible to receive files or to do query/retrieve through the DICOM protocol.</string>
-    <string name="DicomAet">DicomAet</string>
+    <string name="DicomAet">DICOM AET</string>
     <string name="DicomAetsum">The DICOM Application Entity Title</string>
-    <string name="DicomCheckCalledAet">Dicom Check Called Aet</string>
+    <string name="DicomCheckCalledAet">DICOM Check Called Aet</string>
     <string name="DicomCheckCalledAetsum">Check whether the called AET corresponds to the AET of Orthanc during an incoming DICOM SCU request</string>
-    <string name="DicomPort">Dicom Port</string>
-    <string name="DicomPortsum">Dicom Port</string>
+    <string name="DicomPort">DICOM Port</string>
+    <string name="DicomPortsum">DICOM Port</string>
     <string name="DefaultEncoding">Default Encoding</string>
     <string name="DefaultEncodingsum">The default encoding that is assumed for DICOM files without \"SpecificCharacterSet\" DICOM tag, and that is used when answering C-Find requests (including worklists). The allowed values are \"Ascii\", \"Utf8\", \"Latin1\", \"Latin2\", \"Latin3\", \"Latin4\", \"Latin5\", \"Cyrillic\", \"Windows1251\", \"Arabic\", \"Greek\", \"Hebrew\", \"Thai\", \"Japanese\", and \"Chinese\"</string>
     <string name="DeflatedTransfer">Deflated Transfer</string>
     <string name="TransferSyntax">The transfer syntaxe</string>
-    <string name="TransferSyntaxsum">The transfer syntaxe</string>
+    <string name="TransferSyntaxsum">The transfer syntaxes that are accepted by Orthanc C-Store SCP</string>
     <string name="JpegTransfer">Jpeg Transfer</string>
     <string name="Jpeg2000Transfer">"Jpeg2000 Transfer "</string>
     <string name="JpegLosslessTransfer">Jpeg Lossless Transfer</string>
@@ -120,7 +129,7 @@
     <string name="RleTransfer">Rle Transfer</string>
     <string name="UnknownSopClassAccepted">Unknown Sop Class Accepted</string>
     <string name="UnknownSopClassAcceptedsum">Whether Orthanc accepts to act as C-Store SCP for unknown storage SOP classes (aka. \"promiscuous mode\")</string>
-    <string name="DicomScpTimeout">Dicom Scp Timeout</string>
+    <string name="DicomScpTimeout">DICOM Scp Timeout</string>
     <string name="DicomScpTimeoutsum">Set the timeout (in seconds) after which the DICOM associations are closed by the Orthanc SCP (server) if no further DIMSE command is received from the SCU (client)</string>
     <string name="Securityhttp">Security-related options for the HTTP server</string>
     <string name="RegisteredUsers">Registered Users</string>
@@ -134,15 +143,15 @@
     <string name="AuthenticationEnabled">Authentication Enabled</string>
     <string name="AuthenticationEnabledsum">Whether or not the password protection is enabled</string>
     <string name="Networktopology">Network topology</string>
-    <string name="DicomModalitiesInDatabase">Dicom Modalities In Database</string>
+    <string name="DicomModalitiesInDatabase">DICOM Modalities In Database</string>
     <string name="DicomModalitiesInDatabasesum">Whether to store the DICOM modalities in the Orthanc database instead of in this configuration file (new in Orthanc 1.5.0)</string>
-    <string name="DicomAlwaysAllowEcho">Dicom Always Allow Echo</string>
+    <string name="DicomAlwaysAllowEcho">DICOM Always Allow Echo</string>
     <string name="DicomAlwaysAllowEchosum">Whether the Orthanc SCP allows incoming C-Echo requests, even from SCU modalities it does not know about (i.e. that are not listed in the \"DicomModalities\" option above). Orthanc 1.3.0    is the only version to behave as if this argument was set to \"false\"</string>
-    <string name="DicomAlwaysAllowStore">Dicom Always Allow Store</string>
+    <string name="DicomAlwaysAllowStore">DICOM Always Allow Store</string>
     <string name="DicomAlwaysAllowStoresum">Whether the Orthanc SCP allows incoming C-Store requests, even from SCU modalities it does not know about (i.e. that are not listed in the \"DicomModalities\" option above)</string>
-    <string name="DicomCheckModalityHost">Dicom Check Modality Host</string>
+    <string name="DicomCheckModalityHost">DICOM Check Modality Host</string>
     <string name="DicomCheckModalityHostsum">Whether Orthanc checks the IP/hostname address of the remote modality initiating a DICOM connection (as listed in the \"DicomModalities\" option above). If this option is set to \"false\", Orthanc only checks the AET of the remote modality</string>
-    <string name="DicomScuTimeout">Dicom Scu Timeout</string>
+    <string name="DicomScuTimeout">DICOM Scu Timeout</string>
     <string name="DicomScuTimeoutsum">The timeout (in seconds) after which the DICOM associations are considered as closed by the Orthanc SCU (client) if the remote DICOM SCP (server) does not answer</string>
     <string name="OrthancPeersInDatabase">Orthanc Peers In Database</string>
     <string name="OrthancPeersInDatabasesum">Whether to store the Orthanc peers in the Orthanc database instead of in this configuration file (new in Orthanc 1.5.0)</string>
@@ -157,7 +166,54 @@
     <string name="HttpsCACertificates">HTTPS CA Certificates</string>
     <string name="HttpsCACertificatessum">Enable the verification of the peers during HTTPS requests. This option must be set to \"false\" if using self-signed certificates. Pay attention that setting this option to \"false\" results in security risks! Reference: http://curl.haxx.se/docs/sslcerts.html</string>
     <string name="Advancedoptions">Advanced options</string>
-
+    <string name="StableAge">Stable Age</string>
+    <string name="StableAgesum">Number of seconds without receiving any instance before a patient, a study or a series is considered as stable</string>
+    <string name="StrictAetComparison">StrictAetComparison</string>
+    <string name="StrictAetComparisonsum">By default, Orthanc compares AET (Application Entity Titles) in a case-insensitive way. Setting this option to \"true\" will enable case-sensitive matching</string>
+    <string name="StoreMD5ForAttachments">Store MD5 For Attachments</string>
+    <string name="StoreMD5ForAttachmentssum">When the following option is \"true\", the MD5 of the DICOM files will be computed and stored in the Orthanc database. This information can be used to detect disk corruption, at the price of a small performance overhead</string>
+    <string name="LimitFindResults">Limit Find Results</string>
+    <string name="LimitFindResultssum">The maximum number of results for a single C-FIND request at the Patient, Study or Series level. Setting this option to \"0\" means no limit</string>
+    <string name="LimitFindInstances">Limit Find Instances</string>
+    <string name="LimitFindInstancessum">The maximum number of results for a single C-FIND request at the Instance level. Setting this option to \"0\" means no limit</string>
+    <string name="LimitJobs">Limit Jobs</string>
+    <string name="LimitJobssum">The maximum number of active jobs in the Orthanc scheduler. When this limit is reached, the addition of new jobs is blocked until some job finishes</string>
+    <string name="LogExportedResources">Log Exported Resources</string>
+    <string name="LogExportedResourcessum">If this option is set to \"true\" (default behavior until Orthanc 1.3.2), Orthanc will log the resources that are exported to other DICOM modalities or Orthanc peers, inside the URI \"/exports\". Setting this option to \"false\" is useful to prevent the index to grow indefinitely in auto-routing tasks (this is the default behavior since Orthanc 1.4.0)</string>
+    <string name="KeepAlive">Keep Alive</string>
+    <string name="KeepAlivesum">Enable or disable HTTP Keep-Alive (deprecated). Set this option to \"true\" only in the case of high HTTP loads</string>
+    <string name="StoreDicom">Store Dicom</string>
+    <string name="StoreDicomsum">If this option is set to \"false\", Orthanc will run in index-only mode. The DICOM files will not be stored on the drive. Note that this option might prevent the upgrade to newer versions of Orthanc</string>
+    <string name="DicomAssociationCloseDelay">Dicom Association Close Delay</string>
+    <string name="DicomAssociationCloseDelaysum">DICOM associations initiated by Lua scripts are kept open as long as new DICOM commands are issued. This option sets the number of seconds of inactivity to wait before automatically closing a DICOM association used by Lua. If set to 0, the connection is closed immediately</string>
+    <string name="QueryRetrieveSize">Query Retrieve Size</string>
+    <string name="QueryRetrieveSizesum">Maximum number of query/retrieve DICOM requests that are maintained by Orthanc. The least recently used requests get deleted as new requests are issued</string>
+    <string name="CaseSensitivePN">Case Sensitive PN</string>
+    <string name="CaseSensitivePNsum">When handling a C-Find SCP request, setting this flag to \"true\" will enable case-sensitive match for PN value representation (such as PatientName). By default, the search is case-insensitive, which does not follow the DICOM standard</string>
+    <string name="AllowFindSopClassesInStudy">Allow Find Sop Classes In Study</string>
+    <string name="AllowFindSopClassesInStudysum"><![CDATA[If set to \"true\", Orthanc will still handle \"SOP Classes in Study\" (0008,0062) in C-FIND requests, even if the \"SOP Class UID\" metadata is not available in the database (which is the case if the DB was previously used by Orthanc <= 1.1.0). This option is turned off by default, as it requires intensive accesses to the hard drive]]></string>
+    <string name="LoadPrivateDictionary">Load Private Dictionary</string>
+    <string name="LoadPrivateDictionarysum">If set to \"false\", Orthanc will not load its default dictionary of private tags. This might be necessary if you cannot import a DICOM file encoded using the Implicit VR Endian transfer syntax, and containing private tags: Such an import error might stem from a bad dictionary. You can still list your private tags of interest in the \"Dictionary\" configuration option below</string>
+    <string name="Locale">Locale</string>
+    <string name="Localesum">Locale to be used by Orthanc. Currently, only used if comparing strings in a case-insensitive way. It should be safe to keep this value undefined, which lets Orthanc autodetect the suitable locale</string>
+    <string name="SynchronousCMove">Synchronous C Move</string>
+    <string name="SynchronousCMovesum"><![CDATA[Whether to run DICOM C-Move operations synchronously. If set to \"false\" (the default), each incoming C-Move request results in creating a new background job. Up to Orthanc 1.3.2, the implicit behavior was to use synchronous C-Move. Between Orthanc 1.4.0 and 1.4.2, the default behavior was set to asynchronous C-Move. Since Orthanc 1.5.0, the default behavior is synchronous C-Move (backward compatibility with Orthanc <= 1.3.2)]]></string>
+    <string name="JobsHistorySize">Jobs History Size</string>
+    <string name="JobsHistorySizesum">Maximum number of completed jobs that are kept in memory. A processing job is considered as complete once it is tagged as \"Success\" or \"Failure\". Since Orthanc 1.5.0, a value of \"0\" indicates to keep no job in memory (i.e. jobs are removed from the history as soon as they are completed)</string>
+    <string name="OverwriteInstances">Overwrite Instances</string>
+    <string name="OverwriteInstancessum">Specifies how Orthanc reacts when it receives a DICOM instance whose SOPInstanceUID is already stored. If set to \"true\", the new instance replaces the old one. If set to \"false\", the new instance is discarded and the old one is kept. Up to Orthanc 1.4.1, the implicit behavior corresponded to \"false\"</string>
+    <string name="MediaArchiveSize">Media Archive Size</string>
+    <string name="MediaArchiveSizesum">Maximum number of ZIP/media archives that are maintained by Orthanc, as a response to the asynchronous creation of archives. The least recently used archives get deleted as new archives are generated. This option was introduced in Orthanc 1.5.0, and has no effect on the synchronous generation of archives</string>
+    <string name="OrthancPeers">OrthancPeers</string>
+    <string name="OrthancPeerssum">OrthancPeers</string>
+    <string name="namemodalities">Name</string>
+    <string name="ipmodalities">IP adress</string>
+    <string name="portmodalities">PORT</string>
+    <string name="DicomModalities">DICOM Modalities</string>
+    <string name="DicomModalitiessum">The list of the known DICOM modalities</string>
+    <string name="AETitle">AETitle</string>
+    <string name="url">URL</string>
+    >
 
     >
     >

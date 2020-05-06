@@ -11,7 +11,7 @@ public class OrthancServer {
     public String pathToJson;
     public String name;
     public String dicomaet;
-    public  String version;
+    public String version;
     public Boolean connect;
     public int CountInstances;
     public int CountPatients;

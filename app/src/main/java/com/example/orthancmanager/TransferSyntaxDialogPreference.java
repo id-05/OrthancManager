@@ -2,31 +2,15 @@ package com.example.orthancmanager;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.NumberPicker;
 import android.widget.Switch;
-import android.widget.TextView;
-
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class TransferSyntaxDialogPreference extends DialogPreference
 {
@@ -52,12 +36,10 @@ public class TransferSyntaxDialogPreference extends DialogPreference
     public TransferSyntaxDialogPreference(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-
         setDialogLayoutResource(R.layout.transfer_syntax);
         setPositiveButtonText(android.R.string.ok);
         setNegativeButtonText(android.R.string.cancel);
         setDialogIcon(null);
-
     }
 
     @Override
@@ -141,7 +123,7 @@ public class TransferSyntaxDialogPreference extends DialogPreference
                 transferSyntax.addProperty("Mpeg2Transfer",Mpeg2Transfer.isChecked());
                 transferSyntax.addProperty("RleTransfer",RleTransfer.isChecked());
                 setValue(transferSyntax.toString());
-                MainActivity.print(transferSyntax.toString());
+                //MainActivity.print(transferSyntax.toString());
             }
         }
     }

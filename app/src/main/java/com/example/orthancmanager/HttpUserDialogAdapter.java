@@ -80,18 +80,18 @@ public class HttpUserDialogAdapter extends RecyclerView.Adapter<HttpUserDialogAd
         TextView viewLogin;
         TextView viewPassword;
         ImageView deleteItem;
-        ImageView addItem;
-        EditText addLogin;
-        EditText addPassword;
+        //ImageView addItem;
+        //EditText addLogin;
+        //EditText addPassword;
 
         public HttpUserDialogViewHolder(@NonNull View itemView) {
             super(itemView);
             viewLogin = (TextView)itemView.findViewById(R.id.textLogin);
             viewPassword = (TextView)itemView.findViewById(R.id.textPassword);
             deleteItem = (ImageView)itemView.findViewById(R.id.deleteItem);
-            addItem = (ImageView)itemView.findViewById(R.id.addItem);
-            addLogin = (EditText)itemView.findViewById(R.id.addLogin);
-            addPassword = (EditText)itemView.findViewById(R.id.addPassword);
+            //addItem = (ImageView)itemView.findViewById(R.id.addItem);
+            //addLogin = (EditText)itemView.findViewById(R.id.addLogin);
+            //addPassword = (EditText)itemView.findViewById(R.id.addPassword);
         }
     }
 }

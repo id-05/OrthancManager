@@ -4,6 +4,13 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/general">
+        <com.example.orthancmanager.PeerDialogPreference
+            android:key="OrthancPeers"
+            android:defaultValue="priver"
+            android:dialogMessage="OrthancPeers:"
+            android:title="@string/OrthancPeers"
+            android:summary="@string/OrthancPeerssum"
+            android:visibility="visible" />
 
         <EditTextPreference
             android:key="orthancName"
@@ -30,21 +37,21 @@
             android:key="StorageCompression"
             android:summary="@string/storagecompressionsum"
             android:title="@string/storagecompression" />
-        <EditTextPreference
+        <com.example.orthancmanager.NumberPreference
             android:defaultValue="false"
             android:key="MaximumStorageSize"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="@string/MaximumStorageSizesum"
             android:title="@string/MaximumStorageSize" />
-        <EditTextPreference
+        <com.example.orthancmanager.NumberPreference
             android:defaultValue="false"
             android:key="MaximumPatientCount"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="@string/MaximumPatientCountsum"
             android:title="@string/MaximumPatientCount" />
-        <EditTextPreference
+        <com.example.orthancmanager.NumberPreference
             android:defaultValue="false"
             android:key="ConcurrentJobs"
             android:selectAllOnFocus="true"
@@ -52,14 +59,14 @@
             android:summary="@string/ConcurrentJobssum"
             android:title="@string/ConcurrentJobs" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/httpsetting">
 
+    <PreferenceCategory android:title="@string/httpsetting">
         <SwitchPreference
             android:defaultValue="false"
             android:key="HttpServerEnabled"
             android:summary="@string/HttpServerEnabledsum"
             android:title="@string/HttpServerEnabled" />
-        <EditTextPreference
+        <com.example.orthancmanager.NumberPreference
             android:defaultValue="false"
             android:key="HttpPort"
             android:selectAllOnFocus="true"
@@ -76,11 +83,9 @@
             android:key="HttpCompressionEnabled"
             android:summary="@string/HttpCompressionEnabledsum"
             android:title="@string/HttpCompressionEnabled" />
-
-
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/dicomconfig">
 
+    <PreferenceCategory android:title="@string/dicomconfig">
         <SwitchPreference
             android:defaultValue="false"
             android:key="DicomServerEnabled"
@@ -98,12 +103,12 @@
             android:key="DicomCheckCalledAet"
             android:summary="@string/DicomCheckCalledAetsum"
             android:title="@string/DicomCheckCalledAet" />
-        <EditTextPreference
+        <com.example.orthancmanager.NumberPreference
             android:defaultValue="false"
             android:key="DicomPort"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:summary="@string/DicomPortsum"
+            android:summary=""
             android:title="@string/DicomPort" />
         <ListPreference
             android:defaultValue="false"
@@ -125,7 +130,7 @@
             android:key="UnknownSopClassAccepted"
             android:summary="@string/UnknownSopClassAcceptedsum"
             android:title="@string/UnknownSopClassAccepted" />
-        <EditTextPreference
+        <com.example.orthancmanager.NumberPreference
             android:defaultValue="Default value"
             android:key="DicomScpTimeout"
             android:selectAllOnFocus="true"
@@ -133,6 +138,7 @@
             android:summary="@string/DicomScpTimeoutsum"
             android:title="@string/DicomScpTimeout" />
     </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/Securityhttp">
         <SwitchPreference
             android:defaultValue="false"
@@ -142,7 +148,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="SslEnabled"
-            android:summary="@string/SslEnabledsum"
+            android:summary=""
             android:title="@string/SslEnabled" />
 
         <EditTextPreference
@@ -170,9 +176,13 @@
 
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/Networktopology">
-        <!--
-        DICOMMODALITIES
-        !-->
+        <com.example.orthancmanager.DicomModalitiesDialogPreference
+            android:defaultValue="false"
+            android:key="DicomModalities"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/DicomModalitiessum"
+            android:title="@string/DicomModalities" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="DicomModalitiesInDatabase"
@@ -193,7 +203,7 @@
             android:key="DicomCheckModalityHost"
             android:summary="@string/DicomCheckModalityHostsum"
             android:title="@string/DicomCheckModalityHost" />
-        <EditTextPreference
+        <com.example.orthancmanager.NumberPreference
             android:defaultValue="Default value"
             android:key="DicomScuTimeout"
             android:selectAllOnFocus="true"
@@ -222,7 +232,7 @@
             android:key="HttpVerbose"
             android:summary="@string/HttpVerbosesum"
             android:title="@string/HttpVerbose" />
-        <EditTextPreference
+        <com.example.orthancmanager.NumberPreference
             android:defaultValue="Default value"
             android:key="HttpTimeout"
             android:selectAllOnFocus="true"
@@ -245,6 +255,133 @@
 
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/Advancedoptions">
+
+        <!--
+        UserMetadata
+        -->
+
+        <!--
+        UserContentType
+        -->
+
+
+        <com.example.orthancmanager.NumberPreference
+            android:defaultValue="Default value"
+            android:key="StableAge"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/StableAgesum"
+            android:title="@string/StableAge" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="StrictAetComparison"
+            android:summary="@string/StrictAetComparisonsum"
+            android:title="@string/StrictAetComparison" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="StoreMD5ForAttachments"
+            android:summary="@string/StoreMD5ForAttachmentssum"
+            android:title="@string/StoreMD5ForAttachments" />
+        <com.example.orthancmanager.NumberPreference
+            android:defaultValue="Default value"
+            android:key="LimitFindResults"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/LimitFindResultssum"
+            android:title="@string/LimitFindResults" />
+        <com.example.orthancmanager.NumberPreference
+            android:defaultValue="Default value"
+            android:key="LimitFindInstances"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/LimitFindInstancessum"
+            android:title="@string/LimitFindInstances" />
+        <com.example.orthancmanager.NumberPreference
+            android:defaultValue="Default value"
+            android:key="LimitJobs"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/LimitJobssum"
+            android:title="@string/LimitJobs" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="LogExportedResources"
+            android:summary="@string/LogExportedResourcessum"
+            android:title="@string/LogExportedResources" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="KeepAlive"
+            android:summary="@string/KeepAlivesum"
+            android:title="@string/KeepAlive" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="StoreDicom"
+            android:summary="@string/StoreDicomsum"
+            android:title="@string/StoreDicom" />
+        <com.example.orthancmanager.NumberPreference
+            android:defaultValue="Default value"
+            android:key="DicomAssociationCloseDelay"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/DicomAssociationCloseDelaysum"
+            android:title="@string/DicomAssociationCloseDelay" />
+        <com.example.orthancmanager.NumberPreference
+            android:defaultValue="Default value"
+            android:key="QueryRetrieveSize"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/QueryRetrieveSizesum"
+            android:title="@string/QueryRetrieveSize" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="CaseSensitivePN"
+            android:summary="@string/CaseSensitivePNsum"
+            android:title="@string/CaseSensitivePN" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="AllowFindSopClassesInStudy"
+            android:summary="@string/AllowFindSopClassesInStudysum"
+            android:title="@string/AllowFindSopClassesInStudy" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="LoadPrivateDictionary"
+            android:summary="@string/LoadPrivateDictionarysum"
+            android:title="@string/LoadPrivateDictionary" />
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="Locale"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/Localesum"
+            android:title="@string/Locale" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="SynchronousCMove"
+            android:summary="@string/SynchronousCMovesum"
+            android:title="@string/SynchronousCMove" />
+        <com.example.orthancmanager.NumberPreference
+            android:defaultValue="Default value"
+            android:key="JobsHistorySize"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/JobsHistorySizesum"
+            android:title="@string/JobsHistorySize" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="OverwriteInstances"
+            android:summary="@string/OverwriteInstancessum"
+            android:title="@string/OverwriteInstances" />
+        <EditTextPreference
+            android:defaultValue="Default value"
+            android:key="MediaArchiveSize"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="@string/MediaArchiveSizesum"
+            android:title="@string/MediaArchiveSize" />
+
+        <!--
+        dictionary
+        -->
 
     </PreferenceCategory>
 

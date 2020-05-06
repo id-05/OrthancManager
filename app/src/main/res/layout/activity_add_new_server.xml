@@ -18,9 +18,9 @@
             android:layout_height="wrap_content"
             android:autofillHints=""
             android:digits="0123456789."
+            android:inputType="number"
             android:ems="10"
             android:hint="@string/ipadressNewServer"
-            android:inputType="number"
             android:text="185.59.139.156" />
 
         <EditText
@@ -30,7 +30,7 @@
             android:autofillHints=""
             android:ems="10"
             android:hint="@string/portNewServer"
-            android:inputType="textPersonName"
+            android:inputType="number"
             android:text="8042" />
 
         <EditText
