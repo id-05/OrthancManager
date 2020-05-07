@@ -23,9 +23,6 @@ public class PeerDialogPreference extends DialogPreference
     static ArrayList<Peer> peers = new ArrayList<Peer>();
     Object[] jsonkeys;
 
-
-
-
     public PeerDialogPreference(Context context, AttributeSet attrs)
     {
         super(context, attrs);
@@ -56,7 +53,6 @@ public class PeerDialogPreference extends DialogPreference
         final EditText editLogin = (EditText)view.findViewById(R.id.peerLogin);
         final EditText editPassword = (EditText)view.findViewById(R.id.peerPassword);
         ImageView addItem = (ImageView)view.findViewById(R.id.addPeer);
-
         JsonParser parser = new JsonParser();
         JsonObject orthancJson = parser.parse(jsonStr).getAsJsonObject();
         Set<String> keys = orthancJson.keySet();
@@ -131,19 +127,22 @@ public class PeerDialogPreference extends DialogPreference
         super.onDialogClosed(positiveResult);
         if (positiveResult)
         {
-            JsonObject jsonObj = new JsonObject();
-            for(int i=0; i<=peers.size()-1; i++){
-                JsonArray arrayJSON = new JsonArray();
-                Peer node = peers.get(i);
-
-                arrayJSON.add(node.mName);
-                arrayJSON.add(node.mURL);
-                arrayJSON.add(node.mLogin);
-                arrayJSON.add(node.mPassword);
-                jsonObj.add(jsonkeys[i].toString(), arrayJSON);
+            try {
+                JsonObject jsonObj = new JsonObject();
+                for (int i = 0; i <= peers.size() - 1; i++) {
+                    JsonArray arrayJSON = new JsonArray();
+                    Peer node = peers.get(i);
+                    //arrayJSON.add(node.mName);
+                    arrayJSON.add(node.mURL);
+                    arrayJSON.add(node.mLogin);
+                    arrayJSON.add(node.mPassword);
+                    jsonObj.add(node.mName, arrayJSON);
+                }
+                setValue(jsonObj.toString());
+                //MainActivity.print(jsonObj.toString());
+            }catch (Exception e){
+                MainActivity.print(e.toString());
             }
-            setValue(jsonObj.toString());
-            MainActivity.print(jsonObj.toString());
         }
     }
 

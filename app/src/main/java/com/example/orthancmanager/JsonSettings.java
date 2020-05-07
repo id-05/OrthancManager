@@ -191,6 +191,8 @@ public class JsonSettings {
         if (orthancJson.has("UserContentType")) contentType= orthancJson.get("UserContentType").getAsJsonObject();
 
         // On recupere les Peer
-        if (orthancJson.has("OrthancPeers")) orthancPeer=orthancJson.get("OrthancPeers").getAsJsonObject();
+        if (orthancJson.has("OrthancPeers")) {
+            orthancPeer=orthancJson.get("OrthancPeers").getAsJsonObject();
+        }
     }
 }

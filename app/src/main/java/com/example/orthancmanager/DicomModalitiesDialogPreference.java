@@ -72,8 +72,8 @@ public class DicomModalitiesDialogPreference extends DialogPreference
             for (int i = 0; i <= jsonkeys.length - 1; i++) {
                 JsonArray bufArray = orthancJson.getAsJsonArray(jsonkeys[i].toString());
                 DicomModalities node = new DicomModalities();
-                node.setmTitle(jsonkeys[i].toString());
-                node.setmName(bufArray.get(0).getAsString());
+                node.setmName(jsonkeys[i].toString());
+                node.setmTitle(bufArray.get(0).getAsString());
                 node.setmIP(bufArray.get(1).getAsString());
                 node.setmPort(bufArray.get(2).getAsString());
                 node.setmProperty(bufArray.get(3).getAsString());
@@ -146,14 +146,13 @@ public class DicomModalitiesDialogPreference extends DialogPreference
                     JsonArray arrayJSON = new JsonArray();
                     DicomModalities node = dicomModalities.get(i);
 
-                    arrayJSON.add(node.mName);
+                    arrayJSON.add(node.mTitle);
                     arrayJSON.add(node.mIP);
                     arrayJSON.add(Integer.valueOf(node.mPort));
                     arrayJSON.add(node.mProperty);
-                    jsonObj.add(jsonkeys[i].toString(), arrayJSON);
+                    jsonObj.add(node.mName, arrayJSON);
                 }
                 setValue(jsonObj.toString());
-                //MainActivity.print(jsonObj.toString());
             }
         }
 

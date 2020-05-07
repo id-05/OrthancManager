@@ -54,12 +54,13 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/peerName"
+                        android:id="@+id/peerURL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="@string/namemodalities"
+                        android:ems="15"
+                        android:gravity="center"
+                        android:hint="@string/url"
                         android:inputType="textPersonName"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -70,13 +71,12 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/peerURL"
+                        android:id="@+id/peerName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:ems="15"
-                        android:gravity="center"
-                        android:hint="@string/url"
+                        android:ems="10"
+                        android:hint="@string/namemodalities"
                         android:inputType="textPersonName"
                         android:textSize="14sp" />
 

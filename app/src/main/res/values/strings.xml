@@ -204,8 +204,8 @@
     <string name="OverwriteInstancessum">Specifies how Orthanc reacts when it receives a DICOM instance whose SOPInstanceUID is already stored. If set to \"true\", the new instance replaces the old one. If set to \"false\", the new instance is discarded and the old one is kept. Up to Orthanc 1.4.1, the implicit behavior corresponded to \"false\"</string>
     <string name="MediaArchiveSize">Media Archive Size</string>
     <string name="MediaArchiveSizesum">Maximum number of ZIP/media archives that are maintained by Orthanc, as a response to the asynchronous creation of archives. The least recently used archives get deleted as new archives are generated. This option was introduced in Orthanc 1.5.0, and has no effect on the synchronous generation of archives</string>
-    <string name="OrthancPeers">OrthancPeers</string>
-    <string name="OrthancPeerssum">OrthancPeers</string>
+    <string name="OrthancPeers">Orthanc Peers</string>
+    <string name="OrthancPeerssum">The list of the known Orthanc peers</string>
     <string name="namemodalities">Name</string>
     <string name="ipmodalities">IP adress</string>
     <string name="portmodalities">PORT</string>

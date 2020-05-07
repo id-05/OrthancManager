@@ -156,8 +156,8 @@
     <string name="AETitle">AETitle</string>
     <string name="DicomModalities">DICOM Модальности</string>
     <string name="DicomModalitiessum">Список клиентов рабочей группы</string>
-    <string name="OrthancPeers">OrthancPeers</string>
-    <string name="OrthancPeerssum">OrthancPeers</string>
+    <string name="OrthancPeers">Orthanc peers</string>
+    <string name="OrthancPeerssum">Список одноранговых серверов, в качестве реквизитов доступа используется URL, логин и пароль, как при доступе по http </string>
     <string name="url">URL</string>
 
 </resources>

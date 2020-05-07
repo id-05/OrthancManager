@@ -42,6 +42,7 @@ public class PeerAdapter extends RecyclerView.Adapter<PeerAdapter.PeerViewHolder
     public void onBindViewHolder(@NonNull final PeerAdapter.PeerViewHolder holder, final int position) {
         try {
             Peer node = peers.get(position);
+            holder.viewName.setText(node.mName.toString());
             holder.viewURL.setText(node.mURL.toString());
             holder.viewLogin.setText(node.mLogin.toString());
             holder.viewPassword.setText(node.mPassword.toString());
@@ -67,10 +68,12 @@ public class PeerAdapter extends RecyclerView.Adapter<PeerAdapter.PeerViewHolder
         TextView viewURL;
         TextView viewLogin;
         TextView viewPassword;
+        TextView viewName;
         ImageView imageDel;
 
         public PeerViewHolder(@NonNull View itemView) {
             super(itemView);
+            viewName = (TextView)itemView.findViewById(R.id.peerName);
             viewURL = (TextView)itemView.findViewById(R.id.peerURL);
             viewLogin = (TextView)itemView.findViewById(R.id.peerLogin);
             viewPassword = (TextView)itemView.findViewById(R.id.peerPassword);

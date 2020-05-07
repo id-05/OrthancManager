@@ -33,12 +33,14 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/peerName"
+                        android:id="@+id/peerURL"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="@string/namemodalities" />
+                        android:ems="15"
+                        android:gravity="center"
+                        android:text="textURL"
+                        app:autoSizeTextType="none" />
 
                     <ImageView
                         android:id="@+id/deletePeer"
@@ -74,14 +76,13 @@
                         android:text="[" />
 
                     <TextView
-                        android:id="@+id/peerURL"
+                        android:id="@+id/peerName"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:ems="10"
                         android:gravity="center"
-                        android:ems="15"
-                        android:text="@string/namemodalities"
-                        android:textSize="12sp"
+                        android:text="name"
                         app:autoSizeTextType="uniform" />
 
                     <TextView
@@ -94,9 +95,10 @@
                     <TextView
                         android:id="@+id/peerLogin"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:gravity="center"
                         android:text="@string/ipmodalities"
                         app:autoSizeTextType="uniform" />
 
@@ -110,9 +112,10 @@
                     <TextView
                         android:id="@+id/peerPassword"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="10"
+                        android:gravity="center"
                         android:text="@string/portmodalities"
                         app:autoSizeTextType="uniform" />
 

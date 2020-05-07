@@ -161,8 +161,8 @@
     <string name="AETitle">AETitle</string>
     <string name="DicomModalities">DICOM Modalities</string>
     <string name="DicomModalitiessum">The list of the known DICOM modalities</string>
-    <string name="OrthancPeers">OrthancPeers</string>
-    <string name="OrthancPeerssum">OrthancPeers</string>
+    <string name="OrthancPeers">Orthanc Peers</string>
+    <string name="OrthancPeerssum">The list of the known Orthanc peers</string>
     <string name="url">URL</string>
     <string-array name="chooseOC">
         <item> <string name="chooseOChint">Choose OS</string> </item>

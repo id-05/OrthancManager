@@ -4,13 +4,6 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory android:title="@string/general">
-        <com.example.orthancmanager.PeerDialogPreference
-            android:key="OrthancPeers"
-            android:defaultValue="priver"
-            android:dialogMessage="OrthancPeers:"
-            android:title="@string/OrthancPeers"
-            android:summary="@string/OrthancPeerssum"
-            android:visibility="visible" />
 
         <EditTextPreference
             android:key="orthancName"
@@ -211,9 +204,13 @@
             android:summary="@string/DicomScuTimeoutsum"
             android:title="@string/DicomScuTimeout" />
 
-        <!--
-      OrthancPeers
-      !-->
+        <com.example.orthancmanager.PeerDialogPreference
+            android:key="OrthancPeers"
+            android:defaultValue="priver"
+            android:dialogMessage="OrthancPeers:"
+            android:title="@string/OrthancPeers"
+            android:summary="@string/OrthancPeerssum"
+            android:visibility="visible" />
 
         <SwitchPreference
             android:defaultValue="false"

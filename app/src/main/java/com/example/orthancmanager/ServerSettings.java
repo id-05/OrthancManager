@@ -110,7 +110,8 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             }
 
             case R.id.savesettings: {
-                MainActivity.print(prefs.getString("TransferSyntax","none"));
+                //MainActivity.print(prefs.getString("TransferSyntax","none"));
+                SaveSettings();
                 Toast toast = Toast.makeText(ServerSettings.this, "save", Toast.LENGTH_SHORT); toast.show();
                 return true;
             }
@@ -139,9 +140,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Authorization", "Basic "+base64);
-                    //connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("Content-Length",  String.valueOf(fulladdress+urlParameters));
-                    //connection.setRequestProperty("Accept", "application/json");
                     connection.setConnectTimeout(10000);
                     connection.setRequestMethod("POST");
                     connection.connect();
@@ -149,7 +148,6 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                     os.write(urlParameters.getBytes());
                     int responseCode=connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        //Read
                         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
                         String line = null;
                         StringBuilder sb = new StringBuilder();
@@ -186,15 +184,31 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
     private static Boolean truestring(String str){
         String buf = "/*";
         Boolean troubleSimbol = true;
-        Character char2 = buf.charAt(0);
         Character char3 = buf.charAt(1);
         String buf2 = str;
         int j = buf2.indexOf("//");
+        int k = buf2.indexOf("http");
+        Boolean ifSlash = false;
+        Boolean ifHTTP = false;
+        Boolean check = false;
+        if(j!=-1){
+            ifSlash = true;
+            check = true;
+        }
+        if(k!=-1){
+            ifHTTP = true;
+        }
+        if(ifSlash&ifHTTP){
+            if(j<k){
+                check = true;
+            }else{
+                check = false;
+            }
+        }
         buf2.replaceAll("\\s+","");
-        //for(int i=0;i<(str.length());i++){
         if(buf2.length()>0){
             Character char1 = buf2.charAt(0);
-            if((char1 == char3)|(j!=-1)){
+            if((char1 == char3)|(check)){
                 troubleSimbol = false;
             }
         }
@@ -218,6 +232,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                    JsonSettings json = new JsonSettings(data);
                    editor.putString("orthancName", json.orthancName);
                    editor.putString("StorageDirectory", json.storageDirectory);
+                   editor.putString("IndexDirectory", json.indexDirectory);
                    editor.putBoolean("StorageCompression", json.StorageCompression);
                    editor.putString("MaximumStorageSize",String.valueOf(json.MaximumStorageSize));
                    editor.putString("MaximumPatientCount",String.valueOf(json.MaximumPatientCount));
@@ -309,6 +324,33 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
            default:
                break;
        }
+    }
+
+    private void SaveSettings(){
+        try {
+            JsonObject jsonOb = new JsonObject();
+            jsonOb.addProperty("Name", prefs.getString("orthancName", "none"));
+            jsonOb.addProperty("StorageDirectory", prefs.getString("StorageDirectory", "none"));
+            jsonOb.addProperty("IndexDirectory", prefs.getString("IndexDirectory", "none"));
+            jsonOb.addProperty("StorageCompression", prefs.getBoolean("StorageCompression", false));
+            jsonOb.addProperty("MaximumStorageSize", Integer.valueOf(prefs.getString("MaximumStorageSize", "0")));
+            jsonOb.addProperty("MaximumPatientCount", Integer.valueOf(prefs.getString("MaximumPatientCount", "0")));
+            jsonOb.addProperty("ConcurrentJobs", Integer.valueOf(prefs.getString("ConcurrentJobs", "0")));
+            jsonOb.addProperty("HttpServerEnabled", prefs.getBoolean("HttpServerEnabled", false));
+            jsonOb.addProperty("HttpPort", Integer.valueOf(prefs.getString("HttpPort", "0")));
+            jsonOb.addProperty("HttpDescribeErrors", prefs.getBoolean("HttpDescribeErrors", false));
+            jsonOb.addProperty("HttpCompressionEnabled", prefs.getBoolean("HttpCompressionEnabled", false));
+            jsonOb.addProperty("DicomServerEnabled", prefs.getBoolean("DicomServerEnabled", false));
+            jsonOb.addProperty("DicomAet", prefs.getString("DicomAet", "none"));
+            jsonOb.addProperty("DicomCheckCalledAet", prefs.getBoolean("DicomCheckCalledAet", false));
+            jsonOb.addProperty("DicomPort", Integer.valueOf(prefs.getString("DicomPort", "0")));
+            jsonOb.addProperty("DefaultEncoding", prefs.getString("DefaultEncoding", "none"));
+
+            MainActivity.print(jsonOb.toString());
+        }catch (Exception e){
+            MainActivity.print("Error save json ="+e.toString());
+        }
+
     }
 
     @Override
