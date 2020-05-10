@@ -196,6 +196,7 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
         if(data!=null) {
             if (savePressed) {
                 //обработка json
+                //MainActivity.print(data);
                 JsonParser parser = new JsonParser();
                 JsonObject orthancJson = parser.parse(data).getAsJsonObject();
                 newServer.setName(orthancJson.get("Name").getAsString());
@@ -277,7 +278,7 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                     }
                     connection.disconnect();
                 }catch (Exception e) {
-                    MainActivity.print("error ЗДЕСЬ :"+e.toString());
+                    MainActivity.print("error addserver :"+e.toString());
                 }
 
                 return result;

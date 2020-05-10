@@ -168,11 +168,13 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
                         String line = null;
                         StringBuilder sb = new StringBuilder();
                         while ((line = bufferedReader.readLine()) != null) {
+                            //MainActivity.print(line);
                             if(truestring(line)){
                                 int i = line.indexOf("}");
                                 if(i!= -1){
-                                    if ((i == (line.length()-1)&(i!=0))) {
-                                        sb.append(line + ",");
+                                    if (((i == (line.length()-1))&(i!=0))) {
+                                       // sb.append(line + ","); //??????????????
+                                        sb.append(line);
                                     }else
                                     {
                                         sb.append(line);
@@ -198,13 +200,44 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
     }
 
     private static Boolean truestring(String str){
+//        String buf = "/*";
+//        Boolean troubleSimbol = true;
+//        Character char2 = buf.charAt(0);
+//        Character char3 = buf.charAt(1);
+//        for(int i=0;i<(str.length());i++){
+//            Character char1 = str.charAt(i);
+//            if((char1 == char2)|(char1 == char3)){
+//                troubleSimbol = false;
+//            }
+//        }
+//        return troubleSimbol;
         String buf = "/*";
         Boolean troubleSimbol = true;
-        Character char2 = buf.charAt(0);
         Character char3 = buf.charAt(1);
-        for(int i=0;i<(str.length());i++){
-            Character char1 = str.charAt(i);
-            if((char1 == char2)|(char1 == char3)){
+        String buf2 = str;
+        int j = buf2.indexOf("//");
+        int k = buf2.indexOf("http");
+        Boolean ifSlash = false;
+        Boolean ifHTTP = false;
+        Boolean check = false;
+        if(j!=-1){
+            ifSlash = true;
+            check = true;
+        }
+        if(k!=-1){
+            ifHTTP = true;
+        }
+        if(ifSlash&ifHTTP){
+            if(j<k){
+                check = true;
+            }else{
+                check = false;
+            }
+        }
+        buf2.replaceAll("\\s+","");
+        if(buf2.length()>0){
+            Character char1 = buf2.charAt(0);
+            if((char1 == char3)|(check)){
                 troubleSimbol = false;
             }
         }
@@ -219,13 +252,15 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
         /////////////01.05.2020
-
-        jsonSetting = data;
-        //MainActivity.print("data = "+data);
-        JsonParser parser = new JsonParser();
-        JsonObject orthancJson = parser.parse(data).getAsJsonObject();
-        JsonObject users = new JsonObject();
-        users= orthancJson.get("RegisteredUsers").getAsJsonObject();
+        try {
+            jsonSetting = data;
+            //MainActivity.print("data = " + data);
+            }catch (Exception e){
+                MainActivity.print(e.toString());//JsonParser parser = new JsonParser();
+            }
+        //JsonObject orthancJson = parser.parse(data).getAsJsonObject();
+        //JsonObject users = new JsonObject();
+        //users= orthancJson.get("RegisteredUsers").getAsJsonObject();
         //print(users.toString());
         //Set<String> keys = users.keySet();
         //for(String key:keys){

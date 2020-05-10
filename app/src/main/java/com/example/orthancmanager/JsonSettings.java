@@ -101,7 +101,12 @@ public class JsonSettings {
     public JsonSettings(String data) {
         JsonParser parser = new JsonParser();
         JsonObject orthancJson=new JsonObject();
-        orthancJson = parser.parse(data).getAsJsonObject();
+        //MainActivity.print("jsonsettings  "+data);
+        try {
+            orthancJson = parser.parse(data).getAsJsonObject();
+        }catch (Exception e){
+            MainActivity.print(e.toString());
+        }
         if (orthancJson.has("Name")) orthancName=orthancJson.get("Name").getAsString();
         if (orthancJson.has("StorageDirectory")) storageDirectory=orthancJson.get("StorageDirectory").getAsString();
         if (orthancJson.has("IndexDirectory")) indexDirectory=orthancJson.get("IndexDirectory").getAsString();

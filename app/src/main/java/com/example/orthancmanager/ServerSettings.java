@@ -28,6 +28,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -156,7 +157,8 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                                 int i = line.indexOf("}");
                                 if(i!= -1){
                                     if ((i == (line.length()-1)&(i!=0))) {
-                                        sb.append(line + ",");
+                                        //sb.append(line + ",");
+                                        sb.append(line);
                                     }else
                                     {
                                         sb.append(line);
@@ -345,6 +347,75 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             jsonOb.addProperty("DicomCheckCalledAet", prefs.getBoolean("DicomCheckCalledAet", false));
             jsonOb.addProperty("DicomPort", Integer.valueOf(prefs.getString("DicomPort", "0")));
             jsonOb.addProperty("DefaultEncoding", prefs.getString("DefaultEncoding", "none"));
+            boolean DeflatedTransferSyntaxAccepted=false;
+            boolean JpegTransferSyntaxAccepted=false;
+            boolean Jpeg2000TransferSyntaxAccepted=false;
+            boolean JpegLosslessTransferSyntaxAccepted=false;
+            boolean JpipTransferSyntaxAccepted=false;
+            boolean Mpeg2TransferSyntaxAccepted=false;
+            boolean RleTransferSyntaxAccepted=false;
+            JsonParser parser = new JsonParser();
+            JsonObject orthancJson=new JsonObject();
+            orthancJson = parser.parse(prefs.getString("TransferSyntax", "none")).getAsJsonObject();
+            if (orthancJson.has("DeflatedTransfer")) DeflatedTransferSyntaxAccepted=orthancJson.get("DeflatedTransfer").getAsBoolean();
+            if (orthancJson.has("JpegTransfer")) JpegTransferSyntaxAccepted=orthancJson.get("JpegTransfer").getAsBoolean();
+            if (orthancJson.has("Jpeg2000Transfer")) Jpeg2000TransferSyntaxAccepted=orthancJson.get("Jpeg2000Transfer").getAsBoolean();
+            if (orthancJson.has("JpegLosslessTransfer")) JpegLosslessTransferSyntaxAccepted=orthancJson.get("JpegLosslessTransfer").getAsBoolean();
+            if (orthancJson.has("JpipTransfer")) JpipTransferSyntaxAccepted=orthancJson.get("JpipTransfer").getAsBoolean();
+            if (orthancJson.has("Mpeg2Transfer")) Mpeg2TransferSyntaxAccepted=orthancJson.get("Mpeg2Transfer").getAsBoolean();
+            if (orthancJson.has("RleTransfer")) RleTransferSyntaxAccepted=orthancJson.get("RleTransfer").getAsBoolean();
+            jsonOb.addProperty("DeflatedTransferSyntaxAccepted",DeflatedTransferSyntaxAccepted);
+            jsonOb.addProperty("JpegTransferSyntaxAccepted",JpegTransferSyntaxAccepted);
+            jsonOb.addProperty("Jpeg2000TransferSyntaxAccepted",Jpeg2000TransferSyntaxAccepted);
+            jsonOb.addProperty("JpegLosslessTransferSyntaxAccepted",JpegLosslessTransferSyntaxAccepted);
+            jsonOb.addProperty("JpipTransferSyntaxAccepted",JpipTransferSyntaxAccepted);
+            jsonOb.addProperty("Mpeg2TransferSyntaxAccepted",Mpeg2TransferSyntaxAccepted);
+            jsonOb.addProperty("RleTransferSyntaxAccepted",RleTransferSyntaxAccepted);
+            jsonOb.addProperty("UnknownSopClassAccepted", prefs.getBoolean("UnknownSopClassAccepted", false));
+            jsonOb.addProperty("DicomScpTimeout", Integer.valueOf(prefs.getString("DicomScpTimeout", "0")));
+            jsonOb.addProperty("RemoteAccessAllowed", prefs.getBoolean("RemoteAccessAllowed", false));
+            jsonOb.addProperty("SslEnabled", prefs.getBoolean("SslEnabled", false));
+            jsonOb.addProperty("SslCertificate", prefs.getString("SslCertificate", "none"));
+            jsonOb.addProperty("AuthenticationEnabled", prefs.getBoolean("AuthenticationEnabled", false));
+            orthancJson = parser.parse(prefs.getString("HttpUserJson", "")).getAsJsonObject();
+            jsonOb.add("HttpUserJson",orthancJson);
+            orthancJson = parser.parse(prefs.getString("DicomModalities", "")).getAsJsonObject();
+            jsonOb.add("DicomModalities",orthancJson);
+            jsonOb.addProperty("DicomModalitiesInDatabase", prefs.getBoolean("DicomModalitiesInDatabase", false));
+            jsonOb.addProperty("DicomAlwaysAllowEcho", prefs.getBoolean("DicomAlwaysAllowEcho", false));
+            jsonOb.addProperty("DicomAlwaysAllowStore", prefs.getBoolean("DicomAlwaysAllowStore", false));
+            jsonOb.addProperty("DicomCheckModalityHost", prefs.getBoolean("DicomCheckModalityHost", false));
+            jsonOb.addProperty("DicomScuTimeout", Integer.valueOf(prefs.getString("DicomScuTimeout", "0")));
+            orthancJson = parser.parse(prefs.getString("OrthancPeers", "")).getAsJsonObject();
+            jsonOb.add("OrthancPeers",orthancJson);
+            jsonOb.addProperty("DicomAlwaysAllowEcho", prefs.getBoolean("DicomAlwaysAllowEcho", false));
+            jsonOb.addProperty("OrthancPeersInDatabase", prefs.getBoolean("OrthancPeersInDatabase", false));
+            jsonOb.addProperty("HttpProxy", prefs.getString("HttpProxy", ""));
+            jsonOb.addProperty("HttpVerbose", prefs.getBoolean("HttpVerbose", false));
+            jsonOb.addProperty("HttpTimeout", Integer.valueOf(prefs.getString("HttpTimeout", "0")));
+            jsonOb.addProperty("HttpsVerifyPeers", prefs.getBoolean("HttpsVerifyPeers", false));
+            jsonOb.addProperty("HttpsCACertificates", prefs.getString("HttpsCACertificates", ""));
+            jsonOb.addProperty("UserMetadata", prefs.getString("UserMetadata", ""));
+            jsonOb.addProperty("UserContentType", prefs.getString("UserContentType", ""));
+            jsonOb.addProperty("StableAge", Integer.valueOf(prefs.getString("StableAge", "0")));
+            jsonOb.addProperty("StrictAetComparison", prefs.getBoolean("StrictAetComparison", false));
+            jsonOb.addProperty("StoreMD5ForAttachments", prefs.getBoolean("StoreMD5ForAttachments", false));
+            jsonOb.addProperty("LimitFindResults", Integer.valueOf(prefs.getString("LimitFindResults", "0")));
+            jsonOb.addProperty("LimitFindInstances", Integer.valueOf(prefs.getString("LimitFindInstances", "0")));
+            jsonOb.addProperty("LimitJobs", Integer.valueOf(prefs.getString("LimitJobs", "0")));
+            jsonOb.addProperty("LogExportedResources", prefs.getBoolean("LogExportedResources", false));
+            jsonOb.addProperty("KeepAlive", prefs.getBoolean("KeepAlive", false));
+            jsonOb.addProperty("StoreDicom", prefs.getBoolean("StoreDicom", false));
+            jsonOb.addProperty("DicomAssociationCloseDelay", Integer.valueOf(prefs.getString("DicomAssociationCloseDelay", "0")));
+            jsonOb.addProperty("QueryRetrieveSize", Integer.valueOf(prefs.getString("QueryRetrieveSize", "0")));
+            jsonOb.addProperty("CaseSensitivePN", prefs.getBoolean("CaseSensitivePN", false));
+            jsonOb.addProperty("AllowFindSopClassesInStudy", prefs.getBoolean("AllowFindSopClassesInStudy", false));
+            jsonOb.addProperty("LoadPrivateDictionary", prefs.getBoolean("LoadPrivateDictionary", false));
+            jsonOb.addProperty("Dictionary", prefs.getString("Dictionary", ""));
+            jsonOb.addProperty("SynchronousCMove", prefs.getBoolean("SynchronousCMove", false));
+            jsonOb.addProperty("JobsHistorySize", Integer.valueOf(prefs.getString("JobsHistorySize", "0")));
+            jsonOb.addProperty("OverwriteInstances", prefs.getBoolean("OverwriteInstances", false));
+            jsonOb.addProperty("MediaArchiveSize", Integer.valueOf(prefs.getString("MediaArchiveSize", "0")));
 
             MainActivity.print(jsonOb.toString());
         }catch (Exception e){
