@@ -51,10 +51,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         super.onCreate(savedInstanceState);
         dbHelper = new DateBase(this);
         setContentView(R.layout.activity_main);
-        //test = (Button)findViewById(R.id.button);
-        //test.setOnClickListener(pressbut);
-        //test2 = (Button)findViewById(R.id.button2);
-        //test2.setOnClickListener(pressbut2);
     }
 
     @Override

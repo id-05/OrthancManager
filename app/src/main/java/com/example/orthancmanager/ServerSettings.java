@@ -87,7 +87,10 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             }
             cursor.close();
             modeCallback = 1;
-            getOrthancSettings(server,null);
+            String urlParameters = "f = io.open(\"/\\etc\\/orthanc\\/orthanc.json\",\"r+\");" +
+                        "print(f:read(\"*a\"))"+
+                        "f:close()";
+            getOrthancSettings(server,"/tools/execute-script",urlParameters);
         }catch (Exception e){
             MainActivity.print("error db serversettings = "+ e);
         }
@@ -106,12 +109,15 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
         int id = item.getItemId();
         switch (id) {
             case R.id.resetserver: {
+                modeCallback = 3;
+                getOrthancSettings(server,"/tools/reset","");
                 Toast toast = Toast.makeText(ServerSettings.this, "reset", Toast.LENGTH_SHORT); toast.show();
                 return true;
             }
 
             case R.id.savesettings: {
                 //MainActivity.print(prefs.getString("TransferSyntax","none"));
+                modeCallback = 2;
                 SaveSettings();
                 Toast toast = Toast.makeText(ServerSettings.this, "save", Toast.LENGTH_SHORT); toast.show();
                 return true;
@@ -122,22 +128,20 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
         }
     }
 
-    private void getOrthancSettings(final OrthancServer server, final String param) {
+    private void getOrthancSettings(final OrthancServer server, final String tool, final String param) {
         new AbstractAsyncWorker<String>(this,server,param) {
             @SuppressLint("StaticFieldLeak")
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             protected String doAction() throws Exception {
-                String urlParameters = "f = io.open(\"/\\etc\\/orthanc\\/orthanc.json\",\"r+\");" +
-                        "print(f:read(\"*a\"))"+
-                        "f:close()";
+                String urlParameters = param;
                 String result = null;
                 String auth =new String(server.login + ":" + server.password);
                 byte[] data1 = auth.getBytes(UTF_8);
                 String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
                 try {
                     String fulladdress = "http://"+server.ipaddress+":"+server.port;
-                    URL url = new URL(fulladdress+"/tools/execute-script");
+                    URL url = new URL(fulladdress+tool);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Authorization", "Basic "+base64);
@@ -171,7 +175,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                         bufferedReader.close();
                         result = sb.toString();
                     }else {
-                        MainActivity.print( "eRROR1 =  "+responseCode);
+                        MainActivity.print( "Error server response =  "+responseCode);
                     }
                     os.close();
                 }catch (Exception e) {
@@ -311,16 +315,21 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                }catch (Exception e){
                    MainActivity.print("SharedPreferences  "+e.toString());
                }
+               modeCallback = 0;
            }
                break;
            case 2:
            {
                //write
+               //MainActivity.print("saved sucsess!  "+data);
+               modeCallback = 0;
            }
            break;
            case 3:
            {
                //reset
+               MainActivity.print("reset sucsess!  "+data);
+               modeCallback = 0;
            }
            break;
            default:
@@ -378,7 +387,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             jsonOb.addProperty("SslCertificate", prefs.getString("SslCertificate", "none"));
             jsonOb.addProperty("AuthenticationEnabled", prefs.getBoolean("AuthenticationEnabled", false));
             orthancJson = parser.parse(prefs.getString("HttpUserJson", "")).getAsJsonObject();
-            jsonOb.add("HttpUserJson",orthancJson);
+            jsonOb.add("RegisteredUsers",orthancJson);
             orthancJson = parser.parse(prefs.getString("DicomModalities", "")).getAsJsonObject();
             jsonOb.add("DicomModalities",orthancJson);
             jsonOb.addProperty("DicomModalitiesInDatabase", prefs.getBoolean("DicomModalitiesInDatabase", false));
@@ -395,8 +404,10 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             jsonOb.addProperty("HttpTimeout", Integer.valueOf(prefs.getString("HttpTimeout", "0")));
             jsonOb.addProperty("HttpsVerifyPeers", prefs.getBoolean("HttpsVerifyPeers", false));
             jsonOb.addProperty("HttpsCACertificates", prefs.getString("HttpsCACertificates", ""));
-            jsonOb.addProperty("UserMetadata", prefs.getString("UserMetadata", ""));
-            jsonOb.addProperty("UserContentType", prefs.getString("UserContentType", ""));
+            orthancJson = parser.parse(prefs.getString("UserMetadata", "")).getAsJsonObject();
+            jsonOb.add("UserMetadata", orthancJson);
+            orthancJson = parser.parse(prefs.getString("UserContentType", "")).getAsJsonObject();
+            jsonOb.add("UserContentType", orthancJson);
             jsonOb.addProperty("StableAge", Integer.valueOf(prefs.getString("StableAge", "0")));
             jsonOb.addProperty("StrictAetComparison", prefs.getBoolean("StrictAetComparison", false));
             jsonOb.addProperty("StoreMD5ForAttachments", prefs.getBoolean("StoreMD5ForAttachments", false));
@@ -411,13 +422,19 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             jsonOb.addProperty("CaseSensitivePN", prefs.getBoolean("CaseSensitivePN", false));
             jsonOb.addProperty("AllowFindSopClassesInStudy", prefs.getBoolean("AllowFindSopClassesInStudy", false));
             jsonOb.addProperty("LoadPrivateDictionary", prefs.getBoolean("LoadPrivateDictionary", false));
-            jsonOb.addProperty("Dictionary", prefs.getString("Dictionary", ""));
+            orthancJson = parser.parse(prefs.getString("Dictionary", "")).getAsJsonObject();
+            jsonOb.add("Dictionary", orthancJson);
             jsonOb.addProperty("SynchronousCMove", prefs.getBoolean("SynchronousCMove", false));
             jsonOb.addProperty("JobsHistorySize", Integer.valueOf(prefs.getString("JobsHistorySize", "0")));
             jsonOb.addProperty("OverwriteInstances", prefs.getBoolean("OverwriteInstances", false));
             jsonOb.addProperty("MediaArchiveSize", Integer.valueOf(prefs.getString("MediaArchiveSize", "0")));
-
-            MainActivity.print(jsonOb.toString());
+            String modifyStr = ModifyStr(jsonOb.toString());
+            //MainActivity.print("ModifyStr = "+modifyStr);
+            String urlParameters = "f = io.open(\"/\\etc\\/orthanc\\/orthanc.json\",\"w+\");" +
+                    "f:write(\""+modifyStr+"\"); "+
+                    "f:close()";
+            getOrthancSettings(server,"/tools/execute-script",urlParameters);
+            //MainActivity.print(jsonOb.toString());
         }catch (Exception e){
             MainActivity.print("Error save json ="+e.toString());
         }
@@ -449,6 +466,16 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
         String jsonString = gson.toJson(json);
         //write the json in the destination file
         //Orthanc_Tools.writeCSV(jsonString, fichier);
+    }
+
+    public String ModifyStr(String str){
+        String result = null;
+        String buf = null;
+        String buf2 = null;
+        buf = str.replace("/","\\/");
+        buf2 = buf.replace("\"","\\\"");
+        result = buf2.replace(",",",\\n");
+        return result;
     }
 
 }
