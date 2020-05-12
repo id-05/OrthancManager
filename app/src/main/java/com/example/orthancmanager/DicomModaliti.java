@@ -1,6 +1,6 @@
 package com.example.orthancmanager;
 
-public class DicomModalities {
+public class DicomModaliti {
     public String mTitle;
     public String mName;
     public  String mIP;

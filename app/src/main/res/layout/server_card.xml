@@ -28,146 +28,145 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="@string/nameofserver" />
+                    android:text="@string/nameofserver"
+                    app:autoSizeTextType="uniform"/>
 
                 <TextView
                     android:id="@+id/server_ip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="@string/ipaddress" />
+                    android:text="@string/ipaddress"
+                    app:autoSizeTextType="uniform"/>
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/server_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="100sp"
+                        android:autoSizeMinTextSize="4sp"
+                        android:autoSizeStepGranularity="2sp"
+                        android:maxLines="1"
+                        android:padding="8dp"
+                        android:text="@string/countinstances"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/countInstances"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:autoSizeMaxTextSize="100sp"
+                        android:autoSizeMinTextSize="4sp"
+                        android:autoSizeStepGranularity="2sp"
+                        android:maxLines="1"
                         android:padding="8dp"
-                        android:text="@string/countinstances" />
+                        android:text="@string/zero"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </FrameLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/countInstances"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:padding="8dp"
-                            android:text="@string/zero" />
-                    </FrameLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/server_stat2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="@string/countpatients" />
+                        android:text="@string/countpatients"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/countPatients"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:padding="8dp"
+                        android:text="@string/zero"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </FrameLayout>
 
-                        <TextView
-                            android:id="@+id/countPatients"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:padding="8dp"
-                            android:text="@string/zero" />
-                    </FrameLayout>
-                </LinearLayout>
-
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/server_stat3"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="@string/countseries" />
+                        android:text="@string/countseries"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/countSeries"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:padding="8dp"
+                        android:text="@string/zero"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </FrameLayout>
 
-                        <TextView
-                            android:id="@+id/countSeries"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:padding="8dp"
-                            android:text="@string/zero" />
-                    </FrameLayout>
-                </LinearLayout>
-
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/server_stat4"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="@string/countstudies" />
+                        android:text="@string/countstudies"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/countStudies"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:padding="8dp"
+                        android:text="@string/zero"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </FrameLayout>
 
-                        <TextView
-                            android:id="@+id/countStudies"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:padding="8dp"
-                            android:text="@string/zero" />
-                    </FrameLayout>
-                </LinearLayout>
-
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/server_stat5"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="8dp"
-                        android:text="@string/totalDiskSizeMB" />
+                        android:text="@string/totalDiskSizeMB"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/totalDiskSizeMB"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:gravity="right"
-                            android:padding="8dp"
-                            android:text="@string/zero" />
-                    </FrameLayout>
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/totalDiskSizeMB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:padding="8dp"
+                        android:text="@string/zero"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </FrameLayout>
 
                 <Space
                     android:layout_width="match_parent"

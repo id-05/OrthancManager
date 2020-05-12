@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Orthanc Manager</string>
     <string name="titleAddServer">Add Server</string>
     <string name="titleSettings">Settings</string>
@@ -22,15 +23,15 @@
     <string name="sucsess">SUCSESS</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
-    <string name="countinstances">Count Instance:</string>
-    <string name="countpatients">Count Patients:</string>
     <string name="nameofserver">имя сервера</string>
     <string name="ipaddress">ipaddress</string>
     <string name="zero">0</string>
     <string name="itemmenu">Item menu</string>
-    <string name="countseries">Count series</string>
-    <string name="countstudies">Count Studies</string>
-    <string name="totalDiskSizeMB">SizeOnDisk (MB)</string>
+    <string name="countinstances">Instances:</string>
+    <string name="countpatients">Patients:</string>
+    <string name="countseries">Series:</string>
+    <string name="countstudies">Studies:</string>
+    <string name="totalDiskSizeMB">SizeOnDisk(MB):</string>
     <string name="seach">SEACH</string>
     <string name="study">STUDY</string>
     <string name="patients">PATIENTS</string>
@@ -115,7 +116,7 @@
     <string name="HttpsVerifyPeers">HTTPS Verify Peers</string>
     <string name="HttpsVerifyPeerssum">Enable the verification of the peers during HTTPS requests. This option must be set to \"false\" if using self-signed certificates. Pay attention that setting this option to \"false\" results in security risks! Reference: http://curl.haxx.se/docs/sslcerts.html</string>
     <string name="HttpsCACertificates">HTTPS CA Certificates</string>
-    <string name="HttpsCACertificatessum">Enable the verification of the peers during HTTPS requests. This option must be set to \"false\" if using self-signed certificates. Pay attention that setting this option to \"false\" results in security risks! Reference: http://curl.haxx.se/docs/sslcerts.html</string>
+    <string name="HttpsCACertificatessum">Path to the CA (certification authority) certificates to validate peers in HTTPS requests. From curl documentation ("--cacert" option): "Tells curl to use the specified certificate file to verify the peers. The file may contain multiple CA certificates. The certificate(s) must be in PEM format." On Debian-based systems, this option can be set to "/etc/ssl/certs/ca-certificates.crt"</string>
     <string name="Advancedoptions">Advanced options</string>
     <string name="StableAge">Stable Age</string>
     <string name="StableAgesum">Number of seconds without receiving any instance before a patient, a study or a series is considered as stable</string>
@@ -164,6 +165,9 @@
     <string name="OrthancPeers">Orthanc Peers</string>
     <string name="OrthancPeerssum">The list of the known Orthanc peers</string>
     <string name="url">URL</string>
+    <string name="serverreset">SERVER RESET</string>
+    <string name="resetserver">RESET SERVER</string>
+    <string name="savechange">SAVE SUCSESS</string>
     <string-array name="chooseOC">
         <item> <string name="chooseOChint">Choose OS</string> </item>
         <item>Linux</item>

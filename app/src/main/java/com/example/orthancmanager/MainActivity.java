@@ -31,6 +31,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static java.lang.Thread.sleep;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class MainActivity extends AppCompatActivity implements ConnectionCallback {
@@ -72,21 +73,112 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         ServerList.clear();
         GetServerList(ServerList);
 
-        for (OrthancServer server:ServerList){
+        for (final OrthancServer server:ServerList){
             try{
-                if(server.getName() == null){
-                doSomethingAsyncOperaion(server,"/system");
-            }}catch (Exception e){
+                if(server.getName() == null)
+                {
+                    //doSomethingAsyncOperaion(server,"/system");
+
+                    final String param = "/system";
+                    new AbstractAsyncWorker<String>(this,server,param) {
+                        @SuppressLint("StaticFieldLeak")
+                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                        @Override
+                        protected String doAction() throws Exception {
+
+                            String result = null;
+                            String auth =new String(server.login + ":" + server.password);
+                            byte[] data1 = auth.getBytes(UTF_8);
+                            String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
+                            sleep(100);
+                            try {
+                                String fulladdress = "http://"+server.ipaddress+":"+server.port;
+                                URL url = new URL(fulladdress+param);
+                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                connection.setDoInput(true);
+                                //connection.setRequestProperty("Content-Type", "application/json");
+                                connection.setRequestProperty("Authorization", "Basic "+base64);
+                                //connection.setRequestProperty("Accept", "application/json");
+                                connection.setRequestMethod("GET");
+                                connection.setConnectTimeout(1000);
+                                connection.connect();
+                                int responseCode=connection.getResponseCode();
+                                if (responseCode == HttpURLConnection.HTTP_OK) {
+                                    boolean resultConnect = true;
+                                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+                                    String line = null;
+                                    StringBuilder sb = new StringBuilder();
+                                    while ((line = bufferedReader.readLine()) != null) {
+                                        sb.append(line);
+                                    }
+                                    result = sb.toString();
+                                    //MainActivity.print(result);
+                                }else {
+                                    //resultConnect = false;
+                                }
+                                connection.disconnect();
+                            }catch (Exception e) {
+                                MainActivity.print("error get thread :"+e.toString());
+                            }
+
+                            return result;
+                        }
+                    }.execute();
+                }
+            }catch (Exception e){
                 print("error resume /system "+e.toString());
             }
         }
 
-        for (OrthancServer server:ServerList){
+        for (final OrthancServer server:ServerList){
             try{
-         //       if(server.getName() != null){
-                {         //print("server id /statistics="+server.getId());
-                doSomethingAsyncOperaion(server,"/statistics");
-                }
+                //doSomethingAsyncOperaion(server,"/statistics");
+                final String param = "/statistics";
+                new AbstractAsyncWorker<String>(this,server,param) {
+                    @SuppressLint("StaticFieldLeak")
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    protected String doAction() throws Exception {
+
+                        String result = null;
+                        String auth =new String(server.login + ":" + server.password);
+                        byte[] data1 = auth.getBytes(UTF_8);
+                        String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
+                        //sleep(100);
+                        try {
+                            String fulladdress = "http://"+server.ipaddress+":"+server.port;
+                            URL url = new URL(fulladdress+param);
+                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                            connection.setDoInput(true);
+                            //connection.setRequestProperty("Content-Type", "application/json");
+                            connection.setRequestProperty("Authorization", "Basic "+base64);
+                            //connection.setRequestProperty("Accept", "application/json");
+                            connection.setRequestMethod("GET");
+                            connection.setConnectTimeout(1000);
+                            connection.connect();
+                            int responseCode=connection.getResponseCode();
+                            if (responseCode == HttpURLConnection.HTTP_OK) {
+                                boolean resultConnect = true;
+                                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+                                String line = null;
+                                StringBuilder sb = new StringBuilder();
+                                while ((line = bufferedReader.readLine()) != null) {
+                                    sb.append(line);
+                                }
+                                result = sb.toString();
+                                //MainActivity.print(result);
+                            }else {
+                                //resultConnect = false;
+                            }
+                            connection.disconnect();
+                        }catch (Exception e) {
+                            MainActivity.print("error get thread :"+e.toString());
+                        }
+
+                        return result;
+                    }
+                }.execute();
+
             }catch (Exception e){
                 print("error resume /statistics "+e.toString());
             }
@@ -109,10 +201,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         int id = item.getItemId();
         switch (id) {
             case R.id.TitleAddServer:
-                //Log.d("myLogs","Вы выбрали добавить коментарий");
                 Intent i = new Intent(MainActivity.this, AddNewServer.class);
                 startActivity(i);
-                //overridePendingTransition(R.anim.left_out,R.anim.right_in);
                 return true;
             case R.id.TitleSittings:
                 Intent j = new Intent(MainActivity.this, ProgrammSetting.class);
@@ -136,12 +226,10 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         SQLiteDatabase userDB = dbHelper.getWritableDatabase();
         try {
             Cursor cursor = userDB.query("servers", null, null, null, null, null, null);
-            //print(String.valueOf(cursor.getCount()));
             if (cursor.moveToFirst()) {
                 do {
                     OrthancServer server = new OrthancServer();
                     server.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                    //String buf = cursor.getString(cursor.getColumnIndex("name"));
                     server.name = (cursor.getString(cursor.getColumnIndex("name")));
                     server.ipaddress = (cursor.getString(cursor.getColumnIndex("ip")));
                     server.port = (cursor.getString(cursor.getColumnIndex("port")));
@@ -154,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     server.CountSeries = (cursor.getInt(cursor.getColumnIndex("countseries")));
                     server.CountStudies = (cursor.getInt(cursor.getColumnIndex("countstudies")));
                     server.TotalDiskSizeMB = (cursor.getInt(cursor.getColumnIndex("totaldisksizemb")));
-
                     server.setConnect(false);
                     serverList.add(server);
                 }
@@ -182,9 +269,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         try {
             SQLiteDatabase userDB = dbHelper.getWritableDatabase();
             long rowID = userDB.insertOrThrow("servers", null, newValues);
-            //MainActivity.print("row inserted, ID = " + rowID);
-            //Cursor cursor = userDB.query("servers", null, null, null, null, null, null);
-            //print("cursor = "+String.valueOf(cursor.getCount()));
             userDB.close();
         }catch (SQLException e){
             print("error add to base "+e.toString());
@@ -224,6 +308,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 String auth =new String(server.login + ":" + server.password);
                 byte[] data1 = auth.getBytes(UTF_8);
                 String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
+                sleep(100);
                 try {
                     String fulladdress = "http://"+server.ipaddress+":"+server.port;
                     URL url = new URL(fulladdress+param);
@@ -233,12 +318,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     connection.setRequestProperty("Authorization", "Basic "+base64);
                     //connection.setRequestProperty("Accept", "application/json");
                     connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(5000);
+                    connection.setConnectTimeout(1000);
                     connection.connect();
                     int responseCode=connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
                         boolean resultConnect = true;
-                        //MainActivity.print(String.valueOf(resultConnect));
                         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
                         String line = null;
                         StringBuilder sb = new StringBuilder();

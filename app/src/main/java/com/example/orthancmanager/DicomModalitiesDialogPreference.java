@@ -27,7 +27,7 @@ import java.util.Set;
 public class DicomModalitiesDialogPreference extends DialogPreference
 {
     private String jsonStr;
-    static ArrayList<DicomModalities> dicomModalities = new ArrayList<DicomModalities>();
+    static ArrayList<DicomModaliti> dicomModalities = new ArrayList<DicomModaliti>();
     Object[] jsonkeys;
 
     public DicomModalitiesDialogPreference(Context context, AttributeSet attrs)
@@ -71,7 +71,7 @@ public class DicomModalitiesDialogPreference extends DialogPreference
         try {
             for (int i = 0; i <= jsonkeys.length - 1; i++) {
                 JsonArray bufArray = orthancJson.getAsJsonArray(jsonkeys[i].toString());
-                DicomModalities node = new DicomModalities();
+                DicomModaliti node = new DicomModaliti();
                 node.setmName(jsonkeys[i].toString());
                 node.setmTitle(bufArray.get(0).getAsString());
                 node.setmIP(bufArray.get(1).getAsString());
@@ -98,7 +98,7 @@ public class DicomModalitiesDialogPreference extends DialogPreference
                                 (!editIP.getText().toString().equals(""))&
                                     (!editPORT.getText().toString().equals("")))
                     {
-                        DicomModalities node = new DicomModalities();
+                        DicomModaliti node = new DicomModaliti();
                         node.setmName(editName.getText().toString());
                         node.setmTitle(editAET.getText().toString());
                         node.setmIP(editIP.getText().toString());
@@ -144,7 +144,7 @@ public class DicomModalitiesDialogPreference extends DialogPreference
                 JsonObject jsonObj = new JsonObject();
                 for(int i=0; i<=dicomModalities.size()-1; i++){
                     JsonArray arrayJSON = new JsonArray();
-                    DicomModalities node = dicomModalities.get(i);
+                    DicomModaliti node = dicomModalities.get(i);
 
                     arrayJSON.add(node.mTitle);
                     arrayJSON.add(node.mIP);

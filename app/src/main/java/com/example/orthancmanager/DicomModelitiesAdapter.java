@@ -14,10 +14,10 @@ import java.util.ArrayList;
 public class DicomModelitiesAdapter extends RecyclerView.Adapter<DicomModelitiesAdapter.DicomModelitiesViewHolder>{
 
     Context context;
-    ArrayList<DicomModalities> dicomModalities= new ArrayList<DicomModalities>();
+    ArrayList<DicomModaliti> dicomModalities= new ArrayList<DicomModaliti>();
 
 
-    public DicomModelitiesAdapter(ArrayList<DicomModalities> dicomModalities, Context context) {
+    public DicomModelitiesAdapter(ArrayList<DicomModaliti> dicomModalities, Context context) {
         this.dicomModalities = dicomModalities;
         this.context = context;
     }
@@ -41,7 +41,7 @@ public class DicomModelitiesAdapter extends RecyclerView.Adapter<DicomModelities
     @Override
     public void onBindViewHolder(@NonNull final DicomModelitiesAdapter.DicomModelitiesViewHolder holder, final int position) {
         try {
-            DicomModalities node = dicomModalities.get(position);
+            DicomModaliti node = dicomModalities.get(position);
             holder.viewTitle.setText(node.mTitle.toString());
             holder.viewName.setText(node.mName.toString());
             holder.viewIP.setText(node.mIP.toString());

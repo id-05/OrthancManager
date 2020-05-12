@@ -49,8 +49,8 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
     //1 - read
     //2 - write
     //3 - reset
-    SharedPreferences prefs;// = PreferenceManager.getDefaultSharedPreferences(this);
-    SharedPreferences.Editor editor;// = prefs.edit();
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,6 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
         Bundle arguments = getIntent().getExtras();
         if(arguments!=null){
             id = arguments.getInt("serverid");
-            //json = arguments.getString("json");
         }
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -111,7 +110,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             case R.id.resetserver: {
                 modeCallback = 3;
                 getOrthancSettings(server,"/tools/reset","");
-                Toast toast = Toast.makeText(ServerSettings.this, "reset", Toast.LENGTH_SHORT); toast.show();
+                Toast toast = Toast.makeText(ServerSettings.this, R.string.resetserver, Toast.LENGTH_SHORT); toast.show();
                 return true;
             }
 
@@ -119,7 +118,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                 //MainActivity.print(prefs.getString("TransferSyntax","none"));
                 modeCallback = 2;
                 SaveSettings();
-                Toast toast = Toast.makeText(ServerSettings.this, "save", Toast.LENGTH_SHORT); toast.show();
+                Toast toast = Toast.makeText(ServerSettings.this, R.string.savechange, Toast.LENGTH_SHORT); toast.show();
                 return true;
             }
 
@@ -299,7 +298,6 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                    editor.putBoolean("CaseSensitivePN", json.CaseSensitivePN);
                    editor.putBoolean("AllowFindSopClassesInStudy", json.AllowFindSopClassesInStudy);
                    editor.putBoolean("LoadPrivateDictionary", json.LoadPrivateDictionary);
-                   //!!
                    editor.putString("Dictionary", json.dictionary.toString());
                    editor.putBoolean("SynchronousCMove", json.SynchronousCMove);
                    editor.putString("JobsHistorySize",String.valueOf(json.JobsHistorySize));
@@ -327,8 +325,6 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
            break;
            case 3:
            {
-               //reset
-               MainActivity.print("reset sucsess!  "+data);
                modeCallback = 0;
            }
            break;
@@ -458,14 +454,6 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
 
             addPreferencesFromResource(R.xml.settings);
         }
-    }
-
-    public void writeJson(JsonObject json){//, File fichier) {
-        //use Gson for pretty printing
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String jsonString = gson.toJson(json);
-        //write the json in the destination file
-        //Orthanc_Tools.writeCSV(jsonString, fichier);
     }
 
     public String ModifyStr(String str){
