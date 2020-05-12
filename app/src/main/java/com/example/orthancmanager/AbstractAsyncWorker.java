@@ -46,7 +46,7 @@ public abstract class AbstractAsyncWorker<String> extends AsyncTask<Void, Void, 
         }
         try {
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            sleep(1000);
+            sleep(10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

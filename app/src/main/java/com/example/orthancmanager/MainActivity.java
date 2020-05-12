@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         dbHelper = new DateBase(this);
         setContentView(R.layout.activity_main);
     }
@@ -77,53 +79,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             try{
                 if(server.getName() == null)
                 {
-                    //doSomethingAsyncOperaion(server,"/system");
-
-                    final String param = "/system";
-                    new AbstractAsyncWorker<String>(this,server,param) {
-                        @SuppressLint("StaticFieldLeak")
-                        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                        @Override
-                        protected String doAction() throws Exception {
-
-                            String result = null;
-                            String auth =new String(server.login + ":" + server.password);
-                            byte[] data1 = auth.getBytes(UTF_8);
-                            String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
-                            sleep(100);
-                            try {
-                                String fulladdress = "http://"+server.ipaddress+":"+server.port;
-                                URL url = new URL(fulladdress+param);
-                                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                                connection.setDoInput(true);
-                                //connection.setRequestProperty("Content-Type", "application/json");
-                                connection.setRequestProperty("Authorization", "Basic "+base64);
-                                //connection.setRequestProperty("Accept", "application/json");
-                                connection.setRequestMethod("GET");
-                                connection.setConnectTimeout(1000);
-                                connection.connect();
-                                int responseCode=connection.getResponseCode();
-                                if (responseCode == HttpURLConnection.HTTP_OK) {
-                                    boolean resultConnect = true;
-                                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-                                    String line = null;
-                                    StringBuilder sb = new StringBuilder();
-                                    while ((line = bufferedReader.readLine()) != null) {
-                                        sb.append(line);
-                                    }
-                                    result = sb.toString();
-                                    //MainActivity.print(result);
-                                }else {
-                                    //resultConnect = false;
-                                }
-                                connection.disconnect();
-                            }catch (Exception e) {
-                                MainActivity.print("error get thread :"+e.toString());
-                            }
-
-                            return result;
-                        }
-                    }.execute();
+                    doSomethingAsyncOperaion(server,"/system");
                 }
             }catch (Exception e){
                 print("error resume /system "+e.toString());
@@ -132,53 +88,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
         for (final OrthancServer server:ServerList){
             try{
-                //doSomethingAsyncOperaion(server,"/statistics");
-                final String param = "/statistics";
-                new AbstractAsyncWorker<String>(this,server,param) {
-                    @SuppressLint("StaticFieldLeak")
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    protected String doAction() throws Exception {
-
-                        String result = null;
-                        String auth =new String(server.login + ":" + server.password);
-                        byte[] data1 = auth.getBytes(UTF_8);
-                        String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
-                        //sleep(100);
-                        try {
-                            String fulladdress = "http://"+server.ipaddress+":"+server.port;
-                            URL url = new URL(fulladdress+param);
-                            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                            connection.setDoInput(true);
-                            //connection.setRequestProperty("Content-Type", "application/json");
-                            connection.setRequestProperty("Authorization", "Basic "+base64);
-                            //connection.setRequestProperty("Accept", "application/json");
-                            connection.setRequestMethod("GET");
-                            connection.setConnectTimeout(1000);
-                            connection.connect();
-                            int responseCode=connection.getResponseCode();
-                            if (responseCode == HttpURLConnection.HTTP_OK) {
-                                boolean resultConnect = true;
-                                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-                                String line = null;
-                                StringBuilder sb = new StringBuilder();
-                                while ((line = bufferedReader.readLine()) != null) {
-                                    sb.append(line);
-                                }
-                                result = sb.toString();
-                                //MainActivity.print(result);
-                            }else {
-                                //resultConnect = false;
-                            }
-                            connection.disconnect();
-                        }catch (Exception e) {
-                            MainActivity.print("error get thread :"+e.toString());
-                        }
-
-                        return result;
-                    }
-                }.execute();
-
+                doSomethingAsyncOperaion(server,"/statistics");
             }catch (Exception e){
                 print("error resume /statistics "+e.toString());
             }
@@ -351,6 +261,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
+        MainActivity.print("data = "+data);
         switch (param) {
             case "/system": {
                 try {
@@ -359,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     server.setName(orthancJson.get("Name").getAsString());
                     server.setDicomaet(orthancJson.get("DicomAet").getAsString());
                     serverUpdateBase(server);
+                    adapter.notifyDataSetChanged();
                 } catch (Exception e) {
                     print("Error /system " + e.toString());
                 }
@@ -376,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     server.setCountStudies(orthancJson.get("CountStudies").getAsInt());
                     server.setTotalDiskSizeMB(orthancJson.get("TotalDiskSizeMB").getAsInt());
                     serverUpdateBase(server);
+                adapter.notifyDataSetChanged();
                 }catch (Exception e){
                     print("Error /statistics "+e.toString());
                 }
@@ -389,7 +302,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public void onFailure(Throwable t) {
-
+        MainActivity.print("failure");
+        adapter.notifyDataSetChanged();
     }
 
     @Override
