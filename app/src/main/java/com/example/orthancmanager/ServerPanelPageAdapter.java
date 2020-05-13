@@ -17,10 +17,20 @@ public class ServerPanelPageAdapter extends FragmentPagerAdapter {
         this.numOfTabs = numOfTabs;
     }
 
-    @NonNull
     @Override
     public Fragment getItem(int position) {
-        return null;
+        switch (position) {
+            case 0:
+                return new SeachFragment();
+            case 1:
+                return new PatientsFragment();
+            case 2:
+                return new StudyFragment();
+            case 3:
+                return new ImagesFragment();
+            default:
+                return null;
+        }
     }
 
 

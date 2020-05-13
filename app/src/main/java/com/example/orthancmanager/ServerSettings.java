@@ -86,15 +86,17 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             }
             cursor.close();
             modeCallback = 1;
-            String urlParameters = "f = io.open(\"/\\etc\\/orthanc\\/orthanc.json\",\"r+\");" +
-                        "print(f:read(\"*a\"))"+
-                        "f:close()";
+//            String urlParameters = "f = io.open(\"/\\etc\\/orthanc\\/orthanc.json\",\"r+\");" +
+//                        "print(f:read(\"*a\"))"+
+//                        "f:close()";
+            String urlParameters = "f = io.open(\""+ ModifyStr(server.pathToJson) +"orthanc.json\",\"r+\");" +
+                    "print(f:read(\"*a\"))"+
+                    "f:close()";
+            //MainActivity.print("urlParameters  "+urlParameters);
             getOrthancSettings(server,"/tools/execute-script",urlParameters);
         }catch (Exception e){
             MainActivity.print("error db serversettings = "+ e);
         }
-
-
     }
 
     @Override
@@ -145,7 +147,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Authorization", "Basic "+base64);
                     connection.setRequestProperty("Content-Length",  String.valueOf(fulladdress+urlParameters));
-                    connection.setConnectTimeout(10000);
+                    connection.setConnectTimeout(1000);
                     connection.setRequestMethod("POST");
                     connection.connect();
                     OutputStream os = connection.getOutputStream();
@@ -233,7 +235,6 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                //MainActivity.print("serversetting!  "+data);
                //read
                try {
-
                    JsonSettings json = new JsonSettings(data);
                    editor.putString("orthancName", json.orthancName);
                    editor.putString("StorageDirectory", json.storageDirectory);
@@ -426,9 +427,15 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             jsonOb.addProperty("MediaArchiveSize", Integer.valueOf(prefs.getString("MediaArchiveSize", "0")));
             String modifyStr = ModifyStr(jsonOb.toString());
             //MainActivity.print("ModifyStr = "+modifyStr);
-            String urlParameters = "f = io.open(\"/\\etc\\/orthanc\\/orthanc.json\",\"w+\");" +
+
+//            String urlParameters = "f = io.open(\"/\\etc\\/orthanc\\/orthanc.json\",\"w+\");" +
+//                    "f:write(\""+modifyStr+"\"); "+
+//                    "f:close()";
+
+            String urlParameters = "f = io.open(\""+ ModifyStr(server.pathToJson) +"orthanc.json\",\"w+\");" +
                     "f:write(\""+modifyStr+"\"); "+
                     "f:close()";
+
             getOrthancSettings(server,"/tools/execute-script",urlParameters);
             //MainActivity.print(jsonOb.toString());
         }catch (Exception e){
@@ -458,12 +465,13 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
 
     public String ModifyStr(String str){
         String result = null;
+        String buf0 = null;
         String buf = null;
         String buf2 = null;
-        buf = str.replace("/","\\/");
+        buf0 = str.replace("\\","\\\\");
+        buf = buf0.replace("/","\\/");
         buf2 = buf.replace("\"","\\\"");
         result = buf2.replace(",",",\\n");
         return result;
     }
-
 }

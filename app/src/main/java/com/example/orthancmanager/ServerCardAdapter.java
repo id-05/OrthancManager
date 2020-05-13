@@ -129,6 +129,14 @@ public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.Se
                                 alertDialog.show();
                             }
                                 break;
+                            case R.id.itemConSettings:
+                            {
+                                Intent intent = new Intent(context,AddNewServer.class);
+                                intent.putExtra("method","edit");
+                                intent.putExtra("serverid",servers.get(i).getId());
+                                context.startActivity(intent);
+                            }
+                                break;
                             default:
                                 break;
                         }

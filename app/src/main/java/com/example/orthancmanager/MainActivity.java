@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
         for (final OrthancServer server:ServerList){
             try{
-                if(server.getName() == null)
+                //if(server.getName() == null)
                 {
                     doSomethingAsyncOperaion(server,"/system");
                 }
@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         switch (id) {
             case R.id.TitleAddServer:
                 Intent i = new Intent(MainActivity.this, AddNewServer.class);
+                i.putExtra("method","new");
                 startActivity(i);
                 return true;
             case R.id.TitleSittings:
@@ -207,6 +208,21 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 new String[] {String.valueOf(id)});
     }
 
+    public static void serverConnectionUpdateBase(OrthancServer server) {
+        int id = server.getId();
+        ContentValues newValues = new ContentValues();
+        newValues.put("ip",server.getIpaddress());
+        newValues.put("port",server.getPort());
+        newValues.put("login",server.getLogin());
+        newValues.put("pass",server.getPassword());
+        newValues.put("OS",server.getOS());
+        newValues.put("pathjson",server.getPathToJson());
+        //print("main activity server.getPathToJson() = "+server.getPathToJson());
+        SQLiteDatabase userDB = dbHelper.getWritableDatabase();
+        userDB.update("servers", newValues, "id = ?",
+                new String[] {String.valueOf(id)});
+    }
+
     private void doSomethingAsyncOperaion(final OrthancServer server, final String param) {
         new AbstractAsyncWorker<String>(this,server,param) {
             @SuppressLint("StaticFieldLeak")
@@ -246,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     }
                     connection.disconnect();
                 }catch (Exception e) {
-                    MainActivity.print("error get thread :"+e.toString());
+                    //MainActivity.print("error get thread :"+e.toString());
                 }
 
                 return result;
@@ -261,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
-        MainActivity.print("data = "+data);
+       // MainActivity.print("data = "+data);
         switch (param) {
             case "/system": {
                 try {
@@ -302,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public void onFailure(Throwable t) {
-        MainActivity.print("failure");
+        //MainActivity.print("failure");
         adapter.notifyDataSetChanged();
     }
 

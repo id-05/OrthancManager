@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Orthanc Manager</string>
     <string name="titleAddServer">Add Server</string>
-    <string name="titleSettings">Settings</string>
+    <string name="titleSettings">Server Settings</string>
     <string name="titleSettingsForm">Settings</string>
     <string name="titleAddNewServer">Add New Server</string>
     <string name="ipadressNewServer">IP Address</string>
@@ -41,8 +41,8 @@
         <item>Windows</item>
     </string-array>
     <string-array name="pathjson">
-        <item>/etc/orthanc</item>
-        <item>C://orthanc/orthanc</item>
+        <item>/etc/orthanc/</item>
+        <item>C:\\Program Files\\Orthanc Server\\Configuration\\</item>
     </string-array>
     <string-array name="Property">
         <item>Generic</item>
@@ -216,6 +216,9 @@
     <string name="serverreset">SERVER RESET</string>
     <string name="resetserver">RESET SERVER</string>
     <string name="savechange">SAVE SUCSESS</string>
+    <string name="connectionSettings">Connection Settings</string>
+    <string name="editConServer">Edit Server</string>
+    <string name="mainSettings">Settings</string>
     >
 
     >

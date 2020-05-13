@@ -56,20 +56,38 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_panel);
-       // TabLayout tabLayout = findViewById(R.id.tabLayout);
-       // TabItem tabView = findViewById(R.id.tabView);
-       // TabItem tabSettings = findViewById(R.id.tabSettings);
-       // final ViewPager viewPager = findViewById(R.id.viewPager);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
+        TabItem tabView = findViewById(R.id.tabItem1);
+        TabItem tabSettings = findViewById(R.id.tabItem2);
+        final ViewPager viewPager = findViewById(R.id.viewPage);
 
 
         try {
-         //   ServerPanelPageAdapter serverPanelPageAdapter = new ServerPanelPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
-         //   viewPager.setAdapter(serverPanelPageAdapter);
-         //   viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+            ServerPanelPageAdapter serverPanelPageAdapter = new ServerPanelPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+            viewPager.setAdapter(serverPanelPageAdapter);
+            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition());
+                }
+
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+
+                }
+
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+
+                }
+            });
 
         }catch (Exception e){
             print("error frag ="+e.toString());
         }
+
         Bundle arguments = getIntent().getExtras();
         if(arguments!=null){
             id = arguments.getInt("serverid");
@@ -127,7 +145,7 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
     @Override
     protected void onResume() {
         super.onResume();
-        getOrthancSettings(server,null);
+        //getOrthancSettings(server,null);
         //frag1 = new ServerPanelViewer();
         //FragmentTransaction ft = getFragmentManager().beginTransaction();
         //ft.replace(R.id.frag,frag1);
@@ -169,7 +187,8 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
                         StringBuilder sb = new StringBuilder();
                         while ((line = bufferedReader.readLine()) != null) {
                             //MainActivity.print(line);
-                            if(truestring(line)){
+                           // if(truestring(line))
+                            {
                                 int i = line.indexOf("}");
                                 if(i!= -1){
                                     if (((i == (line.length()-1))&(i!=0))) {
@@ -199,50 +218,7 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
         }.execute();
     }
 
-    private static Boolean truestring(String str){
-//        String buf = "/*";
-//        Boolean troubleSimbol = true;
-//        Character char2 = buf.charAt(0);
-//        Character char3 = buf.charAt(1);
-//        for(int i=0;i<(str.length());i++){
-//            Character char1 = str.charAt(i);
-//            if((char1 == char2)|(char1 == char3)){
-//                troubleSimbol = false;
-//            }
-//        }
-//        return troubleSimbol;
-        String buf = "/*";
-        Boolean troubleSimbol = true;
-        Character char3 = buf.charAt(1);
-        String buf2 = str;
-        int j = buf2.indexOf("//");
-        int k = buf2.indexOf("http");
-        Boolean ifSlash = false;
-        Boolean ifHTTP = false;
-        Boolean check = false;
-        if(j!=-1){
-            ifSlash = true;
-            check = true;
-        }
-        if(k!=-1){
-            ifHTTP = true;
-        }
-        if(ifSlash&ifHTTP){
-            if(j<k){
-                check = true;
-            }else{
-                check = false;
-            }
-        }
-        buf2.replaceAll("\\s+","");
-        if(buf2.length()>0){
-            Character char1 = buf2.charAt(0);
-            if((char1 == char3)|(check)){
-                troubleSimbol = false;
-            }
-        }
-        return troubleSimbol;
-    }
+
 
     @Override
     public void onBegin() {
@@ -258,21 +234,7 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
             }catch (Exception e){
                 MainActivity.print(e.toString());//JsonParser parser = new JsonParser();
             }
-        //JsonObject orthancJson = parser.parse(data).getAsJsonObject();
-        //JsonObject users = new JsonObject();
-        //users= orthancJson.get("RegisteredUsers").getAsJsonObject();
-        //print(users.toString());
-        //Set<String> keys = users.keySet();
-        //for(String key:keys){
-        //    print(key.toString());
-        //}
 
-
-        //Iterator<String> iter = users. //This should be the iterator you want.
-        //while(keys){
-        //    String key = iter.next();
-       // }
-        //MainActivity.print(orthancJson.get("Name").getAsString());
     }
 
     @Override

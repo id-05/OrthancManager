@@ -6,7 +6,7 @@
     <string name="countpatients">Пациенты:</string>
     <string name="app_name">Orthanc Manager</string>
     <string name="titleAddServer">Добавить сервер</string>
-    <string name="titleSettings">Настройки</string>
+    <string name="titleSettings">Настройки сервера</string>
     <string name="titleSettingsForm">Настройки приложения</string>
     <string name="titleAddNewServer">Добавить новый сервер</string>
     <string name="ipadressNewServer">IP Адресс</string>
@@ -167,5 +167,8 @@
     <string name="serverreset">Сервер Orthanc Перезагружен</string>
     <string name="resetserver">Сервер Orthanc Перезагружен</string>
     <string name="savechange">Сохранено успешно</string>
+    <string name="connectionSettings">Настройки соединения</string>
+    <string name="editConServer">Edit server</string>
+    <string name="mainSettings">Настиройки</string>
 
 </resources>

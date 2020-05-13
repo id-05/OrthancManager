@@ -4,6 +4,7 @@
     <item
         android:id="@+id/TitleAddServer"
         android:title="@string/titleAddServer" />
-    <item android:id="@+id/TitleSittings"
-        android:title="@string/titleSettings" />
+    <item
+        android:id="@+id/TitleSittings"
+        android:title="@string/mainSettings" />
 </menu>

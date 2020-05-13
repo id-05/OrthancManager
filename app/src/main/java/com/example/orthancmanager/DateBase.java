@@ -25,13 +25,13 @@ public class DateBase extends SQLiteOpenHelper {
                 + "pass text,"
                 + "OS text,"
                 + "pathjson text,"
-               + "version text,"
-               + "dicomaet text,"
-               + "countinstances integer,"
-               + "countpatients integer,"
-               + "countseries integer,"
-               + "countstudies integer,"
-               + "totaldisksizemb integer,"
+                + "version text,"
+                + "dicomaet text,"
+                + "countinstances integer,"
+                + "countpatients integer,"
+                + "countseries integer,"
+                + "countstudies integer,"
+                + "totaldisksizemb integer,"
                 + "comment text" + ");";
         orthancDB.execSQL(SQL);
 /*

@@ -5,6 +5,9 @@
         android:id="@+id/itemSetting"
         android:title="@string/titleSettings" />
     <item
+        android:id="@+id/itemConSettings"
+        android:title="@string/connectionSettings" />
+    <item
         android:id="@+id/itemDelete"
         android:title="@string/deleteserver" />
 </menu>
