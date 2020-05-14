@@ -1,4 +1,4 @@
-package com.example.orthancmanager;
+package com.example.orthancmanager.settings;
 
 public class DicomModaliti {
     public String mTitle;

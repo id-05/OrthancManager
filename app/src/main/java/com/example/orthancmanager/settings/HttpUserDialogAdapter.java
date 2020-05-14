@@ -1,21 +1,20 @@
-package com.example.orthancmanager;
+package com.example.orthancmanager.settings;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.orthancmanager.MainActivity;
+import com.example.orthancmanager.R;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 public class HttpUserDialogAdapter extends RecyclerView.Adapter<HttpUserDialogAdapter.HttpUserDialogViewHolder>{
 

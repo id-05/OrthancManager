@@ -44,6 +44,11 @@
         <item>/etc/orthanc/</item>
         <item>C:\\Program Files\\Orthanc Server\\Configuration\\</item>
     </string-array>
+    <string-array name="seach">
+        <item>Patient name</item>
+        <item>Patient ID</item>
+        <item>Accession number</item>
+    </string-array>
     <string-array name="Property">
         <item>Generic</item>
         <item>GenericNoWildcardInDates</item>

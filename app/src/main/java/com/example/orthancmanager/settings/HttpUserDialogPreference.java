@@ -1,32 +1,53 @@
-package com.example.orthancmanager;
+package com.example.orthancmanager.settings;
 
-        import android.content.Context;
-        import android.content.res.TypedArray;
-        import android.os.Parcel;
-        import android.os.Parcelable;
-        import android.preference.DialogPreference;
-        import android.util.AttributeSet;
-        import android.view.View;
-        import android.widget.EditText;
-        import android.widget.ImageView;
-        import androidx.recyclerview.widget.LinearLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
-        import com.google.gson.JsonArray;
-        import com.google.gson.JsonObject;
-        import com.google.gson.JsonParser;
-        import java.util.ArrayList;
-        import java.util.Set;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.preference.DialogPreference;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 
-public class PeerDialogPreference extends DialogPreference
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.orthancmanager.MainActivity;
+import com.example.orthancmanager.R;
+import com.example.orthancmanager.settings.HttpUserDialogAdapter;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.util.ArrayList;
+import java.util.Set;
+
+public class HttpUserDialogPreference extends DialogPreference
 {
     private String jsonStr;
-    static ArrayList<Peer> peers = new ArrayList<Peer>();
-    Object[] jsonkeys;
+    private EditText jsonEdit;
+    static ArrayList<String> bufLogin = new ArrayList<String>();
+    static ArrayList<String> bufPassword = new ArrayList<String>();
 
-    public PeerDialogPreference(Context context, AttributeSet attrs)
+
+
+    public HttpUserDialogPreference(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        setDialogLayoutResource(R.layout.peer_dialog_recyclerview);
+
+        // get attributes specified in XML
+       //TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.NumberPickerDialogPreference, 0, 0);
+        //try
+        //{
+           // setMinValue(a.getInteger(R.styleable.NumberPickerDialogPreference_min, DEFAULT_MIN_VALUE));
+           // setMaxValue(a.getInteger(R.styleable.NumberPickerDialogPreference_android_max, DEFAULT_MAX_VALUE));
+        //}
+        //finally
+       // {
+          //  a.recycle();
+        //}
+        // !!!!!!!!!!!!!!!!!!!!!в это месте заменили с
+        setDialogLayoutResource(R.layout.http_users_dialog_recyclerview);
         setPositiveButtonText(android.R.string.ok);
         setNegativeButtonText(android.R.string.cancel);
         setDialogIcon(null);
@@ -48,65 +69,52 @@ public class PeerDialogPreference extends DialogPreference
     protected void onBindDialogView(View view)
     {
         super.onBindDialogView(view);
-        final EditText editName = (EditText)view.findViewById(R.id.peerName);
-        final EditText editURL = (EditText)view.findViewById(R.id.peerURL);
-        final EditText editLogin = (EditText)view.findViewById(R.id.peerLogin);
-        final EditText editPassword = (EditText)view.findViewById(R.id.peerPassword);
-        ImageView addItem = (ImageView)view.findViewById(R.id.addPeer);
+        final EditText editLogin = (EditText)view.findViewById(R.id.addLogin);
+        final EditText editPassword = (EditText)view.findViewById(R.id.addPassword);
+        ImageView addItem = (ImageView)view.findViewById(R.id.addItem);
+
         JsonParser parser = new JsonParser();
-        JsonObject orthancJson = parser.parse(jsonStr).getAsJsonObject();
+        JsonObject orthancJson=new JsonObject();
+        orthancJson = parser.parse(jsonStr).getAsJsonObject();
         Set<String> keys = orthancJson.keySet();
-        jsonkeys = keys.toArray();
-        peers.clear();
-
-        try {
-            for (int i = 0; i <= jsonkeys.length - 1; i++) {
-                JsonArray bufArray = orthancJson.getAsJsonArray(jsonkeys[i].toString());
-                Peer node = new Peer();
-                node.setmName(jsonkeys[i].toString());
-                node.setmURL(bufArray.get(0).getAsString());
-                node.setmLogin(bufArray.get(1).getAsString());
-                node.setmPassword(bufArray.get(2).getAsString());
-                peers.add(node);
-            }
-        }catch (Exception e){
-            MainActivity.print("dicompref error "+ e.toString());
+        Object[] jsonkeys = keys.toArray();
+        bufLogin.clear();
+        bufPassword.clear();
+        for(int i=0; i<=jsonkeys.length-1; i++){
+            bufLogin.add(jsonkeys[i].toString());
+            bufPassword.add(orthancJson.get(jsonkeys[i].toString()).getAsString());
         }
-
         try {
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewPeer);
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewHttp);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
-            final PeerAdapter adapter;
-            adapter = new PeerAdapter(peers, this.getContext());
+            final HttpUserDialogAdapter adapter;
+            adapter = new HttpUserDialogAdapter(bufLogin, bufPassword, this.getContext());
             recyclerView.setAdapter(adapter);
+
             addItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(!(editName.getText().toString().equals(""))&
-                            (!editURL.getText().toString().equals("")))
+                    if(!(editLogin.getText().toString().equals(""))&
+                            (!editPassword.getText().toString().equals("")))
                     {
-                        Peer node = new Peer();
-                        node.setmName(editName.getText().toString());
-                        node.setmURL(editURL.getText().toString());
-                        node.setmLogin(editLogin.getText().toString());
-                        node.setmPassword(editPassword.getText().toString());
-                        peers.add(node);
+                        bufLogin.add(editLogin.getText().toString());
+                        bufPassword.add(editPassword.getText().toString());
                         adapter.notifyDataSetChanged();
-                        editName.setText("");
-                        editURL.setText("");
                         editLogin.setText("");
                         editPassword.setText("");
                     }
                 }
             });
+
         }catch (Exception e){
             MainActivity.print("onBindDialogView  "+e.toString());
         }
     }
 
     public static void delItem(int i){
-        peers.remove(i);
+        bufLogin.remove(i);
+        bufPassword.remove(i);
     }
 
     public String getValue()
@@ -116,36 +124,35 @@ public class PeerDialogPreference extends DialogPreference
 
     public void setValue(String value)
     {
-        jsonStr = value;
-        persistString(value);
-        notifyChanged();
+        //if (value != mValue)
+       // {
+            jsonStr = value;
+            persistString(value);
+            notifyChanged();
+        //}
     }
 
     @Override
     protected void onDialogClosed(boolean positiveResult)
     {
         super.onDialogClosed(positiveResult);
+
+        // when the user selects "OK", persist the new value
         if (positiveResult)
         {
-            try {
+            //MainActivity.print("pltcm");
+           // String jsonEditValue = jsonEdit.getText().toString();
+           // if (callChangeListener(jsonEditValue))
+            {
                 JsonObject jsonObj = new JsonObject();
-                for (int i = 0; i <= peers.size() - 1; i++) {
-                    JsonArray arrayJSON = new JsonArray();
-                    Peer node = peers.get(i);
-                    //arrayJSON.add(node.mName);
-                    arrayJSON.add(node.mURL);
-                    arrayJSON.add(node.mLogin);
-                    arrayJSON.add(node.mPassword);
-                    jsonObj.add(node.mName, arrayJSON);
+                for(int i=0; i<=bufLogin.size()-1; i++){
+                    jsonObj.addProperty(bufLogin.get(i).toString(),bufPassword.get(i).toString());
                 }
                 setValue(jsonObj.toString());
                 //MainActivity.print(jsonObj.toString());
-            }catch (Exception e){
-                MainActivity.print(e.toString());
             }
         }
     }
-
 
     @Override
     protected Parcelable onSaveInstanceState()

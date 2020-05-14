@@ -1,7 +1,6 @@
 package com.example.orthancmanager;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 //import android.content.SharedPreferences;
 //import android.content.SharedPreferences;
 import android.content.SharedPreferences;
@@ -14,19 +13,14 @@ import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 //import android.preference.PreferenceManager;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 //import androidx.preference.PreferenceManager;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.example.orthancmanager.datastorage.OrthancServer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -37,7 +31,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static com.example.orthancmanager.MainActivity.dbHelper;
-import static com.example.orthancmanager.MainActivity.print;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ServerSettings extends AppCompatActivity implements ConnectionCallback{
@@ -85,6 +78,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                 server.TotalDiskSizeMB = (cursor.getInt(cursor.getColumnIndex("totaldisksizemb")));
             }
             cursor.close();
+           // server = MainActivity.getServerById(id);
             modeCallback = 1;
 //            String urlParameters = "f = io.open(\"/\\etc\\/orthanc\\/orthanc.json\",\"r+\");" +
 //                        "print(f:read(\"*a\"))"+

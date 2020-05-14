@@ -1,4 +1,4 @@
-package com.example.orthancmanager;
+package com.example.orthancmanager.settings;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.orthancmanager.MainActivity;
+import com.example.orthancmanager.R;
+
 import java.util.ArrayList;
 
 

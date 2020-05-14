@@ -1,4 +1,4 @@
-package com.example.orthancmanager;
+package com.example.orthancmanager.datastorage;
 
 import android.content.ContentValues;
 import android.content.Context;

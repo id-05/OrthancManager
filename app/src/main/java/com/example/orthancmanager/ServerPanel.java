@@ -13,8 +13,6 @@ import android.annotation.SuppressLint;
 //import android.support.v4.app.FragmentManager;
 //import android.support.v4.app.FragmentTransaction;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,20 +21,16 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TableLayout;
 
+import com.example.orthancmanager.datastorage.OrthancServer;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.Set;
 
 import static com.example.orthancmanager.MainActivity.dbHelper;
 import static com.example.orthancmanager.MainActivity.print;
@@ -49,6 +43,7 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
     int id;
     OrthancServer server = new OrthancServer();
     public String jsonSetting;
+    public static ViewPager viewPager;
     //ServerPanelViewer frag1;
     //ServerPanelSetting frag2;
 
@@ -59,12 +54,15 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         TabItem tabView = findViewById(R.id.tabItem1);
         TabItem tabSettings = findViewById(R.id.tabItem2);
-        final ViewPager viewPager = findViewById(R.id.viewPage);
-
+        viewPager = findViewById(R.id.viewPage);
+        Bundle arguments = getIntent().getExtras();
+        if(arguments!=null){
+            id = arguments.getInt("serverid");
+        }
+        server = MainActivity.getServerById(id);
 
         try {
-
-            ServerPanelPageAdapter serverPanelPageAdapter = new ServerPanelPageAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+            ServerPanelPageAdapter serverPanelPageAdapter = new ServerPanelPageAdapter(server, getSupportFragmentManager(), tabLayout.getTabCount());
             viewPager.setAdapter(serverPanelPageAdapter);
             viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
             tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -86,11 +84,6 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
 
         }catch (Exception e){
             print("error frag ="+e.toString());
-        }
-
-        Bundle arguments = getIntent().getExtras();
-        if(arguments!=null){
-            id = arguments.getInt("serverid");
         }
 
         try {
@@ -119,6 +112,10 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
         }
     }
 
+    public static void TabChange(int i){
+        viewPager.setCurrentItem(i);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.server_panel_menu, menu);
@@ -133,7 +130,6 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
                 Intent i = new Intent(ServerPanel.this, ServerSettings.class);
                 i.putExtra("serverid", server.getId());
                 i.putExtra("json",jsonSetting);
-                //MainActivity.print(String.valueOf(server.getId()));
                 startActivity(i);
                 return true;
             }

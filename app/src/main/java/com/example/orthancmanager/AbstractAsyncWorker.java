@@ -2,6 +2,8 @@ package com.example.orthancmanager;
 
 import android.os.AsyncTask;
 
+import com.example.orthancmanager.datastorage.OrthancServer;
+
 import static java.lang.Thread.sleep;
 
 public abstract class AbstractAsyncWorker<String> extends AsyncTask<Void, Void, String> {
@@ -46,7 +48,7 @@ public abstract class AbstractAsyncWorker<String> extends AsyncTask<Void, Void, 
         }
         try {
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            sleep(10);
+            sleep(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

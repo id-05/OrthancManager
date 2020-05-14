@@ -1,27 +1,33 @@
 package com.example.orthancmanager;
 
-//import androidx.fragment.app.Fragment;
-//import androidx.fragment.app.Fragment;
 
-import androidx.annotation.NonNull;
+import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.orthancmanager.datastorage.OrthancServer;
+
 public class ServerPanelPageAdapter extends FragmentPagerAdapter {
 
     private int numOfTabs;
+    private OrthancServer server;
 
-    ServerPanelPageAdapter(FragmentManager fm, int numOfTabs) {
+    ServerPanelPageAdapter(OrthancServer server, FragmentManager fm, int numOfTabs) {
         super(fm, numOfTabs);
         this.numOfTabs = numOfTabs;
+        this.server = server;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return new SeachFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt("serverid", server.id);
+                SeachFragment frag = new SeachFragment();
+                frag.setArguments(bundle);
+                return frag;
             case 1:
                 return new PatientsFragment();
             case 2:

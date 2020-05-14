@@ -1,39 +1,37 @@
-package com.example.orthancmanager;
+package com.example.orthancmanager.settings;
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.preference.DialogPreference;
-import android.util.AttributeSet;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
+        import android.content.Context;
+        import android.content.res.TypedArray;
+        import android.os.Parcel;
+        import android.os.Parcelable;
+        import android.preference.DialogPreference;
+        import android.util.AttributeSet;
+        import android.view.View;
+        import android.widget.EditText;
+        import android.widget.ImageView;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+        import com.example.orthancmanager.MainActivity;
+        import com.example.orthancmanager.R;
+        import com.example.orthancmanager.settings.Peer;
+        import com.example.orthancmanager.settings.PeerAdapter;
+        import com.google.gson.JsonArray;
+        import com.google.gson.JsonObject;
+        import com.google.gson.JsonParser;
+        import java.util.ArrayList;
+        import java.util.Set;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-public class DicomModalitiesDialogPreference extends DialogPreference
+public class PeerDialogPreference extends DialogPreference
 {
     private String jsonStr;
-    static ArrayList<DicomModaliti> dicomModalities = new ArrayList<DicomModaliti>();
+    static ArrayList<Peer> peers = new ArrayList<Peer>();
     Object[] jsonkeys;
 
-    public DicomModalitiesDialogPreference(Context context, AttributeSet attrs)
+    public PeerDialogPreference(Context context, AttributeSet attrs)
     {
         super(context, attrs);
-        setDialogLayoutResource(R.layout.dicom_modalities_dialog_recyclerview);
+        setDialogLayoutResource(R.layout.peer_dialog_recyclerview);
         setPositiveButtonText(android.R.string.ok);
         setNegativeButtonText(android.R.string.cancel);
         setDialogIcon(null);
@@ -55,62 +53,55 @@ public class DicomModalitiesDialogPreference extends DialogPreference
     protected void onBindDialogView(View view)
     {
         super.onBindDialogView(view);
-        final EditText editName = (EditText)view.findViewById(R.id.addName);
-        final EditText editAET = (EditText)view.findViewById(R.id.addNameModalities);
-        final EditText editIP = (EditText)view.findViewById(R.id.addIPModalities);
-        final EditText editPORT = (EditText)view.findViewById(R.id.addPort);
-        final Spinner chooseProperty = (Spinner) view.findViewById(R.id.PropertySpinner);
-        ImageView addItem = (ImageView)view.findViewById(R.id.addModalitiesItem);
-
+        final EditText editName = (EditText)view.findViewById(R.id.peerName);
+        final EditText editURL = (EditText)view.findViewById(R.id.peerURL);
+        final EditText editLogin = (EditText)view.findViewById(R.id.peerLogin);
+        final EditText editPassword = (EditText)view.findViewById(R.id.peerPassword);
+        ImageView addItem = (ImageView)view.findViewById(R.id.addPeer);
         JsonParser parser = new JsonParser();
         JsonObject orthancJson = parser.parse(jsonStr).getAsJsonObject();
         Set<String> keys = orthancJson.keySet();
         jsonkeys = keys.toArray();
-        dicomModalities.clear();
+        peers.clear();
 
         try {
             for (int i = 0; i <= jsonkeys.length - 1; i++) {
                 JsonArray bufArray = orthancJson.getAsJsonArray(jsonkeys[i].toString());
-                DicomModaliti node = new DicomModaliti();
+                Peer node = new Peer();
                 node.setmName(jsonkeys[i].toString());
-                node.setmTitle(bufArray.get(0).getAsString());
-                node.setmIP(bufArray.get(1).getAsString());
-                node.setmPort(bufArray.get(2).getAsString());
-                node.setmProperty(bufArray.get(3).getAsString());
-                dicomModalities.add(node);
+                node.setmURL(bufArray.get(0).getAsString());
+                node.setmLogin(bufArray.get(1).getAsString());
+                node.setmPassword(bufArray.get(2).getAsString());
+                peers.add(node);
             }
         }catch (Exception e){
             MainActivity.print("dicompref error "+ e.toString());
         }
 
         try {
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewDicomModalities);
+            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewPeer);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
-            final DicomModelitiesAdapter adapter;
-            adapter = new DicomModelitiesAdapter(dicomModalities, this.getContext());
+            final PeerAdapter adapter;
+            adapter = new PeerAdapter(peers, this.getContext());
             recyclerView.setAdapter(adapter);
             addItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(!(editName.getText().toString().equals(""))&
-                            (!editAET.getText().toString().equals(""))&
-                                (!editIP.getText().toString().equals(""))&
-                                    (!editPORT.getText().toString().equals("")))
+                            (!editURL.getText().toString().equals("")))
                     {
-                        DicomModaliti node = new DicomModaliti();
+                        Peer node = new Peer();
                         node.setmName(editName.getText().toString());
-                        node.setmTitle(editAET.getText().toString());
-                        node.setmIP(editIP.getText().toString());
-                        node.setmPort(editPORT.getText().toString());
-                        node.setmProperty(chooseProperty.getSelectedItem().toString());
-                        dicomModalities.add(node);
+                        node.setmURL(editURL.getText().toString());
+                        node.setmLogin(editLogin.getText().toString());
+                        node.setmPassword(editPassword.getText().toString());
+                        peers.add(node);
                         adapter.notifyDataSetChanged();
                         editName.setText("");
-                        editAET.setText("");
-                        editIP.setText("");
-                        editPORT.setText("");
-                        chooseProperty.setSelection(0);
+                        editURL.setText("");
+                        editLogin.setText("");
+                        editPassword.setText("");
                     }
                 }
             });
@@ -120,7 +111,7 @@ public class DicomModalitiesDialogPreference extends DialogPreference
     }
 
     public static void delItem(int i){
-        dicomModalities.remove(i);
+        peers.remove(i);
     }
 
     public String getValue()
@@ -141,20 +132,24 @@ public class DicomModalitiesDialogPreference extends DialogPreference
         super.onDialogClosed(positiveResult);
         if (positiveResult)
         {
+            try {
                 JsonObject jsonObj = new JsonObject();
-                for(int i=0; i<=dicomModalities.size()-1; i++){
+                for (int i = 0; i <= peers.size() - 1; i++) {
                     JsonArray arrayJSON = new JsonArray();
-                    DicomModaliti node = dicomModalities.get(i);
-
-                    arrayJSON.add(node.mTitle);
-                    arrayJSON.add(node.mIP);
-                    arrayJSON.add(Integer.valueOf(node.mPort));
-                    arrayJSON.add(node.mProperty);
+                    Peer node = peers.get(i);
+                    //arrayJSON.add(node.mName);
+                    arrayJSON.add(node.mURL);
+                    arrayJSON.add(node.mLogin);
+                    arrayJSON.add(node.mPassword);
                     jsonObj.add(node.mName, arrayJSON);
                 }
                 setValue(jsonObj.toString());
+                //MainActivity.print(jsonObj.toString());
+            }catch (Exception e){
+                MainActivity.print(e.toString());
             }
         }
+    }
 
 
     @Override

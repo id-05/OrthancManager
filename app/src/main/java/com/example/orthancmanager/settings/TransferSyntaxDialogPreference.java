@@ -1,4 +1,4 @@
-package com.example.orthancmanager;
+package com.example.orthancmanager.settings;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,6 +8,8 @@ import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Switch;
+
+import com.example.orthancmanager.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 

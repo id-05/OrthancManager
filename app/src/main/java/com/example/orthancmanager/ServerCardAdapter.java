@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.orthancmanager.datastorage.OrthancServer;
+
 import java.util.ArrayList;
 
 public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.ServerViewHolder> implements View.OnCreateContextMenuListener  {

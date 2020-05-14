@@ -20,9 +20,10 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 
+import com.example.orthancmanager.datastorage.DateBase;
+import com.example.orthancmanager.datastorage.OrthancServer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -43,9 +44,37 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     private ArrayList<OrthancServer> ServerList = new ArrayList<>();// = dBmanager.GetServerList();
     private Button test;
     private Button test2;
-    Connection newConn;
+    //Connection newConn;
     public static DateBase dbHelper;
     public ServerCardAdapter adapter;
+
+    public static OrthancServer getServerById(int id) {
+        OrthancServer server = new OrthancServer();
+        try {
+            SQLiteDatabase userDB = dbHelper.getWritableDatabase();
+            String selection = "id = ?";
+            String[] selectionArgs = new String[]{String.valueOf(id)};
+            Cursor cursor = userDB.query("servers", null, selection, selectionArgs, null, null, null);
+            if (cursor.moveToFirst()) {
+                server.name = (cursor.getString(cursor.getColumnIndex("name")));
+                server.ipaddress = (cursor.getString(cursor.getColumnIndex("ip")));
+                server.port = (cursor.getString(cursor.getColumnIndex("port")));
+                server.login = (cursor.getString(cursor.getColumnIndex("login")));
+                server.password = (cursor.getString(cursor.getColumnIndex("pass")));
+                server.OS = (cursor.getString(cursor.getColumnIndex("OS")));
+                server.pathToJson = (cursor.getString(cursor.getColumnIndex("pathjson")));
+                server.CountInstances = (cursor.getInt(cursor.getColumnIndex("countinstances")));
+                server.CountPatients = (cursor.getInt(cursor.getColumnIndex("countpatients")));
+                server.CountSeries = (cursor.getInt(cursor.getColumnIndex("countseries")));
+                server.CountStudies = (cursor.getInt(cursor.getColumnIndex("countstudies")));
+                server.TotalDiskSizeMB = (cursor.getInt(cursor.getColumnIndex("totaldisksizemb")));
+            }
+            cursor.close();
+        }catch (Exception e){
+            print("getorthancbyid error = "+ e);
+        }
+        return server;
+    }
 
 
     @Override
@@ -223,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 new String[] {String.valueOf(id)});
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void doSomethingAsyncOperaion(final OrthancServer server, final String param) {
         new AbstractAsyncWorker<String>(this,server,param) {
             @SuppressLint("StaticFieldLeak")

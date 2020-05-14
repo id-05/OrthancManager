@@ -8,17 +8,17 @@ import java.io.File;
 
 public class JsonSettings {
 
-    protected JsonObject index = new JsonObject();
+    public JsonObject index = new JsonObject();
     // JsonObject des AET
-    protected JsonObject dicomNode=new JsonObject();
+    JsonObject dicomNode=new JsonObject();
     // JsonObject des orthancPeer
-    protected JsonObject orthancPeer=new JsonObject();
+    JsonObject orthancPeer=new JsonObject();
     // JsonObject des contentType
-    protected JsonObject contentType=new JsonObject();
+    JsonObject contentType=new JsonObject();
     // JsonObject des dictionary
-    protected JsonObject dictionary=new JsonObject();
+    public JsonObject dictionary=new JsonObject();
     // Array des Lua folder
-    protected JsonArray luaFolder=new JsonArray();
+    public JsonArray luaFolder=new JsonArray();
     //Array des plugin folder
     protected JsonArray pluginsFolder=new JsonArray();
 
@@ -29,7 +29,7 @@ public class JsonSettings {
     protected JsonObject userMetadata=new JsonObject();
 
     // A modifier via des setteurs
-    protected String orthancName;
+    String orthancName;
     protected String storageDirectory;
     protected String indexDirectory;
     protected boolean StorageCompression;
@@ -98,10 +98,9 @@ public class JsonSettings {
     protected boolean AllowFindSopClassesInStudy;
 
 
-    public JsonSettings(String data) {
+    JsonSettings(String data) {
         JsonParser parser = new JsonParser();
         JsonObject orthancJson=new JsonObject();
-        //MainActivity.print("jsonsettings  "+data);
         try {
             orthancJson = parser.parse(data).getAsJsonObject();
         }catch (Exception e){
@@ -111,10 +110,10 @@ public class JsonSettings {
         if (orthancJson.has("StorageDirectory")) storageDirectory=orthancJson.get("StorageDirectory").getAsString();
         if (orthancJson.has("IndexDirectory")) indexDirectory=orthancJson.get("IndexDirectory").getAsString();
         if (orthancJson.has("StorageCompression")) StorageCompression=orthancJson.get("StorageCompression").getAsBoolean();
-        if (orthancJson.has("MaximumStorageSize")) MaximumStorageSize=Integer.valueOf(orthancJson.get("MaximumStorageSize").getAsString());
-        if (orthancJson.has("MaximumPatientCount")) MaximumPatientCount=Integer.valueOf(orthancJson.get("MaximumPatientCount").getAsString());
+        if (orthancJson.has("MaximumStorageSize")) MaximumStorageSize=Integer.parseInt(orthancJson.get("MaximumStorageSize").getAsString());
+        if (orthancJson.has("MaximumPatientCount")) MaximumPatientCount=Integer.parseInt(orthancJson.get("MaximumPatientCount").getAsString());
         if (orthancJson.has("HttpServerEnabled")) HttpServerEnabled=orthancJson.get("HttpServerEnabled").getAsBoolean();
-        if (orthancJson.has("HttpPort")) HttpPort=Integer.valueOf(orthancJson.get("HttpPort").getAsString());
+        if (orthancJson.has("HttpPort")) HttpPort=Integer.parseInt(orthancJson.get("HttpPort").getAsString());
         if (orthancJson.has("HttpDescribeErrors")) HttpDescribeErrors=orthancJson.get("HttpDescribeErrors").getAsBoolean();
         if (orthancJson.has("HttpCompressionEnabled")) HttpCompressionEnabled=orthancJson.get("HttpCompressionEnabled").getAsBoolean();
         if (orthancJson.has("DicomServerEnabled")) DicomServerEnabled=orthancJson.get("DicomServerEnabled").getAsBoolean();

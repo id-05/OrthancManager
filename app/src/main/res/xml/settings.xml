@@ -30,21 +30,21 @@
             android:key="StorageCompression"
             android:summary="@string/storagecompressionsum"
             android:title="@string/storagecompression" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="false"
             android:key="MaximumStorageSize"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="@string/MaximumStorageSizesum"
             android:title="@string/MaximumStorageSize" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="false"
             android:key="MaximumPatientCount"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="@string/MaximumPatientCountsum"
             android:title="@string/MaximumPatientCount" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="false"
             android:key="ConcurrentJobs"
             android:selectAllOnFocus="true"
@@ -59,7 +59,7 @@
             android:key="HttpServerEnabled"
             android:summary="@string/HttpServerEnabledsum"
             android:title="@string/HttpServerEnabled" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="false"
             android:key="HttpPort"
             android:selectAllOnFocus="true"
@@ -96,7 +96,7 @@
             android:key="DicomCheckCalledAet"
             android:summary="@string/DicomCheckCalledAetsum"
             android:title="@string/DicomCheckCalledAet" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="false"
             android:key="DicomPort"
             android:selectAllOnFocus="true"
@@ -111,7 +111,7 @@
             android:summary="@string/DefaultEncodingsum"
             android:title="@string/DefaultEncoding" />
 
-        <com.example.orthancmanager.TransferSyntaxDialogPreference
+        <com.example.orthancmanager.settings.TransferSyntaxDialogPreference
             android:key="TransferSyntax"
             android:defaultValue="priver"
             android:title="@string/TransferSyntax"
@@ -123,7 +123,7 @@
             android:key="UnknownSopClassAccepted"
             android:summary="@string/UnknownSopClassAcceptedsum"
             android:title="@string/UnknownSopClassAccepted" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="Default value"
             android:key="DicomScpTimeout"
             android:selectAllOnFocus="true"
@@ -158,7 +158,7 @@
             android:summary="@string/AuthenticationEnabledsum"
             android:title="@string/AuthenticationEnabled" />
 
-        <com.example.orthancmanager.HttpUserDialogPreference
+        <com.example.orthancmanager.settings.HttpUserDialogPreference
             android:key="HttpUserJson"
             android:defaultValue="priver"
             android:dialogMessage="Пользователи orthanc:"
@@ -169,7 +169,7 @@
 
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/Networktopology">
-        <com.example.orthancmanager.DicomModalitiesDialogPreference
+        <com.example.orthancmanager.settings.DicomModalitiesDialogPreference
             android:defaultValue="false"
             android:key="DicomModalities"
             android:selectAllOnFocus="true"
@@ -196,7 +196,7 @@
             android:key="DicomCheckModalityHost"
             android:summary="@string/DicomCheckModalityHostsum"
             android:title="@string/DicomCheckModalityHost" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="Default value"
             android:key="DicomScuTimeout"
             android:selectAllOnFocus="true"
@@ -204,7 +204,7 @@
             android:summary="@string/DicomScuTimeoutsum"
             android:title="@string/DicomScuTimeout" />
 
-        <com.example.orthancmanager.PeerDialogPreference
+        <com.example.orthancmanager.settings.PeerDialogPreference
             android:key="OrthancPeers"
             android:defaultValue="priver"
             android:dialogMessage="OrthancPeers:"
@@ -229,7 +229,7 @@
             android:key="HttpVerbose"
             android:summary="@string/HttpVerbosesum"
             android:title="@string/HttpVerbose" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="Default value"
             android:key="HttpTimeout"
             android:selectAllOnFocus="true"
@@ -262,7 +262,7 @@
         -->
 
 
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="Default value"
             android:key="StableAge"
             android:selectAllOnFocus="true"
@@ -279,21 +279,21 @@
             android:key="StoreMD5ForAttachments"
             android:summary="@string/StoreMD5ForAttachmentssum"
             android:title="@string/StoreMD5ForAttachments" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="Default value"
             android:key="LimitFindResults"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="@string/LimitFindResultssum"
             android:title="@string/LimitFindResults" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="Default value"
             android:key="LimitFindInstances"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="@string/LimitFindInstancessum"
             android:title="@string/LimitFindInstances" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="Default value"
             android:key="LimitJobs"
             android:selectAllOnFocus="true"
@@ -315,14 +315,14 @@
             android:key="StoreDicom"
             android:summary="@string/StoreDicomsum"
             android:title="@string/StoreDicom" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="Default value"
             android:key="DicomAssociationCloseDelay"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:summary="@string/DicomAssociationCloseDelaysum"
             android:title="@string/DicomAssociationCloseDelay" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="Default value"
             android:key="QueryRetrieveSize"
             android:selectAllOnFocus="true"
@@ -356,7 +356,7 @@
             android:key="SynchronousCMove"
             android:summary="@string/SynchronousCMovesum"
             android:title="@string/SynchronousCMove" />
-        <com.example.orthancmanager.NumberPreference
+        <com.example.orthancmanager.settings.NumberPreference
             android:defaultValue="Default value"
             android:key="JobsHistorySize"
             android:selectAllOnFocus="true"
