@@ -140,7 +140,9 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
             query.addProperty("Expand", true);
             query.addProperty("Limit", 0);
             JsonObject queryDetails=new JsonObject();
-            queryDetails.addProperty("StudyDate", "20190318-");
+            String date = format.format(calendarFromDate.getTime())+"-"+format.format(calendarToDate.getTime());
+            MainActivity.print("date= "+date);
+            queryDetails.addProperty("StudyDate", "20190604-20200517");//date);
             //queryDetails.addProperty("StudyDescription", studyDesc);
             queryDetails.addProperty("PatientID", "*");
             queryDetails.addProperty("Modality", "MR");
