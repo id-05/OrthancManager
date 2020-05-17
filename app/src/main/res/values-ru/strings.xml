@@ -170,5 +170,7 @@
     <string name="connectionSettings">Настройки соединения</string>
     <string name="editConServer">Edit server</string>
     <string name="mainSettings">Настиройки</string>
+    <string name="patientid">" Patient ID"</string>
+    <string name="patientname">Patient Name</string>
 
 </resources>

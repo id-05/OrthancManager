@@ -3,6 +3,7 @@ package com.example.orthancmanager;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,6 +56,8 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
     private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
+    ImageView statusImage;
+    AnimationDrawable mAnimation = new AnimationDrawable();
 
     @Nullable
     @Override
@@ -105,6 +109,9 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
                 calendarToDate.getTimeInMillis(),
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
 
+        statusImage = (ImageView)fragmentView.findViewById(R.id.imgAnimation);
+        statusImage.setVisibility(View.INVISIBLE);
+
         return fragmentView;
     }
 
@@ -149,7 +156,14 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
             query.add("Query", queryDetails);
             MainActivity.print("query = "+query.toString());
             getOrthancData(server,"/tools/find", query.toString());
-
+            try {
+                statusImage.setVisibility(View.VISIBLE);
+                //statusImage.setBackgroundResource(R.drawable.orthancanimation);
+                mAnimation = (AnimationDrawable) statusImage.getDrawable();
+                mAnimation.start();
+            }catch (Exception e){
+                MainActivity.print(e.toString());
+            }
         }
     };
 
@@ -228,6 +242,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         editor.commit();
 
         ServerPanel.TabChange(1);
+        statusImage.setVisibility(View.INVISIBLE);
     }
 
     @Override

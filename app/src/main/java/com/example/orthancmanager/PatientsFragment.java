@@ -11,14 +11,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.orthancmanager.datastorage.Patient;
+import com.example.orthancmanager.settings.PeerAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,13 +33,21 @@ public class PatientsFragment extends Fragment {
     private SharedPreferences prefs;
     private JsonParser parserJson = new JsonParser();
     private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
+    ArrayList<Patient> patients = new ArrayList<Patient>();
     //SharedPreferences.Editor editor;
+    Boolean firstShow = true;
+    PatientAdapter adapter = new PatientAdapter(patients,getContext());
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View fragmentView = inflater.inflate(R.layout.fragment_patients, container, false);
-            prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        RecyclerView recyclerView = (RecyclerView) fragmentView.findViewById(R.id.resyclerPatient);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        //PatientAdapter adapter = new PatientAdapter(patients, getContext());
+        recyclerView.setAdapter(adapter);
         return fragmentView;
     }
 
@@ -49,9 +61,10 @@ public class PatientsFragment extends Fragment {
     @Override
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
-        if (menuVisible) {
+        if ((menuVisible)&(true)) {
             String data = prefs.getString("SeachResult", "*");
             MainActivity.print("data = "+data);
+            firstShow = false;
             getPatientsFromJson(data);
         }
         else {
@@ -59,9 +72,11 @@ public class PatientsFragment extends Fragment {
     }
 
     public void getPatientsFromJson(String data){
-        HashMap<String, Patient> patientMap=new HashMap<String, Patient>();
+        //ArrayList<Patient> patients = new ArrayList<Patient>();
+        HashMap<String, Patient> patientMap = new HashMap<String, Patient>();
         JsonArray studies=(JsonArray) parserJson.parse(data);
         Iterator<JsonElement> studiesIterator=studies.iterator();
+        patients.clear();
 
         while (studiesIterator.hasNext()) {
             JsonObject studyData=(JsonObject) studiesIterator.next();
@@ -126,6 +141,7 @@ public class PatientsFragment extends Fragment {
                 Patient patient=new Patient(patientName,patientId,patientBirthDate,patientSex,parentPatientID);
                 //    patient.addStudy(studyObj);
                 patientMap.put(parentPatientID, patient);
+                patients.add(patient);
             }else {
                 //  patientMap.get(parentPatientID).addStudy(studyObj);
             }
@@ -139,7 +155,8 @@ public class PatientsFragment extends Fragment {
             Map.Entry<String, Patient> pair = iterator.next();
             String key = pair.getKey();
             Patient value = pair.getValue();
-            MainActivity.print(value.patientId + " : " + value.name);
+            MainActivity.print("value.orthancID = "+value.orthancID+"      "+value.patientId + " : " + value.name);
         }
+        adapter.notifyDataSetChanged();
     }
 }

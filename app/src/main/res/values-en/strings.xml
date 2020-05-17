@@ -171,6 +171,8 @@
     <string name="connectionSettings">Connection Settings</string>
     <string name="editConServer">Edit Server</string>
     <string name="mainSettings">Settings</string>
+    <string name="patientid">" Patient ID"</string>
+    <string name="patientname">Patient Name</string>
     <string-array name="chooseOC">
         <item> <string name="chooseOChint">Choose OS</string> </item>
         <item>Linux</item>
