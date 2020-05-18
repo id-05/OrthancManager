@@ -135,11 +135,11 @@ public class PatientsFragment extends Fragment {
                 studyDescription=studyDetails.get("StudyDescription").getAsString();
             }
 
-            //Study2 studyObj=new Study2(studyDescription, studyDateObject, accessionNumber, studyId, patientName, patientId, patientDob, patientSex, parentPatientID, studyInstanceUid, null);
+            Study studyObj=new Study(studyDescription, studyDateObject, accessionNumber, studyId, patientName, patientId, patientDob, patientSex, parentPatientID, studyInstanceUid);
 
             if(!patientMap.containsKey(parentPatientID)) {
                 Patient patient=new Patient(patientName,patientId,patientBirthDate,patientSex,parentPatientID);
-                //    patient.addStudy(studyObj);
+                    patient.addStudy(studyObj);
                 patientMap.put(parentPatientID, patient);
                 patients.add(patient);
             }else {

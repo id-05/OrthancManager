@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content">
 
                 <Spinner
-                    android:id="@+id/spinner2"
+                    android:id="@+id/spinnerSeach"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:entries="@array/seach" />
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/editIdName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -262,7 +262,7 @@
                 android:text="DX" />
 
             <EditText
-                android:id="@+id/editText4"
+                android:id="@+id/customMod"
                 android:layout_width="54dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
