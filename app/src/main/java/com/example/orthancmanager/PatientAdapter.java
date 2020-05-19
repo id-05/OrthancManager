@@ -1,6 +1,8 @@
 package com.example.orthancmanager;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import androidx.preference.PreferenceManager;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,19 +17,30 @@ import java.util.ArrayList;
 
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder>{
 
-    Context context;
-    ArrayList<Patient> patients = new ArrayList<Patient>();
+    private Context context;
+    private ArrayList<Patient> patients = new ArrayList<Patient>();
+ //   private SharedPreferences prefs;
+//    private SharedPreferences.Editor editor;
+//    private SharedPreferences prefs;
 
 
     public PatientAdapter(ArrayList<Patient> patients, Context context) {
         this.patients = patients;
         this.context = context;
+
+
     }
 
     @Override
     public PatientAdapter.PatientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.patient_adapter, parent, false);
         PatientAdapter.PatientViewHolder patientViewHolder = new PatientAdapter.PatientViewHolder(v);
+        try {
+           // SeachFragment.prefs = PreferenceManager.getDefaultSharedPreferences(context);
+           // SeachFragment.editor = prefs.edit();
+        }catch (Exception e){
+            MainActivity.print(e.toString());
+        }
         return patientViewHolder;
     }
 
@@ -43,12 +56,15 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
     @Override
     public void onBindViewHolder(@NonNull final PatientViewHolder holder, final int position) {
         try {
-            Patient patient = patients.get(position);
+            final Patient patient = patients.get(position);
             holder.patientName.setText(patient.getName());
             holder.patientID.setText(patient.getPatientId());
             holder.patientLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Patient bufPatient = patients.get(position);
+                    SeachFragment.editor.putString("PatientOrthancID", bufPatient.orthancID.toString());
+                    SeachFragment.editor.commit();
                     ServerPanel.TabChange(2);
                 }
             });

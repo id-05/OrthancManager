@@ -52,17 +52,17 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class SeachFragment extends Fragment implements ConnectionCallback{
 
-    Button seachBut;
-    Button butFromDate;
-    Button butToDate;
-    Calendar calendarFromDate  = Calendar.getInstance();
-    Calendar calendarToDate = Calendar.getInstance();
-    int id;
-    OrthancServer server = new OrthancServer();
+    private Button seachBut;
+    private Button butFromDate;
+    private Button butToDate;
+    private Calendar calendarFromDate  = Calendar.getInstance();
+    private Calendar calendarToDate = Calendar.getInstance();
+    private int id;
+    public static OrthancServer server = new OrthancServer();
     private JsonParser parserJson = new JsonParser();
     private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
-    SharedPreferences prefs;
-    SharedPreferences.Editor editor;
+    public static SharedPreferences prefs;
+    public static SharedPreferences.Editor editor;
     ImageView statusImage;
     AnimationDrawable mAnimation = new AnimationDrawable();
     CheckBox cr, ct, mr , nm , pt , us, xa , mg, dx;
@@ -269,6 +269,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
                     os.close();
                 } catch (Exception e) {
                     MainActivity.print("error get thread :" + e.toString());
+                    statusImage.setVisibility(View.INVISIBLE);
                 }
 
                 return result;
@@ -284,6 +285,8 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
         editor.putString("SeachResult",data);
+        //MainActivity.print("server id= "+server.id+"  server ip = "+server.ipaddress);
+        editor.putInt("currentServerId",server.id);
         editor.commit();
         ServerPanel.TabChange(1);
         statusImage.setVisibility(View.INVISIBLE);

@@ -173,6 +173,9 @@
     <string name="mainSettings">Settings</string>
     <string name="patientid">" Patient ID"</string>
     <string name="patientname">Patient Name</string>
+    <string name="studyDate">Study Date</string>
+    <string name="studyDescription">Study Description</string>
+    <string name="accessionNumber">Accession number</string>
     <string-array name="chooseOC">
         <item> <string name="chooseOChint">Choose OS</string> </item>
         <item>Linux</item>

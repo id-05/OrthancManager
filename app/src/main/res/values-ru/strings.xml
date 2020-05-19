@@ -172,5 +172,8 @@
     <string name="mainSettings">Настиройки</string>
     <string name="patientid">" Patient ID"</string>
     <string name="patientname">Patient Name</string>
+    <string name="studyDate">Study Date</string>
+    <string name="studyDescription">Study Description</string>
+    <string name="accessionNumber">Accession number</string>
 
 </resources>

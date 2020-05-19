@@ -148,15 +148,15 @@ public class PatientsFragment extends Fragment {
 
         }
         ////
-        Iterator<Map.Entry<String, Patient>> iterator = patientMap.entrySet().iterator();
-
-        while (iterator.hasNext())
-        {
-            Map.Entry<String, Patient> pair = iterator.next();
-            String key = pair.getKey();
-            Patient value = pair.getValue();
-            MainActivity.print("value.orthancID = "+value.orthancID+"      "+value.patientId + " : " + value.name);
-        }
+//        Iterator<Map.Entry<String, Patient>> iterator = patientMap.entrySet().iterator();
+//
+//        while (iterator.hasNext())
+//        {
+//            Map.Entry<String, Patient> pair = iterator.next();
+//            String key = pair.getKey();
+//            Patient value = pair.getValue();
+//            MainActivity.print("value.orthancID = "+value.orthancID+"      "+value.patientId + " : " + value.name);
+//        }
         adapter.notifyDataSetChanged();
     }
 }
