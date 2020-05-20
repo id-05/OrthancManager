@@ -34,9 +34,9 @@ public class PatientsFragment extends Fragment {
     private JsonParser parserJson = new JsonParser();
     private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
     ArrayList<Patient> patients = new ArrayList<Patient>();
-    //SharedPreferences.Editor editor;
     Boolean firstShow = true;
     PatientAdapter adapter = new PatientAdapter(patients,getContext());
+    public static Boolean newClick = false;
 
     @Nullable
     @Override
@@ -46,25 +46,17 @@ public class PatientsFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) fragmentView.findViewById(R.id.resyclerPatient);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        //PatientAdapter adapter = new PatientAdapter(patients, getContext());
         recyclerView.setAdapter(adapter);
         return fragmentView;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        //String data = prefs.getString("SeachResult", "*");
-        //MainActivity.print("data = "+data);
-    }
-
-    @Override
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
-        if ((menuVisible)&(true)) {
+        if ((menuVisible)&(SeachFragment.newSeach)) {
             String data = prefs.getString("SeachResult", "*");
             MainActivity.print("data = "+data);
-            firstShow = false;
+            SeachFragment.newSeach = false;
             getPatientsFromJson(data);
         }
         else {

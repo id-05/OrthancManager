@@ -1,9 +1,6 @@
 package com.example.orthancmanager;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import androidx.preference.PreferenceManager;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,28 +16,16 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
 
     private Context context;
     private ArrayList<Patient> patients = new ArrayList<Patient>();
- //   private SharedPreferences prefs;
-//    private SharedPreferences.Editor editor;
-//    private SharedPreferences prefs;
-
 
     public PatientAdapter(ArrayList<Patient> patients, Context context) {
         this.patients = patients;
         this.context = context;
-
-
     }
 
     @Override
     public PatientAdapter.PatientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.patient_adapter, parent, false);
         PatientAdapter.PatientViewHolder patientViewHolder = new PatientAdapter.PatientViewHolder(v);
-        try {
-           // SeachFragment.prefs = PreferenceManager.getDefaultSharedPreferences(context);
-           // SeachFragment.editor = prefs.edit();
-        }catch (Exception e){
-            MainActivity.print(e.toString());
-        }
         return patientViewHolder;
     }
 
@@ -65,10 +50,10 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                     Patient bufPatient = patients.get(position);
                     SeachFragment.editor.putString("PatientOrthancID", bufPatient.orthancID.toString());
                     SeachFragment.editor.commit();
+                    PatientsFragment.newClick = true;
                     ServerPanel.TabChange(2);
                 }
             });
-
         }catch (Exception e){
             MainActivity.print("bindviewholder = "+e.toString());
         }
@@ -84,8 +69,6 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         TextView patientID;
         TextView patientName;
         LinearLayout patientLayout;
-
-
         public PatientViewHolder(@NonNull View itemView) {
             super(itemView);
             patientID = (TextView)itemView.findViewById(R.id.patientId);

@@ -33,7 +33,7 @@ public class ServerPanelPageAdapter extends FragmentPagerAdapter {
             case 2:
                 return new StudyFragment();
             case 3:
-                return new ImagesFragment();
+                return new SeriesFragment();
             default:
                 return null;
         }

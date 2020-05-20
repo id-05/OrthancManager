@@ -37,6 +37,13 @@ public class Study {
         this.patientOrthancId=patientOrthancId;
     }
 
+    public Study(String studyDescription, Date studyDateObject, String accessionNumber, String studyId) {
+        this.studyDescription = studyDescription;
+        this.date = studyDateObject;
+        this.accession = accessionNumber;
+        this.StudyOrthancId = studyId;
+    }
+
     public String getStudyDescription() {
         return studyDescription;
     }

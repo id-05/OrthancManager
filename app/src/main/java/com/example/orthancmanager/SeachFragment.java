@@ -71,6 +71,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
     ArrayList<String> selectorList = new ArrayList<String>();
     String seachSelector = null;
     EditText editIdName;
+    public static boolean newSeach = false;
 
     @Nullable
     @Override
@@ -288,6 +289,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         //MainActivity.print("server id= "+server.id+"  server ip = "+server.ipaddress);
         editor.putInt("currentServerId",server.id);
         editor.commit();
+        newSeach = true;
         ServerPanel.TabChange(1);
         statusImage.setVisibility(View.INVISIBLE);
     }

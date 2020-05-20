@@ -1,11 +1,9 @@
 package com.example.orthancmanager;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.orthancmanager.datastorage.OrthancServer;
-import com.example.orthancmanager.datastorage.Patient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -27,7 +24,6 @@ import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -37,33 +33,32 @@ import java.util.Iterator;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class StudyFragment extends Fragment implements ConnectionCallback {
-
+public class SeriesFragment extends Fragment implements ConnectionCallback {
     private JsonParser parserJson = new JsonParser();
     private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
-    ArrayList<Study> studys = new ArrayList<Study>();
+    ArrayList<Serie> series = new ArrayList<Serie>();
     public static Boolean newClick = false;
-    StudyAdapter adapter = new    StudyAdapter(studys,getContext());
+    SerieAdapter adapter = new    SerieAdapter(series,getContext());
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View studyView = inflater.inflate(R.layout.fragment_study, container, false);
-        RecyclerView recyclerView = (RecyclerView) studyView.findViewById(R.id.resyclerStudy);
+        final View serieView = inflater.inflate(R.layout.fragment_series, container, false);
+        RecyclerView recyclerView = (RecyclerView) serieView.findViewById(R.id.resyclerSerie);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
-        return studyView;
+        return serieView;
     }
 
     @Override
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
-        if ((menuVisible)&(PatientsFragment.newClick)) {
-            String data = SeachFragment.prefs.getString("PatientOrthancID", "0");
-            MainActivity.print("PatientOrthancID = "+data);
-            getOrthancData(SeachFragment.server,"/patients/",data);
-            PatientsFragment.newClick = false;
+        if ((menuVisible)&(StudyFragment.newClick)) {
+            String data = SeachFragment.prefs.getString("StudyOrthancID", "0");
+            MainActivity.print("StudyOrthancID = "+data);
+            getOrthancData(SeachFragment.server,"/studies/",data);
+            StudyFragment.newClick = false;
         }
     }
 
@@ -79,7 +74,7 @@ public class StudyFragment extends Fragment implements ConnectionCallback {
                 String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
                 try {
                     String fulladdress = "http://"+server.ipaddress+":"+server.port;
-                    URL url = new URL(fulladdress+tool+param+"/studies");
+                    URL url = new URL(fulladdress+tool+param+"/series");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
                     connection.setRequestProperty("Authorization", "Basic "+base64);
@@ -96,6 +91,8 @@ public class StudyFragment extends Fragment implements ConnectionCallback {
                             sb.append(line);
                         }
                         result = sb.toString();
+                    } else {
+                        MainActivity.print("Error server response =  " + responseCode);
                     }
                     connection.disconnect();
                 }catch (Exception e) {
@@ -114,33 +111,24 @@ public class StudyFragment extends Fragment implements ConnectionCallback {
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
-        MainActivity.print("Studyresult = "+data);
+        MainActivity.print("data = "+data);
+        JsonArray seriesA=(JsonArray) parserJson.parse(data);
+        Iterator<JsonElement> seriesIterator=seriesA.iterator();
+        series.clear();
 
-        JsonArray studies=(JsonArray) parserJson.parse(data);
-        Iterator<JsonElement> studiesIterator=studies.iterator();
-        studys.clear();
+        while (seriesIterator.hasNext()) {
+            JsonObject serieData=(JsonObject) seriesIterator.next();
+            JsonObject mainDicomTags=serieData.get("MainDicomTags").getAsJsonObject();
+            String serieId=serieData.get("ID").getAsString();
 
-        while (studiesIterator.hasNext()) {
-            JsonObject studyData=(JsonObject) studiesIterator.next();
-            JsonObject mainDicomTags=studyData.get("MainDicomTags").getAsJsonObject();
-            //String parentPatientID=studyData.get("ParentPatient").getAsString();
-            String studyId=studyData.get("ID").getAsString();
-            //JsonObject studyDetails=studyData.get("MainDicomTags").getAsJsonObject();
-
-            String accessionNumber="N/A";
-            if(mainDicomTags.has("AccessionNumber")) { accessionNumber=mainDicomTags.get("AccessionNumber").getAsString(); }
-            String studyDate=null;
-            Date studyDateObject=null;
-            if(mainDicomTags.has("StudyDate")) { studyDate=mainDicomTags.get("StudyDate").getAsString(); }
-            try {
-                studyDateObject=format.parse("19000101");
-                studyDateObject=format.parse(studyDate);
-            } catch (Exception e) { }
-            String studyDescription="N/A";
-            if(mainDicomTags.has("StudyDescription")){ studyDescription=mainDicomTags.get("StudyDescription").getAsString(); }
-            Study newStudy=new Study(studyDescription, studyDateObject, accessionNumber, studyId);
-            //MainActivity.print(studyDescription+"   "+ studyDateObject.toString()+"   "+ accessionNumber+"    "+studyId);
-            studys.add(newStudy);
+            String seriesDescription="N/A";
+            if(mainDicomTags.has("SeriesDescription")) { seriesDescription=mainDicomTags.get("SeriesDescription").getAsString(); }
+            String seriesNumber="N/A";
+            if(mainDicomTags.has("SeriesNumber")){ seriesNumber=mainDicomTags.get("SeriesNumber").getAsString(); }
+            JsonArray instances = serieData.get("Instances").getAsJsonArray();
+            Serie newSerie=new Serie(seriesDescription, seriesNumber, instances.size(), serieId);
+            //MainActivity.print(seriesDescription+"  "+ seriesNumber+"  "+instances.size()+"   "+serieId);
+            series.add(newSerie);
         }
         adapter.notifyDataSetChanged();
     }

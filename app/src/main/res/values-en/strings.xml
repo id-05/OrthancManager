@@ -176,6 +176,9 @@
     <string name="studyDate">Study Date</string>
     <string name="studyDescription">Study Description</string>
     <string name="accessionNumber">Accession number</string>
+    <string name="serieDescription">Serie description</string>
+    <string name="Instances">Instances</string>
+    <string name="serienum">Number</string>
     <string-array name="chooseOC">
         <item> <string name="chooseOChint">Choose OS</string> </item>
         <item>Linux</item>
