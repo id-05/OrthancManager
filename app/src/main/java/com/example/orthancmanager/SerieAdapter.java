@@ -57,7 +57,7 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.SerieViewHol
                 }
             });
         }catch (Exception e){
-            MainActivity.print("bindviewholder = "+e.toString());
+            //MainActivity.print("bindviewholder = "+e.toString());
         }
     }
 

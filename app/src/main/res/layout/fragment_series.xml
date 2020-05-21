@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/serieDescription"
-                    android:textSize="14sp" />
+                    android:textSize="18sp" />
             </FrameLayout>
 
             <FrameLayout
@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/Instances"
-                    android:textSize="14sp" />
+                    android:textSize="18sp" />
 
             </FrameLayout>
 
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="@string/serienum"
-                    android:textSize="14sp" />
+                    android:textSize="18sp" />
             </FrameLayout>
         </LinearLayout>
 

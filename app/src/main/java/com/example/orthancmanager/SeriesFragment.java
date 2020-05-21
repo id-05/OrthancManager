@@ -131,6 +131,7 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
             series.add(newSerie);
         }
         adapter.notifyDataSetChanged();
+        //ImageP
     }
 
     @Override
