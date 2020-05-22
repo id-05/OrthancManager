@@ -215,6 +215,26 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
     }
 
 
+    @Override
+    public void onBackPressed() {
+        switch (viewPager.getCurrentItem()){
+            case 0:
+                super.onBackPressed();
+                break;
+            case 1:
+                viewPager.setCurrentItem(0);
+                break;
+            case 2:
+                viewPager.setCurrentItem(1);
+                break;
+            case 3:
+                viewPager.setCurrentItem(2);
+                break;
+            default:
+                break;
+        }
+
+    }
 
     @Override
     public void onBegin() {
