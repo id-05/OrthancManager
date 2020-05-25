@@ -20,10 +20,38 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textName"
+            android:id="@+id/patientName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:text="TextView"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/patientSex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/patientBirth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/studyDescriptionView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/serieDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="TextView"
             android:textColor="#FFFFFF" />
 

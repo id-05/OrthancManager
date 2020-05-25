@@ -44,6 +44,11 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
     private String curIns;
     public int curIndexInst = 0;
     private TextView numberView;
+    private TextView patientName;
+    private TextView patientSex;
+    private TextView patientBirth;
+    private TextView studyDescription;
+    private TextView serieDescription;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -54,6 +59,11 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
         setContentView(R.layout.activity_dicom_viewer);
         getSupportActionBar().hide(); // Убрать ActionBar
         numberView = (TextView)findViewById(R.id.numberView);
+        patientName = (TextView)findViewById(R.id.patientName);
+        patientSex = (TextView)findViewById(R.id.patientSex);
+        patientBirth = (TextView)findViewById(R.id.patientBirth);
+        studyDescription = (TextView)findViewById(R.id.studyDescriptionView);
+        serieDescription = (TextView)findViewById(R.id.serieDescription);
         imageView = (ImageView)findViewById(R.id.imageView);
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -70,6 +80,13 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
 
     protected void showInstance(int i){
         curIns = instances.get(i).toString().replace("\"","");
+
+        patientName.setText(SeachFragment.prefs.getString("patientName", "0"));
+        patientSex.setText(SeachFragment.prefs.getString("patientSex", "0"));
+        patientBirth.setText(SeachFragment.prefs.getString("patientBirthDate", "0"));
+        studyDescription.setText(SeachFragment.prefs.getString("StudyDescription", "0"));
+        patientBirth.setText(SeachFragment.prefs.getString("patientBirthDate", "0"));
+        serieDescription.setText(SeachFragment.prefs.getString("serieDescription", "0"));
         numberView.setText((curIndexInst+1)+"/"+instances.size());
         getOrthancData(SeachFragment.server,"/instances/",curIns);
     }

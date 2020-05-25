@@ -80,32 +80,9 @@ public class Study {
         return patientOrthancId;
     }
 
-//    public ArrayList<Series> getSeries() {
-//        return childSeries;
-//    }
-
-//    public void setSeries(ArrayList<Serie> series) {
-//        childSeries=series;
-//    }
-
-//    public int numberOfSeries() {
-//        return childSeries.size();
-//    }
-
     public String getStudyInstanceUid() {
         return studyInstanceUID;
     }
-
-
-//    public void storeStudyStatistics(QueryOrthancData queryOrthanc) {
-//        int[] statistics=queryOrthanc.
-//                getStudyStatistics(
-//                        StudyOrthancId);
-//        this.statNbSeries=statistics[0];
-//        this.statNbInstance=statistics[1];
-//        this.statMbSize=statistics[2];
-//
-//    }
 
     public int getStatNbSeries() {
         return statNbSeries;
@@ -118,42 +95,6 @@ public class Study {
     public int getMbSize() {
         return statMbSize;
     }
-
-//    public void refreshChildSeries(QueryOrthancData queryOrthanc) {
-//        try {
-//            Study2 tempstudy = queryOrthanc.getStudyDetails(this.StudyOrthancId, true);
-//            this.setSeries(tempstudy.getSeries());
-//        } catch (Exception e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//            this.childSeries=new ArrayList<Serie>();
-//        }
-
-
-//    }
-
-//    public void deleteAllSc(OrthancRestApis connexion) {
-//        for (Serie serie : childSeries) {
-//            boolean sc=serie.isSecondaryCapture();
-//            if(sc) {
-//                connexion.makeDeleteConnection("/series/"+serie.getId());
-//            }
-//        }
-//
-//    }
-
-//    public ArrayList<String> getModalitiesInStudy() {
-//        ArrayList<String> modalities=new ArrayList<String>();
-//
-//        for (Serie serie : childSeries) {
-//            String modality=serie.getModality();
-//            if(!modalities.contains(modality)) {
-//                modalities.add(modality);
-//            }
-//        }
-//        return modalities;
-//    }
-
 
 }
 

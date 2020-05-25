@@ -51,6 +51,7 @@ public class StudyAdapter extends RecyclerView.Adapter<StudyAdapter.StudyViewHol
                 public void onClick(View view) {
                     Study bufStudy = studys.get(position);
                     SeachFragment.editor.putString("StudyOrthancID", bufStudy.StudyOrthancId.toString());
+                    SeachFragment.editor.putString("StudyDescription", bufStudy.studyDescription.toString());
                     SeachFragment.editor.commit();
                     StudyFragment.newClick = true;
                     ServerPanel.TabChange(3);

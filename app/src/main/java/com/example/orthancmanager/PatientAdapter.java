@@ -49,6 +49,9 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                 public void onClick(View view) {
                     Patient bufPatient = patients.get(position);
                     SeachFragment.editor.putString("PatientOrthancID", bufPatient.orthancID.toString());
+                    SeachFragment.editor.putString("patientName", bufPatient.name);
+                    SeachFragment.editor.putString("patientBirthDate", bufPatient.birthDate);
+                    SeachFragment.editor.putString("patientSex", bufPatient.sex);
                     SeachFragment.editor.commit();
                     PatientsFragment.newClick = true;
                     ServerPanel.TabChange(2);

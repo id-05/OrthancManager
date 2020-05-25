@@ -63,26 +63,13 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.SerieViewHol
                 @Override
                 public void onClick(View view) {
                     Serie bufSerie = series.get(position);
-                    //SeachFragment.editor.putString("SerieOrthancID", bufSerie.getId().toString());
-                    //SeachFragment.editor.commit();
-                    //MainActivity.print(bufSerie.getId());
-                    //Intent intent = new Intent(context,DicomViewer.class);
-                    //context.startActivity(intent);
-                    //intent.putExtra("SerieOrthancID",servers.get(i).getId());
-                    // if(servers.get(i).connect) {
-                    //      context.startActivity(intent);
-
-                    //  for(int i=0;i<bufSerie.getInstances().size();i++){
-                        JsonArray bufarray = bufSerie.getInstances();
-                        //MainActivity.print("instance = "+bufarray.get(0).toString().replace("\"",""));
-                        String buf = bufarray.get(0).toString().replace("\"","");
-                        //getOrthancData(SeachFragment.server,"/instances/",buf);
-                        //   }
-
+                    JsonArray bufarray = bufSerie.getInstances();
+                    //MainActivity.print("instance = "+bufarray.get(0).toString().replace("\"",""));
+                    String buf = bufarray.get(0).toString().replace("\"","");
                     SeachFragment.editor.putString("InstanceOrthancID", buf);
                     SeachFragment.editor.putString("InstancesOrthancID", bufarray.toString());
+                    SeachFragment.editor.putString("serieDescription", bufSerie.getSerieDescription());
                     SeachFragment.editor.commit();
-                    //MainActivity.print(bufSerie.getId());
                     try {
                         Intent intent = new Intent(context, DicomViewer.class);
                         context.startActivity(intent);

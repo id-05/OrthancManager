@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.orthancmanager.datastorage.Patient;
-import com.example.orthancmanager.settings.PeerAdapter;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -26,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 public class PatientsFragment extends Fragment {
 
@@ -128,7 +126,7 @@ public class PatientsFragment extends Fragment {
             }
 
             Study studyObj=new Study(studyDescription, studyDateObject, accessionNumber, studyId, patientName, patientId, patientDob, patientSex, parentPatientID, studyInstanceUid);
-
+            SeachFragment.editor.commit();
             if(!patientMap.containsKey(parentPatientID)) {
                 Patient patient=new Patient(patientName,patientId,patientBirthDate,patientSex,parentPatientID);
                     patient.addStudy(studyObj);
@@ -139,16 +137,6 @@ public class PatientsFragment extends Fragment {
             }
 
         }
-        ////
-//        Iterator<Map.Entry<String, Patient>> iterator = patientMap.entrySet().iterator();
-//
-//        while (iterator.hasNext())
-//        {
-//            Map.Entry<String, Patient> pair = iterator.next();
-//            String key = pair.getKey();
-//            Patient value = pair.getValue();
-//            MainActivity.print("value.orthancID = "+value.orthancID+"      "+value.patientId + " : " + value.name);
-//        }
         adapter.notifyDataSetChanged();
     }
 }
