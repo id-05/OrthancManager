@@ -57,7 +57,8 @@
         <item>Dcm4Chee</item>
         <item>Vitrea</item>
         <item>GE</item>
-    </string-array>>
+    </string-array>
+    >
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -173,7 +174,7 @@
     <string name="Advancedoptions">Advanced options</string>
     <string name="StableAge">Stable Age</string>
     <string name="StableAgesum">Number of seconds without receiving any instance before a patient, a study or a series is considered as stable</string>
-    <string name="StrictAetComparison">StrictAetComparison</string>
+    <string name="StrictAetComparison">Strict Aet Comparison</string>
     <string name="StrictAetComparisonsum">By default, Orthanc compares AET (Application Entity Titles) in a case-insensitive way. Setting this option to \"true\" will enable case-sensitive matching</string>
     <string name="StoreMD5ForAttachments">Store MD5 For Attachments</string>
     <string name="StoreMD5ForAttachmentssum">When the following option is \"true\", the MD5 of the DICOM files will be computed and stored in the Orthanc database. This information can be used to detect disk corruption, at the price of a small performance overhead</string>

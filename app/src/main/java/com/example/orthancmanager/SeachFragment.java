@@ -218,7 +218,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
             String modality =  modalities.toString();
             queryDetails.addProperty("Modality", modality);//"MR");
             query.add("Query", queryDetails);
-            MainActivity.print("query = "+query.toString());
+            //MainActivity.print("query = "+query.toString());
             getOrthancData(server,"/tools/find", query.toString());
             try {
                 statusImage.setVisibility(View.VISIBLE);

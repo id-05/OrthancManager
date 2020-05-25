@@ -38,7 +38,7 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
     private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
     ArrayList<Serie> series = new ArrayList<Serie>();
     public static Boolean newClick = false;
-    SerieAdapter adapter = new    SerieAdapter(series,getContext());
+    SerieAdapter adapter = new    SerieAdapter(series,this.getContext());
 
     @Nullable
     @Override
@@ -56,7 +56,7 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
         super.setMenuVisibility(menuVisible);
         if ((menuVisible)&(StudyFragment.newClick)) {
             String data = SeachFragment.prefs.getString("StudyOrthancID", "0");
-            MainActivity.print("StudyOrthancID = "+data);
+            //MainActivity.print("StudyOrthancID = "+data);
             getOrthancData(SeachFragment.server,"/studies/",data);
             StudyFragment.newClick = false;
         }
@@ -111,7 +111,7 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
-        MainActivity.print("data = "+data);
+        //MainActivity.print("data = "+data);
         JsonArray seriesA=(JsonArray) parserJson.parse(data);
         Iterator<JsonElement> seriesIterator=seriesA.iterator();
         series.clear();
@@ -126,7 +126,7 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
             String seriesNumber="N/A";
             if(mainDicomTags.has("SeriesNumber")){ seriesNumber=mainDicomTags.get("SeriesNumber").getAsString(); }
             JsonArray instances = serieData.get("Instances").getAsJsonArray();
-            Serie newSerie=new Serie(seriesDescription, seriesNumber, instances.size(), serieId);
+            Serie newSerie=new Serie(seriesDescription, seriesNumber, instances, instances.size(), serieId);
             //MainActivity.print(seriesDescription+"  "+ seriesNumber+"  "+instances.size()+"   "+serieId);
             series.add(newSerie);
         }

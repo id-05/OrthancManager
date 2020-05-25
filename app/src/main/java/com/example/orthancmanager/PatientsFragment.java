@@ -55,7 +55,7 @@ public class PatientsFragment extends Fragment {
         super.setMenuVisibility(menuVisible);
         if ((menuVisible)&(SeachFragment.newSeach)) {
             String data = prefs.getString("SeachResult", "*");
-            MainActivity.print("data = "+data);
+            //MainActivity.print("data = "+data);
             SeachFragment.newSeach = false;
             getPatientsFromJson(data);
         }

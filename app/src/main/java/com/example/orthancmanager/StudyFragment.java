@@ -61,7 +61,7 @@ public class StudyFragment extends Fragment implements ConnectionCallback {
         super.setMenuVisibility(menuVisible);
         if ((menuVisible)&(PatientsFragment.newClick)) {
             String data = SeachFragment.prefs.getString("PatientOrthancID", "0");
-            MainActivity.print("PatientOrthancID = "+data);
+            //MainActivity.print("PatientOrthancID = "+data);
             getOrthancData(SeachFragment.server,"/patients/",data);
             PatientsFragment.newClick = false;
         }
@@ -114,7 +114,7 @@ public class StudyFragment extends Fragment implements ConnectionCallback {
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
-        MainActivity.print("Studyresult = "+data);
+        //MainActivity.print("Studyresult = "+data);
 
         JsonArray studies=(JsonArray) parserJson.parse(data);
         Iterator<JsonElement> studiesIterator=studies.iterator();

@@ -1,5 +1,7 @@
 package com.example.orthancmanager;
 
+import com.google.gson.JsonArray;
+
 import java.util.ArrayList;
 
 public class Serie {
@@ -14,6 +16,16 @@ public class Serie {
     private String sopClassUid;
     private boolean secondaryCapture;
 
+    public JsonArray getInstances() {
+        return instances;
+    }
+
+    public void setInstances(JsonArray instances) {
+        this.instances = instances;
+    }
+
+    private JsonArray instances;
+
     public Serie(String serieDescription, String modality, int nbInstances,
                  String id, String studyOrthancId, String firstInstanceId, String seriesNumber, String sopClassUid){
         this.serieDescription = serieDescription;
@@ -27,8 +39,9 @@ public class Serie {
         checkIsSecondaryCapture();
     }
 
-    public Serie(String seriesDescription, String seriesNumber, int size, String serieId) {
+    public Serie(String seriesDescription, String seriesNumber, JsonArray instances, int size, String serieId) {
         this.serieDescription = seriesDescription;
+        this.instances = instances;
         this.nbInstances = size;
         this.id = serieId;
         this.seriesNumber=seriesNumber;
