@@ -14,6 +14,7 @@ import android.annotation.SuppressLint;
 //import android.support.v4.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
@@ -47,10 +48,12 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
     //ServerPanelViewer frag1;
     //ServerPanelSetting frag2;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_server_panel);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         TabItem tabView = findViewById(R.id.tabItem1);
         TabItem tabSettings = findViewById(R.id.tabItem2);

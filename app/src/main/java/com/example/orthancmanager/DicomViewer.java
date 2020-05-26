@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.orthancmanager.datastorage.OrthancServer;
@@ -33,8 +35,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class DicomViewer extends AppCompatActivity implements ConnectionCallback {
 
     private ArrayList<Serie> series = new ArrayList<Serie>();
+    private ArrayList<Bitmap> images = new ArrayList<Bitmap>();
     private JsonParser parser=new JsonParser();
     private HttpURLConnection urlCon;
+    HttpURLConnection connection;
     private  String instanceid;
     private ImageView imageView;
     private Bitmap bitmap;
@@ -49,8 +53,11 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
     private TextView patientBirth;
     private TextView studyDescription;
     private TextView serieDescription;
+    private SeekBar seekBar;
+    private int currentPosition;
+    private Boolean loadComplite = false;
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint({"ClickableViewAccessibility", "SourceLockedOrientationActivity"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +65,7 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
 
         setContentView(R.layout.activity_dicom_viewer);
         getSupportActionBar().hide(); // Убрать ActionBar
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         numberView = (TextView)findViewById(R.id.numberView);
         patientName = (TextView)findViewById(R.id.patientName);
         patientSex = (TextView)findViewById(R.id.patientSex);
@@ -76,6 +84,35 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
         buf = SeachFragment.prefs.getString("InstancesOrthancID", "0");
         instances=(JsonArray) parserJson.parse(buf);
         curIns = instances.get(0).toString().replace("\"","");
+        seekBar = (SeekBar)findViewById(R.id.seekBar);
+        seekBar.setMax(instances.size());
+        seekBar.setProgress(0);
+        currentPosition = 0;
+        seekBar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return !loadComplite;
+            }
+        });
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if((progress!=0)&(loadComplite)) {
+                    imageView.setImageBitmap(images.get(progress - 1));
+                    numberView.setText((progress)+"/"+instances.size());
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     protected void showInstance(int i){
@@ -94,7 +131,33 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
     @Override
     protected void onResume() {
         super.onResume();
-        showInstance(0);
+        //showInstance(0);
+        patientName.setText(SeachFragment.prefs.getString("patientName", "0"));
+        patientSex.setText(SeachFragment.prefs.getString("patientSex", "0"));
+        patientBirth.setText(SeachFragment.prefs.getString("patientBirthDate", "0"));
+        studyDescription.setText(SeachFragment.prefs.getString("StudyDescription", "0"));
+        patientBirth.setText(SeachFragment.prefs.getString("patientBirthDate", "0"));
+        serieDescription.setText(SeachFragment.prefs.getString("serieDescription", "0"));
+
+        currentPosition = 0;
+        for(int i=0;i<instances.size();i++){
+            MainActivity.print("start request = "+String.valueOf(i));
+            getOrthancData(SeachFragment.server,"/instances/",instances.get(i).toString().replace("\"",""));
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        images.clear();
+        currentPosition = 0;
+        connection.disconnect();
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.finish();
     }
 
     private void getOrthancData(final OrthancServer server, final String tool, final String param) {
@@ -111,7 +174,7 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
                     String fulladdress = "http://"+server.ipaddress+":"+server.port;
                     URL url = new URL(fulladdress+tool+param+"/preview");
                     //MainActivity.print("url = "+url.toString());
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
                     connection.setRequestProperty("Authorization", "Basic "+base64);
                     connection.setRequestProperty("Accept", "image/png");
@@ -147,8 +210,16 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
-        //MainActivity.print("data dicom = "+data);
-        imageView.setImageBitmap(bitmap);
+        if(!this.isFinishing()) {
+            images.add(bitmap);
+            currentPosition++;
+            seekBar.setProgress(currentPosition);
+            imageView.setImageBitmap(bitmap);
+            numberView.setText((currentPosition) + "/" + instances.size());
+            MainActivity.print(String.valueOf(currentPosition));
+            if (currentPosition == instances.size()) {
+                loadComplite = true; }
+        }
     }
 
     @Override

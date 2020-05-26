@@ -169,7 +169,7 @@
     <string name="savechange">Сохранено успешно</string>
     <string name="connectionSettings">Настройки соединения</string>
     <string name="editConServer">Edit server</string>
-    <string name="mainSettings">Настиройки</string>
+    <string name="mainSettings">Настройки</string>
     <string name="patientid">" Patient ID"</string>
     <string name="patientname">Patient Name</string>
     <string name="studyDate">Study Date</string>
