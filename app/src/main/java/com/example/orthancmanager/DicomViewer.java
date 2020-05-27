@@ -2,7 +2,6 @@ package com.example.orthancmanager;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -17,35 +16,26 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
 import com.example.orthancmanager.datastorage.OrthancServer;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
-
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class DicomViewer extends AppCompatActivity implements ConnectionCallback {
 
-    private ArrayList<Serie> series = new ArrayList<Serie>();
     private ArrayList<Bitmap> images = new ArrayList<Bitmap>();
-    private JsonParser parser=new JsonParser();
-    private HttpURLConnection urlCon;
     HttpURLConnection connection;
-    private  String instanceid;
     private ImageView imageView;
     private Bitmap bitmap;
-    private String buf;
     private JsonArray instances;
     JsonParser parserJson = new JsonParser();
-    private String curIns;
     public int curIndexInst = 0;
     private TextView numberView;
     private TextView patientName;
@@ -57,14 +47,14 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
     private int currentPosition;
     private Boolean loadComplite = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint({"ClickableViewAccessibility", "SourceLockedOrientationActivity"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final GestureDetector gdt = new GestureDetector(new GestureListener());
-
         setContentView(R.layout.activity_dicom_viewer);
-        getSupportActionBar().hide(); // Убрать ActionBar
+        Objects.requireNonNull(getSupportActionBar()).hide();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         numberView = (TextView)findViewById(R.id.numberView);
         patientName = (TextView)findViewById(R.id.patientName);
@@ -80,10 +70,8 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
                 return true;
             }
         });
-        instanceid = SeachFragment.prefs.getString("InstanceOrthancID", "0");
-        buf = SeachFragment.prefs.getString("InstancesOrthancID", "0");
+        String buf = SeachFragment.prefs.getString("InstancesOrthancID", "0");
         instances=(JsonArray) parserJson.parse(buf);
-        curIns = instances.get(0).toString().replace("\"","");
         seekBar = (SeekBar)findViewById(R.id.seekBar);
         seekBar.setMax(instances.size());
         seekBar.setProgress(0);
@@ -95,6 +83,7 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
             }
         });
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if((progress!=0)&(loadComplite)) {
@@ -116,48 +105,20 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
     }
 
     protected void showInstance(int i){
-        curIns = instances.get(i).toString().replace("\"","");
-
-        patientName.setText(SeachFragment.prefs.getString("patientName", "0"));
-        patientSex.setText(SeachFragment.prefs.getString("patientSex", "0"));
-        patientBirth.setText(SeachFragment.prefs.getString("patientBirthDate", "0"));
-        studyDescription.setText(SeachFragment.prefs.getString("StudyDescription", "0"));
-        patientBirth.setText(SeachFragment.prefs.getString("patientBirthDate", "0"));
-        serieDescription.setText(SeachFragment.prefs.getString("serieDescription", "0"));
-        numberView.setText((curIndexInst+1)+"/"+instances.size());
-        getOrthancData(SeachFragment.server,"/instances/",curIns);
+        imageView.setImageBitmap(images.get(i));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //showInstance(0);
         patientName.setText(SeachFragment.prefs.getString("patientName", "0"));
         patientSex.setText(SeachFragment.prefs.getString("patientSex", "0"));
         patientBirth.setText(SeachFragment.prefs.getString("patientBirthDate", "0"));
         studyDescription.setText(SeachFragment.prefs.getString("StudyDescription", "0"));
         patientBirth.setText(SeachFragment.prefs.getString("patientBirthDate", "0"));
         serieDescription.setText(SeachFragment.prefs.getString("serieDescription", "0"));
-
         currentPosition = 0;
-        for(int i=0;i<instances.size();i++){
-            MainActivity.print("start request = "+String.valueOf(i));
-            getOrthancData(SeachFragment.server,"/instances/",instances.get(i).toString().replace("\"",""));
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        images.clear();
-        currentPosition = 0;
-        connection.disconnect();
-        finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.finish();
+        getOrthancData(SeachFragment.server,"/instances/",instances.get(currentPosition).toString().replace("\"",""));
     }
 
     private void getOrthancData(final OrthancServer server, final String tool, final String param) {
@@ -173,7 +134,6 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
                 try {
                     String fulladdress = "http://"+server.ipaddress+":"+server.port;
                     URL url = new URL(fulladdress+tool+param+"/preview");
-                    //MainActivity.print("url = "+url.toString());
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
                     connection.setRequestProperty("Authorization", "Basic "+base64);
@@ -184,7 +144,6 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
                     int responseCode=connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
                         result = connection.toString();
-                        urlCon = connection;
                         InputStream in = null;
                         try {
                             in = connection.getInputStream();
@@ -192,9 +151,7 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
                             MainActivity.print(e.toString());
                         }
                         bitmap = BitmapFactory.decodeStream(in);
-                        //     BufferedImage bi = ImageIO.read( connexion.openImage(uri));
                     }
-                    //connection.disconnect();
                 }catch (Exception e) {
                     MainActivity.print("error study :"+e.toString());
                 }
@@ -208,6 +165,7 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
         if(!this.isFinishing()) {
@@ -216,7 +174,9 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
             seekBar.setProgress(currentPosition);
             imageView.setImageBitmap(bitmap);
             numberView.setText((currentPosition) + "/" + instances.size());
-            MainActivity.print(String.valueOf(currentPosition));
+            if(currentPosition<instances.size()) {
+                getOrthancData(SeachFragment.server, "/instances/", instances.get(currentPosition).toString().replace("\"", ""));
+            }
             if (currentPosition == instances.size()) {
                 loadComplite = true; }
         }
@@ -241,14 +201,12 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
             if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 if(curIndexInst<(instances.size()-1)){
                     curIndexInst++;
-                    //MainActivity.print("справа налево"+curIndexInst);
                     showInstance(curIndexInst);
                 }
                 return false; // справа налево
             }  else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 if(curIndexInst>0){
                     curIndexInst--;
-                    //MainActivity.print("слева направо"+curIndexInst);
                     showInstance(curIndexInst);
                 }
                 return false; // слева направо

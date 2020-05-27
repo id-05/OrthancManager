@@ -1,38 +1,25 @@
 package com.example.orthancmanager;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Build;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.datastorage.Serie;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
-
-public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.SerieViewHolder> implements  ConnectionCallback{
+public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.SerieViewHolder> {
 
     private Context context;
     private ArrayList<Serie> series = new ArrayList<Serie>();
-    private JsonParser parser=new JsonParser();
-    private HttpURLConnection urlCon;
 
     public SerieAdapter(ArrayList<Serie> series, Context context) {
         this.series = series;
-       // this.context = context;
     }
 
     @Override
@@ -64,7 +51,6 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.SerieViewHol
                 public void onClick(View view) {
                     Serie bufSerie = series.get(position);
                     JsonArray bufarray = bufSerie.getInstances();
-                    //MainActivity.print("instance = "+bufarray.get(0).toString().replace("\"",""));
                     String buf = bufarray.get(0).toString().replace("\"","");
                     SeachFragment.editor.putString("InstanceOrthancID", buf);
                     SeachFragment.editor.putString("InstancesOrthancID", bufarray.toString());
@@ -74,7 +60,7 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.SerieViewHol
                         Intent intent = new Intent(context, DicomViewer.class);
                         context.startActivity(intent);
                     }catch (Exception e){
-                        MainActivity.print("error dicom= "+e.toString());
+                        MainActivity.print("error serieadapter= "+e.toString());
                     }
                 }
             });
@@ -83,70 +69,12 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.SerieViewHol
         }
     }
 
-    private void getOrthancData(final OrthancServer server, final String tool, final String param) {
-        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, String> execute = new AbstractAsyncWorker<String>(this, server, param) {
-            @SuppressLint("StaticFieldLeak")
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            protected String doAction() throws Exception {
-                String result = null;
-                String auth =new String(server.login + ":" + server.password);
-                byte[] data1 = auth.getBytes(UTF_8);
-                String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
-                try {
-                    String fulladdress = "http://"+server.ipaddress+":"+server.port;
-                    URL url = new URL(fulladdress+tool+param+"/preview");
-                    //MainActivity.print("url = "+url.toString());
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setDoInput(true);
-                    connection.setRequestProperty("Authorization", "Basic "+base64);
-                    connection.setRequestProperty("Accept", "image/png");
-                    connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(10000);
-                    connection.connect();
-                    int responseCode=connection.getResponseCode();
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        result = connection.toString();
-                        urlCon = connection;
-                   //     BufferedImage bi = ImageIO.read( connexion.openImage(uri));
-                    }
-                    connection.disconnect();
-                }catch (Exception e) {
-                    MainActivity.print("error study :"+e.toString());
-                }
-                return result;
-            }
-        }.execute();
-    }
-
-
     @Override
     public int getItemCount() {
         return series.size();
     }
 
-    @Override
-    public void onBegin() {
-
-    }
-
-    @Override
-    public void onSuccess(String data, OrthancServer server, String param) {
-        //MainActivity.print("data = "+data);
-    }
-
-    @Override
-    public void onFailure(Throwable t) {
-
-    }
-
-    @Override
-    public void onEnd() {
-
-    }
-
     public class SerieViewHolder extends RecyclerView.ViewHolder {
-
         TextView serieDescription;
         TextView serieNumber;
         TextView Instances;

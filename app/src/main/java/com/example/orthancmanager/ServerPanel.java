@@ -2,17 +2,8 @@ package com.example.orthancmanager;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-//import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
-
 import android.annotation.SuppressLint;
-//import android.app.FragmentTransaction;
-//import android.app.FragmentTransaction;
-//import android.app.Fragment;
-
-//import android.support.v4.app.FragmentManager;
-//import android.support.v4.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -22,31 +13,26 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.example.orthancmanager.datastorage.OrthancServer;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import static com.example.orthancmanager.MainActivity.dbHelper;
 import static com.example.orthancmanager.MainActivity.print;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ServerPanel extends AppCompatActivity implements ConnectionCallback{
 
-    String selection = null;
-    String[] selectionArgs = null;
+    //String selection = null;
+    //String[] selectionArgs = null;
     int id;
     OrthancServer server = new OrthancServer();
     public String jsonSetting;
     public static ViewPager viewPager;
-    //ServerPanelViewer frag1;
-    //ServerPanelSetting frag2;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -151,6 +137,7 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
         //ft.commit();
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void getOrthancSettings(final OrthancServer server, final String param) {
         new AbstractAsyncWorker<String>(this,server,param) {
             @SuppressLint("StaticFieldLeak")
@@ -170,9 +157,7 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Authorization", "Basic "+base64);
-                    //connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("Content-Length",  String.valueOf(fulladdress+urlParameters));
-                    //connection.setRequestProperty("Accept", "application/json");
                     connection.setConnectTimeout(10000);
                     connection.setRequestMethod("POST");
                     connection.connect();
@@ -180,18 +165,14 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
                     os.write(urlParameters.getBytes());
                     int responseCode=connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        //Read
                         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
                         String line = null;
                         StringBuilder sb = new StringBuilder();
                         while ((line = bufferedReader.readLine()) != null) {
-                            //MainActivity.print(line);
-                           // if(truestring(line))
                             {
                                 int i = line.indexOf("}");
                                 if(i!= -1){
                                     if (((i == (line.length()-1))&(i!=0))) {
-                                       // sb.append(line + ","); //??????????????
                                         sb.append(line);
                                     }else
                                     {
@@ -205,7 +186,7 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
                         bufferedReader.close();
                         result = sb.toString();
                     }else {
-                        MainActivity.print( "eRROR1 =  "+responseCode);
+                        MainActivity.print( "error on server panel =  "+responseCode);
                     }
                     os.close();
                 }catch (Exception e) {
@@ -246,14 +227,7 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
-        /////////////01.05.2020
-        try {
             jsonSetting = data;
-            //MainActivity.print("data = " + data);
-            }catch (Exception e){
-                MainActivity.print(e.toString());//JsonParser parser = new JsonParser();
-            }
-
     }
 
     @Override

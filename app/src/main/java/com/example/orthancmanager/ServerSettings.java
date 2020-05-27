@@ -1,8 +1,6 @@
 package com.example.orthancmanager;
 
 import android.annotation.SuppressLint;
-//import android.content.SharedPreferences;
-//import android.content.SharedPreferences;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,22 +12,16 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-//import android.preference.PreferenceManager;
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-//import androidx.preference.PreferenceManager;
-
 import com.example.orthancmanager.datastorage.OrthancServer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import static com.example.orthancmanager.MainActivity.dbHelper;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -45,6 +37,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,15 +71,10 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                 server.TotalDiskSizeMB = (cursor.getInt(cursor.getColumnIndex("totaldisksizemb")));
             }
             cursor.close();
-           // server = MainActivity.getServerById(id);
             modeCallback = 1;
-//            String urlParameters = "f = io.open(\"/\\etc\\/orthanc\\/orthanc.json\",\"r+\");" +
-//                        "print(f:read(\"*a\"))"+
-//                        "f:close()";
             String urlParameters = "f = io.open(\""+ ModifyStr(server.pathToJson) +"orthanc.json\",\"r+\");" +
                     "print(f:read(\"*a\"))"+
                     "f:close()";
-            //MainActivity.print("urlParameters  "+urlParameters);
             getOrthancSettings(server,"/tools/execute-script",urlParameters);
         }catch (Exception e){
             MainActivity.print("error db serversettings = "+ e);
@@ -106,23 +94,20 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             case R.id.resetserver: {
                 modeCallback = 3;
                 getOrthancSettings(server,"/tools/reset","");
-                Toast toast = Toast.makeText(ServerSettings.this, R.string.resetserver, Toast.LENGTH_SHORT); toast.show();
                 return true;
             }
 
             case R.id.savesettings: {
-                //MainActivity.print(prefs.getString("TransferSyntax","none"));
                 modeCallback = 2;
                 SaveSettings();
-                Toast toast = Toast.makeText(ServerSettings.this, R.string.savechange, Toast.LENGTH_SHORT); toast.show();
                 return true;
             }
-
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void getOrthancSettings(final OrthancServer server, final String tool, final String param) {
         new AbstractAsyncWorker<String>(this,server,param) {
             @SuppressLint("StaticFieldLeak")
@@ -156,7 +141,6 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                                 int i = line.indexOf("}");
                                 if(i!= -1){
                                     if ((i == (line.length()-1)&(i!=0))) {
-                                        //sb.append(line + ",");
                                         sb.append(line);
                                     }else
                                     {
@@ -176,7 +160,6 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                 }catch (Exception e) {
                     MainActivity.print("error get thread :"+e.toString());
                 }
-
                 return result;
             }
         }.execute();
@@ -226,8 +209,6 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
        switch (modeCallback){
            case 1:
            {
-               //MainActivity.print("serversetting!  "+data);
-               //read
                try {
                    JsonSettings json = new JsonSettings(data);
                    editor.putString("orthancName", json.orthancName);
@@ -313,14 +294,14 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                break;
            case 2:
            {
-               //write
-               //MainActivity.print("saved sucsess!  "+data);
                modeCallback = 0;
+               Toast toast = Toast.makeText(ServerSettings.this, R.string.savechange, Toast.LENGTH_SHORT); toast.show();
            }
            break;
            case 3:
            {
                modeCallback = 0;
+               Toast toast = Toast.makeText(ServerSettings.this, R.string.resetserver, Toast.LENGTH_SHORT); toast.show();
            }
            break;
            default:
@@ -355,7 +336,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             boolean Mpeg2TransferSyntaxAccepted=false;
             boolean RleTransferSyntaxAccepted=false;
             JsonParser parser = new JsonParser();
-            JsonObject orthancJson=new JsonObject();
+            JsonObject orthancJson = new JsonObject();
             orthancJson = parser.parse(prefs.getString("TransferSyntax", "none")).getAsJsonObject();
             if (orthancJson.has("DeflatedTransfer")) DeflatedTransferSyntaxAccepted=orthancJson.get("DeflatedTransfer").getAsBoolean();
             if (orthancJson.has("JpegTransfer")) JpegTransferSyntaxAccepted=orthancJson.get("JpegTransfer").getAsBoolean();
@@ -420,18 +401,11 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             jsonOb.addProperty("OverwriteInstances", prefs.getBoolean("OverwriteInstances", false));
             jsonOb.addProperty("MediaArchiveSize", Integer.valueOf(prefs.getString("MediaArchiveSize", "0")));
             String modifyStr = ModifyStr(jsonOb.toString());
-            //MainActivity.print("ModifyStr = "+modifyStr);
-
-//            String urlParameters = "f = io.open(\"/\\etc\\/orthanc\\/orthanc.json\",\"w+\");" +
-//                    "f:write(\""+modifyStr+"\"); "+
-//                    "f:close()";
-
             String urlParameters = "f = io.open(\""+ ModifyStr(server.pathToJson) +"orthanc.json\",\"w+\");" +
                     "f:write(\""+modifyStr+"\"); "+
                     "f:close()";
 
             getOrthancSettings(server,"/tools/execute-script",urlParameters);
-            //MainActivity.print(jsonOb.toString());
         }catch (Exception e){
             MainActivity.print("Error save json ="+e.toString());
         }

@@ -11,11 +11,8 @@ package com.example.orthancmanager.settings;
         import android.widget.ImageView;
         import androidx.recyclerview.widget.LinearLayoutManager;
         import androidx.recyclerview.widget.RecyclerView;
-
         import com.example.orthancmanager.MainActivity;
         import com.example.orthancmanager.R;
-        import com.example.orthancmanager.settings.Peer;
-        import com.example.orthancmanager.settings.PeerAdapter;
         import com.google.gson.JsonArray;
         import com.google.gson.JsonObject;
         import com.google.gson.JsonParser;
@@ -25,8 +22,8 @@ package com.example.orthancmanager.settings;
 public class PeerDialogPreference extends DialogPreference
 {
     private String jsonStr;
-    static ArrayList<Peer> peers = new ArrayList<Peer>();
-    Object[] jsonkeys;
+    private static ArrayList<Peer> peers = new ArrayList<Peer>();
+    private Object[] jsonkeys;
 
     public PeerDialogPreference(Context context, AttributeSet attrs)
     {
@@ -110,16 +107,16 @@ public class PeerDialogPreference extends DialogPreference
         }
     }
 
-    public static void delItem(int i){
+    static void delItem(int i){
         peers.remove(i);
     }
 
-    public String getValue()
+    private String getValue()
     {
         return jsonStr;
     }
 
-    public void setValue(String value)
+    private void setValue(String value)
     {
         jsonStr = value;
         persistString(value);
@@ -144,7 +141,6 @@ public class PeerDialogPreference extends DialogPreference
                     jsonObj.add(node.mName, arrayJSON);
                 }
                 setValue(jsonObj.toString());
-                //MainActivity.print(jsonObj.toString());
             }catch (Exception e){
                 MainActivity.print(e.toString());
             }
@@ -155,10 +151,7 @@ public class PeerDialogPreference extends DialogPreference
     @Override
     protected Parcelable onSaveInstanceState()
     {
-        // save the instance state so that it will survive screen orientation changes and other events that may temporarily destroy it
         final Parcelable superState = super.onSaveInstanceState();
-
-        // set the state's value with the class member that holds current setting value
         final SavedState myState = new SavedState(superState);
         myState.value = getValue();
         return myState;
@@ -167,18 +160,13 @@ public class PeerDialogPreference extends DialogPreference
     @Override
     protected void onRestoreInstanceState(Parcelable state)
     {
-        // check whether we saved the state in onSaveInstanceState()
         if (state == null || !state.getClass().equals(SavedState.class))
         {
-            // didn't save the state, so call superclass
             super.onRestoreInstanceState(state);
             return;
         }
-
-        // restore the state
         SavedState myState = (SavedState) state;
         setValue(myState.value);
-
         super.onRestoreInstanceState(myState.getSuperState());
     }
 
@@ -186,12 +174,11 @@ public class PeerDialogPreference extends DialogPreference
     {
         String value;
 
-        public SavedState(Parcelable superState)
+        SavedState(Parcelable superState)
         {
             super(superState);
         }
-
-        public SavedState(Parcel source)
+        SavedState(Parcel source)
         {
             super(source);
             value = source.readString();

@@ -4,98 +4,80 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.io.File;
-
 public class JsonSettings {
 
-    public JsonObject index = new JsonObject();
-    // JsonObject des AET
+    //public JsonObject index = new JsonObject();
     JsonObject dicomNode=new JsonObject();
-    // JsonObject des orthancPeer
     JsonObject orthancPeer=new JsonObject();
-    // JsonObject des contentType
     JsonObject contentType=new JsonObject();
-    // JsonObject des dictionary
-    public JsonObject dictionary=new JsonObject();
-    // Array des Lua folder
-    public JsonArray luaFolder=new JsonArray();
-    //Array des plugin folder
-    protected JsonArray pluginsFolder=new JsonArray();
-
-    // Object pour les users
-    protected JsonObject users =new JsonObject();
-
-    //Object pour les metadata
-    protected JsonObject userMetadata=new JsonObject();
-
-    // A modifier via des setteurs
+    JsonObject dictionary=new JsonObject();
+    private JsonArray luaFolder=new JsonArray();
+    private JsonArray pluginsFolder=new JsonArray();
+    JsonObject users =new JsonObject();
+    JsonObject userMetadata=new JsonObject();
     String orthancName;
-    protected String storageDirectory;
-    protected String indexDirectory;
-    protected boolean StorageCompression;
-    protected int MaximumStorageSize;
-    protected int MaximumPatientCount;
-    protected boolean HttpServerEnabled;
-    protected int HttpPort;
-    protected boolean HttpDescribeErrors;
-    protected boolean HttpCompressionEnabled;
-    protected boolean DicomServerEnabled;
-    protected String DicomAet;
-    protected boolean DicomCheckCalledAet;
-    protected int DicomPort;
-    protected String DefaultEncoding;
-    protected boolean DeflatedTransferSyntaxAccepted;
-    protected boolean JpegTransferSyntaxAccepted;
-    protected boolean Jpeg2000TransferSyntaxAccepted;
-    protected boolean JpegLosslessTransferSyntaxAccepted;
-    protected boolean JpipTransferSyntaxAccepted;
-    protected boolean Mpeg2TransferSyntaxAccepted;
-    protected boolean RleTransferSyntaxAccepted;
-    protected boolean UnknownSopClassAccepted;
-    protected int DicomScpTimeout;
-    protected boolean RemoteAccessAllowed;
-    protected boolean SslEnabled;
-    protected String SslCertificate;
-    protected boolean AuthenticationEnabled;
-    protected int DicomScuTimeout;
-    protected String HttpProxy;
-    protected int HttpTimeout;
-    protected boolean HttpsVerifyPeers;
-    protected String HttpsCACertificates;
-    protected int StableAge;
-    protected boolean StrictAetComparison;
-    protected boolean StoreMD5ForAttachments;
-    protected int LimitFindResults;
-    protected int LimitFindInstances;
-    protected int LimitJobs;
-    protected boolean LogExportedResources;
-    protected boolean KeepAlive;
-    protected boolean StoreDicom;
-    protected int DicomAssociationCloseDelay;
-    protected int QueryRetrieveSize;
-    protected boolean CaseSensitivePN;
-    protected boolean LoadPrivateDictionary;
-    protected boolean dicomAlwaysAllowEcho;
-    protected boolean DicomAlwaysStore;
-    protected boolean CheckModalityHost;
-    protected boolean SynchronousCMove;
-    protected int JobsHistorySize;
-    protected int ConcurrentJobs;
-
-
-
-    protected boolean dicomModalitiesInDb;
-    protected boolean orthancPeerInDb;
-    protected boolean overwriteInstances;
-    protected int mediaArchiveSize;
-    protected String storageAccessOnFind;
-
-    protected boolean httpVerbose;
-    protected boolean tcpNoDelay;
-    protected int httpThreadsCount;
-    protected boolean saveJobs;
-    protected boolean metricsEnabled;
-    protected boolean AllowFindSopClassesInStudy;
+    String storageDirectory;
+    String indexDirectory;
+    boolean StorageCompression;
+    int MaximumStorageSize;
+    int MaximumPatientCount;
+    boolean HttpServerEnabled;
+    int HttpPort;
+    boolean HttpDescribeErrors;
+    boolean HttpCompressionEnabled;
+    boolean DicomServerEnabled;
+    String DicomAet;
+    boolean DicomCheckCalledAet;
+    int DicomPort;
+    String DefaultEncoding;
+    boolean DeflatedTransferSyntaxAccepted;
+    boolean JpegTransferSyntaxAccepted;
+    boolean Jpeg2000TransferSyntaxAccepted;
+    boolean JpegLosslessTransferSyntaxAccepted;
+    boolean JpipTransferSyntaxAccepted;
+    boolean Mpeg2TransferSyntaxAccepted;
+    boolean RleTransferSyntaxAccepted;
+    boolean UnknownSopClassAccepted;
+    int DicomScpTimeout;
+    boolean RemoteAccessAllowed;
+    boolean SslEnabled;
+    String SslCertificate;
+    boolean AuthenticationEnabled;
+    int DicomScuTimeout;
+    String HttpProxy;
+    int HttpTimeout;
+    boolean HttpsVerifyPeers;
+    String HttpsCACertificates;
+    int StableAge;
+    boolean StrictAetComparison;
+    boolean StoreMD5ForAttachments;
+    int LimitFindResults;
+    int LimitFindInstances;
+    int LimitJobs;
+    boolean LogExportedResources;
+    boolean KeepAlive;
+    boolean StoreDicom;
+    int DicomAssociationCloseDelay;
+    int QueryRetrieveSize;
+    boolean CaseSensitivePN;
+    boolean LoadPrivateDictionary;
+    boolean dicomAlwaysAllowEcho;
+    boolean DicomAlwaysStore;
+    boolean CheckModalityHost;
+    boolean SynchronousCMove;
+    int JobsHistorySize;
+    int ConcurrentJobs;
+    boolean dicomModalitiesInDb;
+    boolean orthancPeerInDb;
+    boolean overwriteInstances;
+    int mediaArchiveSize;
+    String storageAccessOnFind;
+    boolean httpVerbose;
+    boolean tcpNoDelay;
+    int httpThreadsCount;
+    boolean saveJobs;
+    boolean metricsEnabled;
+    boolean AllowFindSopClassesInStudy;
 
 
     JsonSettings(String data) {
@@ -169,34 +151,13 @@ public class JsonSettings {
         if (orthancJson.has("HttpThreadsCount")) httpThreadsCount=orthancJson.get("HttpThreadsCount").getAsInt();
         if (orthancJson.has("SaveJobs")) saveJobs=orthancJson.get("SaveJobs").getAsBoolean();
         if (orthancJson.has("MetricsEnabled")) metricsEnabled=orthancJson.get("MetricsEnabled").getAsBoolean();
-
-
-
-        //On recupere les autres objet JSON dans le JSON principal
-        //on recupere les AET declares par un nouveau parser
         if (orthancJson.has("DicomModalities")) dicomNode= orthancJson.get("DicomModalities").getAsJsonObject();
-
-        //On recupere les users
         if (orthancJson.has("RegisteredUsers")) users= orthancJson.get("RegisteredUsers").getAsJsonObject();
-
-        // On recupere les Lua scripts
         if (orthancJson.has("LuaScripts")) luaFolder= orthancJson.get("LuaScripts").getAsJsonArray();
-
-        // On recupere les plugins
         if (orthancJson.has("Plugins")) pluginsFolder= orthancJson.get("Plugins").getAsJsonArray();
-
-        //On recupere les metadata
         if (orthancJson.has("UserMetadata")) userMetadata= orthancJson.get("UserMetadata").getAsJsonObject();
-
-        // On recupere les dictionnary
         if (orthancJson.has("Dictionary")) dictionary= orthancJson.get("Dictionary").getAsJsonObject();
-
-        // On recupere les Content
         if (orthancJson.has("UserContentType")) contentType= orthancJson.get("UserContentType").getAsJsonObject();
-
-        // On recupere les Peer
-        if (orthancJson.has("OrthancPeers")) {
-            orthancPeer=orthancJson.get("OrthancPeers").getAsJsonObject();
-        }
+        if (orthancJson.has("OrthancPeers")) { orthancPeer=orthancJson.get("OrthancPeers").getAsJsonObject();}
     }
 }

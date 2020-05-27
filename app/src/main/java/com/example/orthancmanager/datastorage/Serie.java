@@ -1,7 +1,6 @@
-package com.example.orthancmanager;
+package com.example.orthancmanager.datastorage;
 
 import com.google.gson.JsonArray;
-
 import java.util.ArrayList;
 
 public class Serie {

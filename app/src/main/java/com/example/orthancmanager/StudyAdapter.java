@@ -2,27 +2,34 @@ package com.example.orthancmanager;
 
 
 import android.content.Context;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.LinearLayout;
-        import android.widget.TextView;
-        import androidx.annotation.NonNull;
-        import androidx.recyclerview.widget.RecyclerView;
-        import com.example.orthancmanager.datastorage.Patient;
-        import java.util.ArrayList;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.orthancmanager.datastorage.Study;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 
 public class StudyAdapter extends RecyclerView.Adapter<StudyAdapter.StudyViewHolder>{
 
     private Context context;
     private ArrayList<Study> studys = new ArrayList<Study>();
+    private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
 
-    public StudyAdapter(ArrayList<Study> studys, Context context) {
+    StudyAdapter(ArrayList<Study> studys, Context context) {
         this.studys = studys;
         this.context = context;
     }
 
+    @NonNull
     @Override
     public StudyAdapter.StudyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.study_adapter, parent, false);
@@ -35,7 +42,7 @@ public class StudyAdapter extends RecyclerView.Adapter<StudyAdapter.StudyViewHol
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
@@ -43,7 +50,9 @@ public class StudyAdapter extends RecyclerView.Adapter<StudyAdapter.StudyViewHol
     public void onBindViewHolder(@NonNull final StudyViewHolder holder, final int position) {
         try {
             final Study study = studys.get(position);
-            holder.studyDate.setText(study.getDate().toString());
+            Date date = study.getDate();
+            String date2 = DateFormat.getDateInstance(DateFormat.SHORT).format(date);
+            holder.studyDate.setText(date2);
             holder.studyDescription.setText(study.getStudyDescription());
             holder.accessionNumber.setText(study.getAccession());
             holder.studyLayout.setOnClickListener(new View.OnClickListener() {

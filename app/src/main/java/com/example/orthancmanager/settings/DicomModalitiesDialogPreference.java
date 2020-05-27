@@ -10,24 +10,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.orthancmanager.MainActivity;
 import com.example.orthancmanager.R;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.util.ArrayList;
 import java.util.Set;
 
 public class DicomModalitiesDialogPreference extends DialogPreference
 {
     private String jsonStr;
-    static ArrayList<DicomModaliti> dicomModalities = new ArrayList<DicomModaliti>();
-    Object[] jsonkeys;
+    private static ArrayList<DicomModaliti> dicomModalities = new ArrayList<DicomModaliti>();
 
     public DicomModalitiesDialogPreference(Context context, AttributeSet attrs)
     {
@@ -60,11 +56,10 @@ public class DicomModalitiesDialogPreference extends DialogPreference
         final EditText editPORT = (EditText)view.findViewById(R.id.addPort);
         final Spinner chooseProperty = (Spinner) view.findViewById(R.id.PropertySpinner);
         ImageView addItem = (ImageView)view.findViewById(R.id.addModalitiesItem);
-
         JsonParser parser = new JsonParser();
         JsonObject orthancJson = parser.parse(jsonStr).getAsJsonObject();
         Set<String> keys = orthancJson.keySet();
-        jsonkeys = keys.toArray();
+        Object[] jsonkeys = keys.toArray();
         dicomModalities.clear();
 
         try {
@@ -118,16 +113,16 @@ public class DicomModalitiesDialogPreference extends DialogPreference
         }
     }
 
-    public static void delItem(int i){
+    static void delItem(int i){
         dicomModalities.remove(i);
     }
 
-    public String getValue()
+    private String getValue()
     {
         return jsonStr;
     }
 
-    public void setValue(String value)
+    private void setValue(String value)
     {
         jsonStr = value;
         persistString(value);
@@ -159,10 +154,7 @@ public class DicomModalitiesDialogPreference extends DialogPreference
     @Override
     protected Parcelable onSaveInstanceState()
     {
-        // save the instance state so that it will survive screen orientation changes and other events that may temporarily destroy it
         final Parcelable superState = super.onSaveInstanceState();
-
-        // set the state's value with the class member that holds current setting value
         final SavedState myState = new SavedState(superState);
         myState.value = getValue();
         return myState;
@@ -171,15 +163,11 @@ public class DicomModalitiesDialogPreference extends DialogPreference
     @Override
     protected void onRestoreInstanceState(Parcelable state)
     {
-        // check whether we saved the state in onSaveInstanceState()
         if (state == null || !state.getClass().equals(SavedState.class))
         {
-            // didn't save the state, so call superclass
             super.onRestoreInstanceState(state);
             return;
         }
-
-        // restore the state
         SavedState myState = (SavedState) state;
         setValue(myState.value);
 

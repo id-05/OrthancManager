@@ -8,24 +8,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.orthancmanager.MainActivity;
 import com.example.orthancmanager.R;
-
 import java.util.ArrayList;
-
 
 public class PeerAdapter extends RecyclerView.Adapter<PeerAdapter.PeerViewHolder>{
 
-    Context context;
-    ArrayList<Peer> peers= new ArrayList<Peer>();
+    private Context context;
+    private ArrayList<Peer> peers= new ArrayList<Peer>();
 
 
-    public PeerAdapter(ArrayList<Peer> peers, Context context) {
+    PeerAdapter(ArrayList<Peer> peers, Context context) {
         this.peers = peers;
         this.context = context;
     }
 
+    @NonNull
     @Override
     public PeerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.peer_adapter, parent, false);
@@ -64,10 +62,10 @@ public class PeerAdapter extends RecyclerView.Adapter<PeerAdapter.PeerViewHolder
 
     @Override
     public int getItemCount() {
-        return peers.size();//jsonkeys.length;
+        return peers.size();
     }
 
-    public class PeerViewHolder extends RecyclerView.ViewHolder {
+    static class PeerViewHolder extends RecyclerView.ViewHolder {
 
         TextView viewURL;
         TextView viewLogin;
@@ -75,7 +73,7 @@ public class PeerAdapter extends RecyclerView.Adapter<PeerAdapter.PeerViewHolder
         TextView viewName;
         ImageView imageDel;
 
-        public PeerViewHolder(@NonNull View itemView) {
+        PeerViewHolder(@NonNull View itemView) {
             super(itemView);
             viewName = (TextView)itemView.findViewById(R.id.peerName);
             viewURL = (TextView)itemView.findViewById(R.id.peerURL);

@@ -1,11 +1,9 @@
 package com.example.orthancmanager;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.orthancmanager.datastorage.OrthancServer;
-import com.example.orthancmanager.datastorage.Patient;
+import com.example.orthancmanager.datastorage.Study;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -27,7 +25,6 @@ import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -41,9 +38,9 @@ public class StudyFragment extends Fragment implements ConnectionCallback {
 
     private JsonParser parserJson = new JsonParser();
     private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
-    ArrayList<Study> studys = new ArrayList<Study>();
-    public static Boolean newClick = false;
-    StudyAdapter adapter = new    StudyAdapter(studys,getContext());
+    private ArrayList<Study> studys = new ArrayList<Study>();
+    static Boolean newClick = false;
+    private StudyAdapter adapter = new    StudyAdapter(studys,getContext());
 
     @Nullable
     @Override
@@ -61,7 +58,6 @@ public class StudyFragment extends Fragment implements ConnectionCallback {
         super.setMenuVisibility(menuVisible);
         if ((menuVisible)&(PatientsFragment.newClick)) {
             String data = SeachFragment.prefs.getString("PatientOrthancID", "0");
-            //MainActivity.print("PatientOrthancID = "+data);
             getOrthancData(SeachFragment.server,"/patients/",data);
             PatientsFragment.newClick = false;
         }
@@ -114,8 +110,6 @@ public class StudyFragment extends Fragment implements ConnectionCallback {
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
-        //MainActivity.print("Studyresult = "+data);
-
         JsonArray studies=(JsonArray) parserJson.parse(data);
         Iterator<JsonElement> studiesIterator=studies.iterator();
         studys.clear();
@@ -123,10 +117,7 @@ public class StudyFragment extends Fragment implements ConnectionCallback {
         while (studiesIterator.hasNext()) {
             JsonObject studyData=(JsonObject) studiesIterator.next();
             JsonObject mainDicomTags=studyData.get("MainDicomTags").getAsJsonObject();
-            //String parentPatientID=studyData.get("ParentPatient").getAsString();
             String studyId=studyData.get("ID").getAsString();
-            //JsonObject studyDetails=studyData.get("MainDicomTags").getAsJsonObject();
-
             String accessionNumber="N/A";
             if(mainDicomTags.has("AccessionNumber")) { accessionNumber=mainDicomTags.get("AccessionNumber").getAsString(); }
             String studyDate=null;
@@ -139,7 +130,6 @@ public class StudyFragment extends Fragment implements ConnectionCallback {
             String studyDescription="N/A";
             if(mainDicomTags.has("StudyDescription")){ studyDescription=mainDicomTags.get("StudyDescription").getAsString(); }
             Study newStudy=new Study(studyDescription, studyDateObject, accessionNumber, studyId);
-            //MainActivity.print(studyDescription+"   "+ studyDateObject.toString()+"   "+ accessionNumber+"    "+studyId);
             studys.add(newStudy);
         }
         adapter.notifyDataSetChanged();

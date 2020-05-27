@@ -15,20 +15,16 @@ import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.orthancmanager.datastorage.OrthancServer;
-
 import java.util.ArrayList;
 
 public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.ServerViewHolder> implements View.OnCreateContextMenuListener  {
 
     ArrayList<OrthancServer> servers;
     private Context context;
-    AnimationDrawable mAnimation;
 
     ServerCardAdapter(ArrayList<OrthancServer> servers, Context context){
         this.servers = servers;
@@ -57,18 +53,10 @@ public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.Se
         serverViewHolder.countSeries.setText(String.valueOf(servers.get(i).getCountSeries()));
         serverViewHolder.countStudies.setText(String.valueOf(servers.get(i).getCountStudies()));
         serverViewHolder.totalDiskSizeMB.setText(String.valueOf(servers.get(i).getTotalDiskSizeMB()));
-        //serverViewHolder.statusImage.setVisibility(View.VISIBLE);
-        //serverViewHolder.statusImage.setBackgroundResource(R.drawable.orthancanimation);
-        //mAnimation = (AnimationDrawable) serverViewHolder.statusImage.getDrawable();
-        //mAnimation.start();
-
-        //notifyDataSetChanged();
         if(servers.get(i).connect) {
             serverViewHolder.layot.setBackgroundResource(R.drawable.connect_true_fon);
-            //serverViewHolder.statusImage.setVisibility(View.INVISIBLE);
         }else{
             serverViewHolder.layot.setBackgroundResource(R.drawable.connect_false_fon);
-            //serverViewHolder.statusImage.setVisibility(View.INVISIBLE);
         }
 
         serverViewHolder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -166,13 +154,11 @@ public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.Se
         TextView serverIP;
         RelativeLayout layot;
         ImageView menuicon;
-        ImageView statusImage;
         TextView countInstances;
         TextView countPatients;
         TextView countSeries;
         TextView countStudies;
         TextView totalDiskSizeMB;
-        AnimationDrawable mAnimation;
 
         public ServerViewHolder(View itemView)  {
             super(itemView);
@@ -182,15 +168,11 @@ public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.Se
             serverName = (TextView)itemView.findViewById(R.id.server_name);
             serverIP = (TextView)itemView.findViewById(R.id.server_ip);
             menuicon = (ImageView)itemView.findViewById(R.id.editIcon);
-            //statusImage = (ImageView) itemView.findViewById(R.id.connectStatus);
             countInstances = (TextView) itemView.findViewById(R.id.countInstances);
             countPatients = (TextView) itemView.findViewById(R.id.countPatients);
             countSeries = (TextView) itemView.findViewById(R.id.countSeries);
             countStudies = (TextView) itemView.findViewById(R.id.countStudies);
             totalDiskSizeMB = (TextView) itemView.findViewById(R.id.totalDiskSizeMB);
-
-//            mAnimation = (AnimationDrawable) statusImage.getDrawable();
-//            mAnimation.start();
         }
     }
 }

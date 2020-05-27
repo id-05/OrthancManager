@@ -22,19 +22,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-
 import com.example.orthancmanager.datastorage.OrthancServer;
-import com.example.orthancmanager.datastorage.Patient;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -43,85 +36,73 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
+import java.util.Objects;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class SeachFragment extends Fragment implements ConnectionCallback{
 
-    private Button seachBut;
     private Button butFromDate;
     private Button butToDate;
     private Calendar calendarFromDate  = Calendar.getInstance();
     private Calendar calendarToDate = Calendar.getInstance();
     private int id;
     public static OrthancServer server = new OrthancServer();
-    private JsonParser parserJson = new JsonParser();
+    @SuppressLint("SimpleDateFormat")
     private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
-    public static SharedPreferences prefs;
-    public static SharedPreferences.Editor editor;
-    ImageView statusImage;
-    AnimationDrawable mAnimation = new AnimationDrawable();
-    CheckBox cr, ct, mr , nm , pt , us, xa , mg, dx;
-    TextView customModalities;
-    Spinner seachSpinner;
-    ArrayList<String> selectorList = new ArrayList<String>();
-    String seachSelector = null;
-    EditText editIdName;
-    public static boolean newSeach = false;
+    static SharedPreferences prefs;
+    static SharedPreferences.Editor editor;
+    private ImageView statusImage;
+    private CheckBox cr, ct, mr , nm , pt , us, xa , mg, dx;
+    private TextView customModalities;
+    private ArrayList<String> selectorList = new ArrayList<>();
+    private EditText editIdName;
+    static boolean newSeach = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View fragmentView = inflater.inflate(R.layout.fragment_seach, container, false);
-
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         editor = prefs.edit();
         editor.putString("SeachResult","");
-        editor.commit();
-
-
+        editor.apply();
         if(getArguments() != null){
             id = getArguments().getInt("serverid");
         }
         server = MainActivity.getServerById(id);
-
         calendarFromDate.set(Calendar.YEAR, 2015);
         calendarFromDate.set(Calendar.MONTH, 1);
         calendarFromDate.set(Calendar.DAY_OF_MONTH, 1);
-
-        cr = (CheckBox)fragmentView.findViewById(R.id.cbCR);
-        ct = (CheckBox)fragmentView.findViewById(R.id.cbCT);
-        mr = (CheckBox)fragmentView.findViewById(R.id.cbMR);
-        nm = (CheckBox)fragmentView.findViewById(R.id.cbNM);
-        pt = (CheckBox)fragmentView.findViewById(R.id.cbPT);
-        us = (CheckBox)fragmentView.findViewById(R.id.cbUS);
-        xa = (CheckBox)fragmentView.findViewById(R.id.cbXA);
-        mg = (CheckBox)fragmentView.findViewById(R.id.cbMG);
-        dx = (CheckBox)fragmentView.findViewById(R.id.cbDX);
-        customModalities = (TextView)fragmentView.findViewById(R.id.customMod);
-        seachSpinner = (Spinner)fragmentView.findViewById(R.id.spinnerSeach);
-        ArrayAdapter<String> spinnerSeachAdapter = new ArrayAdapter<String>(
-                getContext(),
+        cr = fragmentView.findViewById(R.id.cbCR);
+        ct = fragmentView.findViewById(R.id.cbCT);
+        mr = fragmentView.findViewById(R.id.cbMR);
+        nm = fragmentView.findViewById(R.id.cbNM);
+        pt = fragmentView.findViewById(R.id.cbPT);
+        us = fragmentView.findViewById(R.id.cbUS);
+        xa = fragmentView.findViewById(R.id.cbXA);
+        mg = fragmentView.findViewById(R.id.cbMG);
+        dx = fragmentView.findViewById(R.id.cbDX);
+        customModalities = fragmentView.findViewById(R.id.customMod);
+        Spinner seachSpinner = fragmentView.findViewById(R.id.spinnerSeach);
+        ArrayAdapter<String> spinnerSeachAdapter = new ArrayAdapter<>(
+                Objects.requireNonNull(getContext()),
                 android.R.layout.simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.seach));
         seachSpinner.setAdapter(spinnerSeachAdapter);
         seachSpinner.setOnItemSelectedListener(seachSpinnerListener);
         selectorList.add("PatientID");
-        selectorList.add("");//НЕ ЗАКОНЧИЛ ПОТОМУ ЧТО ОКАЗАЛОСЬ НЕТ ПОИСКА ПО ИМЕНИ
-        editIdName = (EditText)fragmentView.findViewById(R.id.editIdName);
-        seachBut = (Button)fragmentView.findViewById(R.id.butSeach);
+        selectorList.add("");
+        editIdName = fragmentView.findViewById(R.id.editIdName);
+        Button seachBut = fragmentView.findViewById(R.id.butSeach);
         seachBut.setOnClickListener(seachClick);
 
-        butFromDate = (Button)fragmentView.findViewById(R.id.dateFrom);
-        butToDate = (Button)fragmentView.findViewById(R.id.dateTo);
+        butFromDate = fragmentView.findViewById(R.id.dateFrom);
+        butToDate = fragmentView.findViewById(R.id.dateTo);
         butFromDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(getContext(), datefrom,
+                new DatePickerDialog(Objects.requireNonNull(getContext()), datefrom,
                         calendarFromDate.get(Calendar.YEAR),
                         calendarFromDate.get(Calendar.MONTH),
                         calendarFromDate.get(Calendar.DAY_OF_MONTH))
@@ -132,7 +113,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         butToDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(getContext(), dateto,
+                new DatePickerDialog(Objects.requireNonNull(getContext()), dateto,
                         calendarFromDate.get(Calendar.YEAR),
                         calendarFromDate.get(Calendar.MONTH),
                         calendarFromDate.get(Calendar.DAY_OF_MONTH))
@@ -147,16 +128,14 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
                 calendarToDate.getTimeInMillis(),
                 DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
 
-        statusImage = (ImageView)fragmentView.findViewById(R.id.imgAnimation);
+        statusImage = fragmentView.findViewById(R.id.imgAnimation);
         statusImage.setVisibility(View.INVISIBLE);
-
         return fragmentView;
     }
 
-    final AdapterView.OnItemSelectedListener seachSpinnerListener = new AdapterView.OnItemSelectedListener() {
+    private final AdapterView.OnItemSelectedListener seachSpinnerListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            seachSelector = selectorList.get(i).toString();
         }
 
         @Override
@@ -165,7 +144,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         }
     };
 
-    DatePickerDialog.OnDateSetListener datefrom = new DatePickerDialog.OnDateSetListener() {
+    private DatePickerDialog.OnDateSetListener datefrom = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             calendarFromDate.set(Calendar.YEAR, year);
             calendarFromDate.set(Calendar.MONTH, monthOfYear);
@@ -176,7 +155,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         }
     };
 
-    DatePickerDialog.OnDateSetListener dateto = new DatePickerDialog.OnDateSetListener() {
+    private DatePickerDialog.OnDateSetListener dateto = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             calendarToDate.set(Calendar.YEAR, year);
             calendarToDate.set(Calendar.MONTH, monthOfYear);
@@ -187,10 +166,9 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         }
     };
 
-    View.OnClickListener seachClick = new View.OnClickListener() {
+    private View.OnClickListener seachClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
             JsonObject query=new JsonObject();
             query.addProperty("Level", "Studies");
             query.addProperty("CaseSensitive", false);
@@ -198,10 +176,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
             query.addProperty("Limit", 0);
             JsonObject queryDetails=new JsonObject();
             String date = format.format(calendarFromDate.getTime())+"-"+format.format(calendarToDate.getTime());
-            //MainActivity.print("date= "+date);
             queryDetails.addProperty("StudyDate", date);
-            //queryDetails.addProperty("StudyDescription", studyDesc);
-            //seachSpinner.getAdapter()
             queryDetails.addProperty("PatientID", editIdName.getText().toString());
             StringBuilder modalities=new StringBuilder();
             if (cr.isChecked()) modalities.append("CR\\");
@@ -214,15 +189,13 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
             if (mg.isChecked()) modalities.append("MG\\");
             if (dx.isChecked()) modalities.append("DX\\");
             modalities.append(customModalities.getText());
-
             String modality =  modalities.toString();
-            queryDetails.addProperty("Modality", modality);//"MR");
+            queryDetails.addProperty("Modality", modality);
             query.add("Query", queryDetails);
-            //MainActivity.print("query = "+query.toString());
             getOrthancData(server,"/tools/find", query.toString());
             try {
                 statusImage.setVisibility(View.VISIBLE);
-                mAnimation = (AnimationDrawable) statusImage.getDrawable();
+                AnimationDrawable mAnimation = (AnimationDrawable) statusImage.getDrawable();
                 mAnimation.start();
             }catch (Exception e){
                 MainActivity.print(e.toString());
@@ -236,7 +209,6 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             protected String doAction() throws Exception {
-                String urlParameters = param;
                 String result = null;
                 String auth = new String(server.login + ":" + server.password);
                 byte[] data1 = auth.getBytes(UTF_8);
@@ -253,11 +225,11 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
                     connection.setRequestMethod("POST");
                     connection.connect();
                     OutputStream os = connection.getOutputStream();
-                    os.write(urlParameters.getBytes());
+                    os.write(param.getBytes());
                     int responseCode = connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-                        String line = null;
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), UTF_8));
+                        String line;
                         StringBuilder sb = new StringBuilder();
                         while ((line = bufferedReader.readLine()) != null) {
                                 sb.append(line);
@@ -272,7 +244,6 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
                     MainActivity.print("error get thread :" + e.toString());
                     statusImage.setVisibility(View.INVISIBLE);
                 }
-
                 return result;
             }
         }.execute();
@@ -286,7 +257,6 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
         editor.putString("SeachResult",data);
-        //MainActivity.print("server id= "+server.id+"  server ip = "+server.ipaddress);
         editor.putInt("currentServerId",server.id);
         editor.commit();
         newSeach = true;

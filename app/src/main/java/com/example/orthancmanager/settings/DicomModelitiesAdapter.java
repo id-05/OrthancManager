@@ -8,17 +8,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.orthancmanager.MainActivity;
 import com.example.orthancmanager.R;
-
 import java.util.ArrayList;
 
 
 public class DicomModelitiesAdapter extends RecyclerView.Adapter<DicomModelitiesAdapter.DicomModelitiesViewHolder>{
 
-    Context context;
-    ArrayList<DicomModaliti> dicomModalities= new ArrayList<DicomModaliti>();
+    private Context context;
+    private ArrayList<DicomModaliti> dicomModalities= new ArrayList<DicomModaliti>();
 
 
     public DicomModelitiesAdapter(ArrayList<DicomModaliti> dicomModalities, Context context) {
@@ -65,10 +63,10 @@ public class DicomModelitiesAdapter extends RecyclerView.Adapter<DicomModelities
 
     @Override
     public int getItemCount() {
-        return dicomModalities.size();//jsonkeys.length;
+        return dicomModalities.size();
     }
 
-    public class DicomModelitiesViewHolder extends RecyclerView.ViewHolder {
+    static class DicomModelitiesViewHolder extends RecyclerView.ViewHolder {
 
         TextView viewTitle;
         TextView viewName;
@@ -77,7 +75,7 @@ public class DicomModelitiesAdapter extends RecyclerView.Adapter<DicomModelities
         TextView viewProperty;
         ImageView imageDel;
 
-        public DicomModelitiesViewHolder(@NonNull View itemView) {
+        DicomModelitiesViewHolder(@NonNull View itemView) {
             super(itemView);
             viewTitle = (TextView)itemView.findViewById(R.id.nameClient);
             viewName = (TextView)itemView.findViewById(R.id.nameModalities);

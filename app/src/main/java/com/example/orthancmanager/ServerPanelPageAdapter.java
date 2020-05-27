@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-
 import com.example.orthancmanager.datastorage.OrthancServer;
 
 public class ServerPanelPageAdapter extends FragmentPagerAdapter {

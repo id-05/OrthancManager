@@ -8,37 +8,34 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.datastorage.Serie;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class SeriesFragment extends Fragment implements ConnectionCallback {
     private JsonParser parserJson = new JsonParser();
+    @SuppressLint("SimpleDateFormat")
     private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
-    ArrayList<Serie> series = new ArrayList<Serie>();
-    public static Boolean newClick = false;
-    SerieAdapter adapter = new    SerieAdapter(series,this.getContext());
+    private ArrayList<Serie> series = new ArrayList<Serie>();
+    private SerieAdapter adapter = new    SerieAdapter(series,this.getContext());
 
     @Nullable
     @Override
@@ -56,7 +53,6 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
         super.setMenuVisibility(menuVisible);
         if ((menuVisible)&(StudyFragment.newClick)) {
             String data = SeachFragment.prefs.getString("StudyOrthancID", "0");
-            //MainActivity.print("StudyOrthancID = "+data);
             getOrthancData(SeachFragment.server,"/studies/",data);
             StudyFragment.newClick = false;
         }
@@ -83,7 +79,6 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
                     connection.connect();
                     int responseCode=connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        boolean resultConnect = true;
                         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
                         String line = null;
                         StringBuilder sb = new StringBuilder();
@@ -98,7 +93,6 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
                 }catch (Exception e) {
                     MainActivity.print("error study :"+e.toString());
                 }
-
                 return result;
             }
         }.execute();
@@ -111,7 +105,6 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
-        //MainActivity.print("data = "+data);
         JsonArray seriesA=(JsonArray) parserJson.parse(data);
         Iterator<JsonElement> seriesIterator=seriesA.iterator();
         series.clear();
@@ -120,18 +113,15 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
             JsonObject serieData=(JsonObject) seriesIterator.next();
             JsonObject mainDicomTags=serieData.get("MainDicomTags").getAsJsonObject();
             String serieId=serieData.get("ID").getAsString();
-
             String seriesDescription="N/A";
             if(mainDicomTags.has("SeriesDescription")) { seriesDescription=mainDicomTags.get("SeriesDescription").getAsString(); }
             String seriesNumber="N/A";
             if(mainDicomTags.has("SeriesNumber")){ seriesNumber=mainDicomTags.get("SeriesNumber").getAsString(); }
             JsonArray instances = serieData.get("Instances").getAsJsonArray();
             Serie newSerie=new Serie(seriesDescription, seriesNumber, instances, instances.size(), serieId);
-            //MainActivity.print(seriesDescription+"  "+ seriesNumber+"  "+instances.size()+"   "+serieId);
             series.add(newSerie);
         }
         adapter.notifyDataSetChanged();
-        //ImageP
     }
 
     @Override

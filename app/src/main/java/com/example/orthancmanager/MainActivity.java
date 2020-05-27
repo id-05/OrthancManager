@@ -6,47 +6,37 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-
 import com.example.orthancmanager.datastorage.DateBase;
 import com.example.orthancmanager.datastorage.OrthancServer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-
 import static java.lang.Thread.sleep;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class MainActivity extends AppCompatActivity implements ConnectionCallback {
 
-
-    //public SQLiteDatabase orthancmanagerDB;
-    //public DBmanager dBmanager = new DBmanager(this.getApplicationContext());
-    private ArrayList<OrthancServer> ServerList = new ArrayList<>();// = dBmanager.GetServerList();
+    private ArrayList<OrthancServer> ServerList = new ArrayList<>();
     private Button test;
     private Button test2;
-    //Connection newConn;
     public static DateBase dbHelper;
     public ServerCardAdapter adapter;
 
@@ -92,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         super.onStart();
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        //LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new ServerCardAdapter(ServerList,this);
@@ -102,16 +91,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     @Override
     protected void onResume(){
         super.onResume();
-
         ServerList.clear();
         GetServerList(ServerList);
-
         for (final OrthancServer server:ServerList){
             try{
-                //if(server.getName() == null)
-                {
                     doSomethingAsyncOperaion(server,"/system");
-                }
             }catch (Exception e){
                 print("error resume /system "+e.toString());
             }
@@ -233,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         newValues.put("countseries",server.getCountSeries());
         newValues.put("countstudies",server.getCountStudies());
         newValues.put("totaldisksizemb",server.getTotalDiskSizeMB());
-
         SQLiteDatabase userDB = dbHelper.getWritableDatabase();
         userDB.update("servers", newValues, "id = ?",
                 new String[] {String.valueOf(id)});
@@ -248,7 +231,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         newValues.put("pass",server.getPassword());
         newValues.put("OS",server.getOS());
         newValues.put("pathjson",server.getPathToJson());
-        //print("main activity server.getPathToJson() = "+server.getPathToJson());
         SQLiteDatabase userDB = dbHelper.getWritableDatabase();
         userDB.update("servers", newValues, "id = ?",
                 new String[] {String.valueOf(id)});
@@ -261,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             protected String doAction() throws Exception {
-
                 String result = null;
                 String auth =new String(server.login + ":" + server.password);
                 byte[] data1 = auth.getBytes(UTF_8);
@@ -272,9 +253,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     URL url = new URL(fulladdress+param);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
-                    //connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("Authorization", "Basic "+base64);
-                    //connection.setRequestProperty("Accept", "application/json");
                     connection.setRequestMethod("GET");
                     connection.setConnectTimeout(1000);
                     connection.connect();
@@ -288,13 +267,12 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                             sb.append(line);
                         }
                         result = sb.toString();
-                        //MainActivity.print(result);
                     }else {
-                        //resultConnect = false;
+
                     }
                     connection.disconnect();
                 }catch (Exception e) {
-                    //MainActivity.print("error get thread :"+e.toString());
+                    MainActivity.print("error get thread :"+e.toString());
                 }
 
                 return result;
@@ -309,7 +287,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
-       // MainActivity.print("data = "+data);
         switch (param) {
             case "/system": {
                 try {

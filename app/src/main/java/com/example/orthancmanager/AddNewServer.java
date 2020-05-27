@@ -41,7 +41,6 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
     OrthancServer newServer = new OrthancServer();
     Button checkConnect;
     String fulladdress;
-    //EditText nameEdit;
     EditText ipaddressEdit;
     EditText portEdit;
     EditText loginEdit;
@@ -109,7 +108,6 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                 getResources().getStringArray(R.array.chooseOC));
         osspinner.setAdapter(spinnerCountShoesArrayAdapter);
         osspinner.setOnItemSelectedListener(osSelect);
-
         checkConnect = (Button)findViewById(R.id.checkConnect);
         checkConnect.setOnClickListener(checkConnectPress);
         save.setOnClickListener(pressSave);
@@ -146,7 +144,6 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                             server.password = (cursor.getString(cursor.getColumnIndex("pass")));
                             server.OS = (cursor.getString(cursor.getColumnIndex("OS")));
                             server.pathToJson = (cursor.getString(cursor.getColumnIndex("pathjson")));
-                            //MainActivity.print("edit = "+server.pathToJson);
                             server.CountInstances = (cursor.getInt(cursor.getColumnIndex("countinstances")));
                             server.CountPatients = (cursor.getInt(cursor.getColumnIndex("countpatients")));
                             server.CountSeries = (cursor.getInt(cursor.getColumnIndex("countseries")));
@@ -193,8 +190,7 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                     pathtojson.setText(choosePath[i - 1], TextView.BufferType.EDITABLE);
                     newServer.setPathToJson(choosePath[i - 1]);
                 } else {
-                    //  if(pathtojson.getText()!=null)
-                    //      pathtojson.setText("");
+
                     }
             }
         }
@@ -230,7 +226,6 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                         server.setPassword(passwordEdit.getText().toString());
                         server.setOS(osspinner.getSelectedItem().toString());
                         server.setPathToJson(pathtojson.getText().toString());
-                        //MainActivity.print("pathtojson.getText().toString() = "+pathtojson.getText().toString());
                         MainActivity.serverConnectionUpdateBase(server);
                         finish();
                     }
@@ -252,41 +247,29 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
     final View.OnClickListener checkConnectPress = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
             newServer.setIpaddress(ipaddressEdit.getText().toString());
             newServer.setPort(portEdit.getText().toString());
             newServer.setLogin(loginEdit.getText().toString());
             newServer.setPassword(passwordEdit.getText().toString());
             newServer.setOS(osspinner.toString());
             newServer.setPathToJson(pathtojson.getText().toString());
-            //Connection newConn = new Connection(newServer,AddNewServer.this);
-            //newConn.UniRequest(AddNewServer.this/*,"GET","/system"*/);
-            //GetInfoRequest newConnection = new GetInfoRequest();
-            //newConnection.execute();
-            //MainActivity.print("pressed check");
             doSomethingAsyncOperaion(newServer,"/system");
         }
     };
 
     @Override
     public void onBegin() {
-        //MainActivity.print("begin");
+
     }
 
     @Override
     public void onSuccess(String data, OrthancServer server, String param) {
-        //MainActivity.print("Success "+data);
         if(data!=null) {
             if (savePressed) {
-                //обработка json
-                //MainActivity.print(data);
                 JsonParser parser = new JsonParser();
                 JsonObject orthancJson = parser.parse(data).getAsJsonObject();
                 newServer.setName(orthancJson.get("Name").getAsString());
                 newServer.setDicomaet(orthancJson.get("DicomAet").getAsString());
-                //MainActivity.print(newServer.dicomaet);
-              //  MainActivity.serverAddBase(newServer);
-              //  finish();
             } else {
 
                 Snackbar.make(addServer
@@ -319,16 +302,16 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public void onEnd() {
-        //MainActivity.print("End");
+
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void doSomethingAsyncOperaion(OrthancServer server, String param) {
         new AbstractAsyncWorker<String>(this,server, param) {
             @SuppressLint("StaticFieldLeak")
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             protected String doAction() throws Exception {
-
                 String result = null;
                 String auth =new String(newServer.login + ":" + newServer.password);
                 byte[] data1 = auth.getBytes(UTF_8);
@@ -338,16 +321,13 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                     URL url = new URL(fulladdress+"/system");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
-                    //connection.setRequestProperty("Content-Type", "application/json");
                     connection.setRequestProperty("Authorization", "Basic "+base64);
-                    //connection.setRequestProperty("Accept", "application/json");
                     connection.setRequestMethod("GET");
                     connection.setConnectTimeout(10000);
                     connection.connect();
                     int responseCode=connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
                         boolean resultConnect = true;
-                        //MainActivity.print(String.valueOf(resultConnect));
                         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
                         String line = null;
                         StringBuilder sb = new StringBuilder();
@@ -355,9 +335,7 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                             sb.append(line);
                         }
                         result = sb.toString();
-                        //MainActivity.print(result);
                     }else {
-                        //resultConnect = false;
                     }
                     connection.disconnect();
                 }catch (Exception e) {

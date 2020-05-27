@@ -1,12 +1,8 @@
 package com.example.orthancmanager.datastorage;
 
-//import java.util.ArrayList;
-import com.example.orthancmanager.Study;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-//import java.util.HashMap;
 
 public class Patient {
 
@@ -45,14 +41,6 @@ public class Patient {
         return this.sex;
     }
 
-//    public void refreshChildStudies(QueryOrthancData queryOrthanc) {
-//        childStudies= new HashMap<String, Study2>();
-//        ArrayList<Study2> allStudies=queryOrthanc.getAllStudiesOfPatient(orthancID, false);
-//        for(Study2 study: allStudies) {
-//            this.childStudies.put(study.getOrthancId(), study);
-//        }
-//    }
-
     public void addStudy(Study study) {
         if(childStudies==null) {
             childStudies= new HashMap<String, Study>();
@@ -69,11 +57,7 @@ public class Patient {
         }
 
     }
-//
-//    /**
-//     * Return the studies of this object
-//     * @return
-//     */
+
     public ArrayList<Study> getStudies(){
         Study[] studyArray=childStudies.values().toArray(new Study[0]);
         return new ArrayList<Study>(Arrays.asList(studyArray));

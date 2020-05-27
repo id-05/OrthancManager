@@ -1,9 +1,6 @@
-package com.example.orthancmanager;
+package com.example.orthancmanager.datastorage;
 
-import java.util.ArrayList;
 import java.util.Date;
-//import org.petctviewer.orthanc.anonymize.QueryOrthancData;
-//import org.petctviewer.orthanc.setup.OrthancRestApis;
 
 public class Study {
 
@@ -17,7 +14,6 @@ public class Study {
     public String sex;
     public String patientOrthancId;
     public String studyInstanceUID;
-  //  public ArrayList<Serie> childSeries;
     public int statNbInstance;
     public int statNbSeries;
     public int statMbSize;
@@ -33,7 +29,6 @@ public class Study {
         this.birthDate=birthDate;
         this.sex=sex;
         this.studyInstanceUID=studyInstanceUID;
-    //    this.childSeries=childSeries;
         this.patientOrthancId=patientOrthancId;
     }
 

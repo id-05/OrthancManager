@@ -8,7 +8,6 @@ import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Switch;
-
 import com.example.orthancmanager.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -17,23 +16,20 @@ import com.google.gson.JsonParser;
 public class TransferSyntaxDialogPreference extends DialogPreference
 {
     private String jsonStr;
-    boolean DeflatedTransferSyntaxAccepted;
-    boolean JpegTransferSyntaxAccepted;
-    boolean Jpeg2000TransferSyntaxAccepted;
-    boolean JpegLosslessTransferSyntaxAccepted;
-    boolean JpipTransferSyntaxAccepted;
-    boolean Mpeg2TransferSyntaxAccepted;
-    boolean RleTransferSyntaxAccepted;
-    Switch DeflatedTransfer;
-    Switch JpegTransfer;
-    Switch Jpeg2000Transfer;
-    Switch JpegLosslessTransfer;
-    Switch JpipTransfer;
-    Switch Mpeg2Transfer;
-    Switch RleTransfer;
-
-
-
+    private boolean DeflatedTransferSyntaxAccepted;
+    private boolean JpegTransferSyntaxAccepted;
+    private boolean Jpeg2000TransferSyntaxAccepted;
+    private boolean JpegLosslessTransferSyntaxAccepted;
+    private boolean JpipTransferSyntaxAccepted;
+    private boolean Mpeg2TransferSyntaxAccepted;
+    private boolean RleTransferSyntaxAccepted;
+    private Switch DeflatedTransfer;
+    private Switch JpegTransfer;
+    private Switch Jpeg2000Transfer;
+    private Switch JpegLosslessTransfer;
+    private Switch JpipTransfer;
+    private Switch Mpeg2Transfer;
+    private Switch RleTransfer;
 
     public TransferSyntaxDialogPreference(Context context, AttributeSet attrs)
     {
@@ -79,7 +75,6 @@ public class TransferSyntaxDialogPreference extends DialogPreference
         JpipTransfer = (Switch)view.findViewById(R.id.JpipTransfer);
         Mpeg2Transfer = (Switch)view.findViewById(R.id.Mpeg2Transfer);
         RleTransfer = (Switch)view.findViewById(R.id.RleTransfer);
-
         DeflatedTransfer.setChecked(DeflatedTransferSyntaxAccepted);
         JpegTransfer.setChecked(JpegTransferSyntaxAccepted);
         Jpeg2000Transfer.setChecked(Jpeg2000TransferSyntaxAccepted);
@@ -96,25 +91,17 @@ public class TransferSyntaxDialogPreference extends DialogPreference
 
     public void setValue(String value)
     {
-        //if (value != mValue)
-        // {
         jsonStr = value;
         persistString(value);
         notifyChanged();
-        //}
     }
 
     @Override
     protected void onDialogClosed(boolean positiveResult)
     {
         super.onDialogClosed(positiveResult);
-
-        // when the user selects "OK", persist the new value
         if (positiveResult)
         {
-            //MainActivity.print("pltcm");
-            // String jsonEditValue = jsonEdit.getText().toString();
-            // if (callChangeListener(jsonEditValue))
             {
                 JsonObject transferSyntax = new JsonObject();
                 transferSyntax.addProperty("DeflatedTransfer",DeflatedTransfer.isChecked());
@@ -125,7 +112,6 @@ public class TransferSyntaxDialogPreference extends DialogPreference
                 transferSyntax.addProperty("Mpeg2Transfer",Mpeg2Transfer.isChecked());
                 transferSyntax.addProperty("RleTransfer",RleTransfer.isChecked());
                 setValue(transferSyntax.toString());
-                //MainActivity.print(transferSyntax.toString());
             }
         }
     }
@@ -133,9 +119,7 @@ public class TransferSyntaxDialogPreference extends DialogPreference
     @Override
     protected Parcelable onSaveInstanceState()
     {
-        // save the instance state so that it will survive screen orientation changes and other events that may temporarily destroy it
         final Parcelable superState = super.onSaveInstanceState();
-        // set the state's value with the class member that holds current setting value
         final SavedState myState = new SavedState(superState);
         myState.value = getValue();
         return myState;
@@ -144,15 +128,11 @@ public class TransferSyntaxDialogPreference extends DialogPreference
     @Override
     protected void onRestoreInstanceState(Parcelable state)
     {
-        // check whether we saved the state in onSaveInstanceState()
         if (state == null || !state.getClass().equals(SavedState.class))
         {
-            // didn't save the state, so call superclass
             super.onRestoreInstanceState(state);
             return;
         }
-
-        // restore the state
         SavedState myState = (SavedState) state;
         setValue(myState.value);
 
@@ -163,12 +143,12 @@ public class TransferSyntaxDialogPreference extends DialogPreference
     {
         String value;
 
-        public SavedState(Parcelable superState)
+        SavedState(Parcelable superState)
         {
             super(superState);
         }
 
-        public SavedState(Parcel source)
+        SavedState(Parcel source)
         {
             super(source);
             value = source.readString();
