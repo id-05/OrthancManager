@@ -88,7 +88,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         ArrayAdapter<String> spinnerSeachAdapter = new ArrayAdapter<>(
                 Objects.requireNonNull(getContext()),
                 android.R.layout.simple_spinner_dropdown_item,
-                getResources().getStringArray(R.array.seach));
+                getResources().getStringArray(R.array.seachtype));
         seachSpinner.setAdapter(spinnerSeachAdapter);
         seachSpinner.setOnItemSelectedListener(seachSpinnerListener);
         selectorList.add("PatientID");

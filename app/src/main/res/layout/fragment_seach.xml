@@ -31,7 +31,7 @@
                     android:id="@+id/spinnerSeach"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:entries="@array/seach" />
+                    android:entries="@array/seachtype" />
             </FrameLayout>
 
             <FrameLayout
@@ -44,7 +44,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="*" />
+                    android:text="@string/star"
+                    android:importantForAutofill="no" />
             </FrameLayout>
 
         </LinearLayout>
@@ -56,7 +57,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -67,8 +69,7 @@
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="First name" />
+                    android:text="@string/firstname" />
             </FrameLayout>
 
             <FrameLayout
@@ -81,10 +82,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="*" />
+                    android:text="@string/star"
+                    android:autofillHints="" />
             </FrameLayout>
 
         </LinearLayout>
@@ -96,7 +97,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -107,8 +109,7 @@
                     android:id="@+id/textView12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Study description" />
+                    android:text="@string/study_description" />
             </FrameLayout>
 
             <FrameLayout
@@ -121,10 +122,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_weight="1"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="*" />
+                    android:text="@string/star"
+                    android:autofillHints="" />
             </FrameLayout>
 
         </LinearLayout>
@@ -149,8 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_weight="1"
-                    android:text="From:" />
+                    android:text="@string/from" />
             </FrameLayout>
 
             <Button
@@ -158,7 +158,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="@string/button" />
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -171,8 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="To:" />
+                    android:text="@string/to" />
             </FrameLayout>
 
             <Button
@@ -180,7 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="@string/button" />
         </LinearLayout>
 
         <Space
@@ -197,35 +196,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="CR" />
+                android:text="@string/cr" />
 
             <CheckBox
                 android:id="@+id/cbCT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="CT" />
+                android:text="@string/ct" />
 
             <CheckBox
                 android:id="@+id/cbMR"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="MR" />
+                android:text="@string/mr" />
 
             <CheckBox
                 android:id="@+id/cbNM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="NM" />
+                android:text="@string/nm" />
 
             <CheckBox
                 android:id="@+id/cbPT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="PT" />
+                android:text="@string/pt" />
         </LinearLayout>
 
         <LinearLayout
@@ -238,28 +237,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="US" />
+                android:text="@string/us" />
 
             <CheckBox
                 android:id="@+id/cbXA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="XA" />
+                android:text="@string/xa" />
 
             <CheckBox
                 android:id="@+id/cbMG"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="MG" />
+                android:text="@string/mg" />
 
             <CheckBox
                 android:id="@+id/cbDX"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="DX" />
+                android:text="@string/dx" />
 
             <EditText
                 android:id="@+id/customMod"
@@ -267,7 +266,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:autofillHints="" />
         </LinearLayout>
 
         <Space
@@ -281,10 +281,10 @@
 
             <Button
                 android:id="@+id/butSeach"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="SEACH" />
+                android:text="@string/seach" />
         </LinearLayout>
 
     </LinearLayout>
@@ -294,7 +294,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:contentDescription="TODO"
+        android:contentDescription="@string/todo"
         app:srcCompat="@drawable/orthancanimation"
         tools:visibility="invisible" />
 

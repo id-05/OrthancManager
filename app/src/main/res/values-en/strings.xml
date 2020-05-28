@@ -179,6 +179,22 @@
     <string name="serieDescription">Serie description</string>
     <string name="Instances">Instances</string>
     <string name="serienum">Number</string>
+    <string name="star">*</string>
+    <string name="study_description">Study description</string>
+    <string name="firstname">First name</string>
+    <string name="cr">CR</string>
+    <string name="from">From:</string>
+    <string name="us">US</string>
+    <string name="xa">XA</string>
+    <string name="nm">NM</string>
+    <string name="mr">MR</string>
+    <string name="ct">CT</string>
+    <string name="pt">PT</string>
+    <string name="button">Button</string>
+    <string name="to">To:</string>
+    <string name="mg">MG</string>
+    <string name="dx">DX</string>
+    <string name="todo">TODO</string>
     <string-array name="chooseOC">
         <item> <string name="chooseOChint">Choose OS</string> </item>
         <item>Linux</item>
