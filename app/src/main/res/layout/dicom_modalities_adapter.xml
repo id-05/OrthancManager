@@ -45,7 +45,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        android:contentDescription="TODO"
+                        android:contentDescription="@string/todo"
                         app:srcCompat="@drawable/ic_clear_24dp"
                         tools:ignore="VectorDrawableCompat" />
                 </LinearLayout>
@@ -71,7 +71,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="5dp"
                         android:layout_weight="0"
-                        android:text="[" />
+                        android:text="@string/scobka" />
 
                     <TextView
                         android:id="@+id/nameClient"
@@ -88,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        android:text=" , " />
+                        android:text="@string/zpt" />
 
                     <TextView
                         android:id="@+id/IPclient"
@@ -104,7 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        android:text=" , " />
+                        android:text="@string/zpt" />
 
                     <TextView
                         android:id="@+id/PORTclient"
@@ -120,7 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
-                        android:text=" , " />
+                        android:text="@string/zpt" />
 
                     <TextView
                         android:id="@+id/Propertyclient"
@@ -128,7 +128,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Generic"
+                        android:text="@string/generic"
                         app:autoSizeTextType="uniform" />
 
                     <TextView
@@ -137,7 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp"
                         android:layout_weight="0"
-                        android:text="]" />
+                        android:text="@string/skbclose" />
 
                 </LinearLayout>
 

@@ -55,14 +55,15 @@
 
                     <EditText
                         android:id="@+id/peerURL"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ems="15"
                         android:gravity="center"
                         android:hint="@string/url"
                         android:inputType="textPersonName"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:autofillHints="" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -78,7 +79,8 @@
                         android:ems="10"
                         android:hint="@string/namemodalities"
                         android:inputType="textPersonName"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:autofillHints="" />
 
                     <EditText
                         android:id="@+id/peerLogin"
@@ -89,7 +91,8 @@
                         android:gravity="center"
                         android:hint="@string/loginUserNewServer"
                         android:inputType="textPersonName"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:autofillHints="" />
 
                     <EditText
                         android:id="@+id/peerPassword"
@@ -100,14 +103,15 @@
                         android:gravity="center"
                         android:hint="@string/passwordNewServer"
                         android:inputType="textPersonName"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:autofillHints="" />
 
                     <ImageView
                         android:id="@+id/addPeer"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="0"
-                        android:contentDescription="TODO"
+                        android:contentDescription="@string/todo"
                         app:srcCompat="@drawable/ic_add_black_24dp"
                         tools:ignore="VectorDrawableCompat" />
 

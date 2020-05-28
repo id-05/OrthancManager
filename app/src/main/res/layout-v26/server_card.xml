@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="10dp"
+        app:cardPreventCornerOverlap="true">
+
+        <RelativeLayout
+            android:id="@+id/cardLayot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/server_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="@string/nameofserver"
+                    app:autoSizeTextType="uniform"/>
+
+                <TextView
+                    android:id="@+id/server_ip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:text="@string/ipaddress"
+                    app:autoSizeTextType="uniform"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/server_stat1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:autoSizeMaxTextSize="100sp"
+                        android:autoSizeMinTextSize="4sp"
+                        android:autoSizeStepGranularity="2sp"
+                        android:maxLines="1"
+                        android:padding="8dp"
+                        android:text="@string/countinstances"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/countInstances"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:autoSizeMaxTextSize="100sp"
+                        android:autoSizeMinTextSize="4sp"
+                        android:autoSizeStepGranularity="2sp"
+                        android:maxLines="1"
+                        android:padding="8dp"
+                        android:text="@string/zero"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/server_stat2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="@string/countpatients"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/countPatients"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:padding="8dp"
+                        android:text="@string/zero"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/server_stat3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="@string/countseries"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/countSeries"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:padding="8dp"
+                        android:text="@string/zero"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/server_stat4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="@string/countstudies"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/countStudies"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:padding="8dp"
+                        android:text="@string/zero"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/server_stat5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="@string/totalDiskSizeMB"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+
+                    <TextView
+                        android:id="@+id/totalDiskSizeMB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:padding="8dp"
+                        android:text="@string/zero"
+                        android:textSize="10sp"
+                        app:autoSizeTextType="uniform" />
+                </FrameLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:padding="8dp" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/editIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/itemmenu"
+                android:padding="8dp"
+                app:srcCompat="@drawable/icon_edit"
+                tools:ignore="VectorDrawableCompat" />
+<!--
+            <ImageView
+                android:id="@+id/connectStatus"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:contentDescription="@string/disksize"
+                android:padding="8dp"
+                app:srcCompat="@drawable/orthancanimation"
+                tools:ignore="VectorDrawableCompat"
+                tools:visibility="visible" />
+
+-->
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

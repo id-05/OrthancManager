@@ -75,7 +75,8 @@
                     android:ems="10"
                     android:gravity="center"
                     android:hint="@string/loginUserNewServer"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:autofillHints="" />
 
                 <EditText
                     android:id="@+id/addPassword"
@@ -85,14 +86,15 @@
                     android:ems="10"
                     android:gravity="center"
                     android:hint="@string/passwordNewServer"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:autofillHints="" />
 
                 <ImageView
                     android:id="@+id/addItem"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
-                    android:contentDescription="TODO"
+                    android:contentDescription="@string/todo"
                     app:srcCompat="@drawable/ic_add_black_24dp" />
 
             </LinearLayout>

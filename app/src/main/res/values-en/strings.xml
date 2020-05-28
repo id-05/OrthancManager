@@ -195,6 +195,11 @@
     <string name="mg">MG</string>
     <string name="dx">DX</string>
     <string name="todo">TODO</string>
+    <string name="scobka">[</string>
+    <string name="zpt">,</string>
+    <string name="skbclose">]</string>
+    <string name="generic">Generic</string>
+    <string name="skobkastart">[</string>
     <string-array name="chooseOC">
         <item> <string name="chooseOChint">Choose OS</string> </item>
         <item>Linux</item>

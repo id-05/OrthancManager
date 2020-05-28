@@ -55,7 +55,8 @@
                         android:gravity="center"
                         android:hint="@string/namemodalities"
                         android:inputType="textPersonName"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:autofillHints="" />
 
                     <Spinner
                         android:id="@+id/PropertySpinner"
@@ -69,7 +70,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="0"
-                        android:contentDescription="TODO"
+                        android:contentDescription="@string/todo"
                         app:srcCompat="@drawable/ic_add_black_24dp" />
 
                 </LinearLayout>
@@ -88,7 +89,8 @@
                         android:gravity="center"
                         android:hint="@string/AETitle"
                         android:inputType="textPersonName"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:autofillHints="" />
 
                     <EditText
                         android:id="@+id/addIPModalities"
@@ -100,7 +102,8 @@
                         android:gravity="center"
                         android:hint="@string/ipadressNewServer"
                         android:inputType="number"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:autofillHints="" />
 
                     <EditText
                         android:id="@+id/addPort"
@@ -111,7 +114,8 @@
                         android:gravity="center"
                         android:hint="@string/portNewServer"
                         android:inputType="number"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:autofillHints="" />
                 </LinearLayout>
             </LinearLayout>
 
