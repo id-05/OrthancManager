@@ -5,18 +5,15 @@ import java.util.Date;
 public class Study {
 
     public String studyDescription;
-    public Date date;
-    public String accession;
-    public String StudyOrthancId;
-    public String patientName;
-    public String patientID;
-    public Date birthDate;
-    public String sex;
-    public String patientOrthancId;
-    public String studyInstanceUID;
-    public int statNbInstance;
-    public int statNbSeries;
-    public int statMbSize;
+    private Date date;
+    private String accession;
+    private String StudyOrthancId;
+    private String patientName;
+    private String patientID;
+    private Date birthDate;
+    private String sex;
+    private String patientOrthancId;
+    private String studyInstanceUID;
 
     public Study(String studyDescription, Date date, String accession,
                   String StudyOrthancId, String patientName, String patientID, Date birthDate, String sex, String patientOrthancId, String studyInstanceUID) {
@@ -53,42 +50,6 @@ public class Study {
 
     public String getAccession() {
         return accession;
-    }
-
-    public String getPatientName() {
-        return patientName;
-    }
-
-    public String getPatientID() {
-        return patientID;
-    }
-
-    public Date getPatientDob() {
-        return birthDate;
-    }
-
-    public String getPatientSex() {
-        return sex;
-    }
-
-    public String getParentPatientId() {
-        return patientOrthancId;
-    }
-
-    public String getStudyInstanceUid() {
-        return studyInstanceUID;
-    }
-
-    public int getStatNbSeries() {
-        return statNbSeries;
-    }
-
-    public int getStatNbInstance() {
-        return statNbInstance;
-    }
-
-    public int getMbSize() {
-        return statMbSize;
     }
 
 }

@@ -2,7 +2,6 @@ package com.example.orthancmanager;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,17 +22,14 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.orthancmanager.datastorage.OrthancServer;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import static com.example.orthancmanager.MainActivity.dbHelper;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -59,10 +55,10 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_server);
-        addServer = (LinearLayout) findViewById(R.id.addServer);
-        cancel = (Button)findViewById(R.id.cancel);
-        save = (Button)findViewById(R.id.save);
-        ipaddressEdit = (EditText)findViewById(R.id.ipaddres);
+        addServer = findViewById(R.id.addServer);
+        cancel = findViewById(R.id.cancel);
+        save = findViewById(R.id.save);
+        ipaddressEdit = findViewById(R.id.ipaddres);
         ipaddressEdit.setFilters(new InputFilter[] {
                 new InputFilter() {
                     @Override
@@ -81,7 +77,7 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
         ipaddressEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-               // ipaddressEdit.setText(" . . .");
+               //
             }
 
             @Override
@@ -95,20 +91,20 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
             }
         });
 
-        portEdit = (EditText)findViewById(R.id.port);
+        portEdit = findViewById(R.id.port);
         portEdit.setInputType(InputType.TYPE_CLASS_NUMBER);
-        loginEdit = (EditText)findViewById(R.id.login);
-        passwordEdit = (EditText)findViewById(R.id.password);
+        loginEdit = findViewById(R.id.login);
+        passwordEdit = findViewById(R.id.password);
         passwordEdit.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        pathtojson = (EditText)findViewById(R.id.pathToJson);
-        osspinner = (Spinner)findViewById(R.id.osspinner);
-        ArrayAdapter<String> spinnerCountShoesArrayAdapter = new ArrayAdapter<String>(
+        pathtojson = findViewById(R.id.pathToJson);
+        osspinner = findViewById(R.id.osspinner);
+        ArrayAdapter<String> spinnerCountShoesArrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.chooseOC));
         osspinner.setAdapter(spinnerCountShoesArrayAdapter);
         osspinner.setOnItemSelectedListener(osSelect);
-        checkConnect = (Button)findViewById(R.id.checkConnect);
+        checkConnect = findViewById(R.id.checkConnect);
         checkConnect.setOnClickListener(checkConnectPress);
         save.setOnClickListener(pressSave);
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -152,8 +148,8 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                         }
                         cursor.close();
                         ipaddressEdit.setText(server.ipaddress);
-                        portEdit.setText(server.getPort().toString());
-                        loginEdit.setText(server.getLogin().toString());
+                        portEdit.setText(server.getPort());
+                        loginEdit.setText(server.getLogin());
                         passwordEdit.setText(server.password);
                         pathtojson.setText(server.pathToJson);
                         osspinner.setSelection(((ArrayAdapter)osspinner.getAdapter()).getPosition(server.getOS()));
@@ -189,9 +185,7 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                 if (i != 0) {
                     pathtojson.setText(choosePath[i - 1], TextView.BufferType.EDITABLE);
                     newServer.setPathToJson(choosePath[i - 1]);
-                } else {
-
-                    }
+                }
             }
         }
 
@@ -253,7 +247,7 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
             newServer.setPassword(passwordEdit.getText().toString());
             newServer.setOS(osspinner.toString());
             newServer.setPathToJson(pathtojson.getText().toString());
-            doSomethingAsyncOperaion(newServer,"/system");
+            doSomethingAsyncOperaion(newServer);
         }
     };
 
@@ -277,26 +271,18 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                         R.string.sucsess,
                         Snackbar.LENGTH_LONG
                 ).show();
-                //Toast toast = Toast.makeText(this, R.string.sucsess, Toast.LENGTH_SHORT);
-                //toast.show();
             }
         }
     }
 
     @Override
     public void onFailure(Throwable t) {
-        if(savePressed){
-          //  MainActivity.serverAddBase(newServer);
-         //   finish();
-        }
-        else {
+        if(!savePressed){
             Snackbar.make(addServer
                     ,
                     R.string.connectionerror,
                     Snackbar.LENGTH_LONG
             ).show();
-            //Toast toast = Toast.makeText(this, R.string.connectionerror, Toast.LENGTH_SHORT);
-            //toast.show();
         }
     }
 
@@ -306,14 +292,14 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
     }
 
     @SuppressLint("StaticFieldLeak")
-    private void doSomethingAsyncOperaion(OrthancServer server, String param) {
-        new AbstractAsyncWorker<String>(this,server, param) {
+    private void doSomethingAsyncOperaion(OrthancServer server) {
+        new AbstractAsyncWorker<String>(this,server, "/system") {
             @SuppressLint("StaticFieldLeak")
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             protected String doAction() throws Exception {
                 String result = null;
-                String auth =new String(newServer.login + ":" + newServer.password);
+                String auth = newServer.login + ":" + newServer.password;
                 byte[] data1 = auth.getBytes(UTF_8);
                 String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
                 try {
@@ -327,15 +313,15 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                     connection.connect();
                     int responseCode=connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        boolean resultConnect = true;
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-                        String line = null;
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), UTF_8));
+                        String line;
                         StringBuilder sb = new StringBuilder();
                         while ((line = bufferedReader.readLine()) != null) {
                             sb.append(line);
                         }
                         result = sb.toString();
                     }else {
+                        MainActivity.print("Error responsecode "+responseCode);
                     }
                     connection.disconnect();
                 }catch (Exception e) {

@@ -1,29 +1,28 @@
 package com.example.orthancmanager.settings;
 
-        import android.content.Context;
-        import android.content.res.TypedArray;
-        import android.os.Parcel;
-        import android.os.Parcelable;
-        import android.preference.DialogPreference;
-        import android.util.AttributeSet;
-        import android.view.View;
-        import android.widget.EditText;
-        import android.widget.ImageView;
-        import androidx.recyclerview.widget.LinearLayoutManager;
-        import androidx.recyclerview.widget.RecyclerView;
-        import com.example.orthancmanager.MainActivity;
-        import com.example.orthancmanager.R;
-        import com.google.gson.JsonArray;
-        import com.google.gson.JsonObject;
-        import com.google.gson.JsonParser;
-        import java.util.ArrayList;
-        import java.util.Set;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.preference.DialogPreference;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.orthancmanager.MainActivity;
+import com.example.orthancmanager.R;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.util.ArrayList;
+import java.util.Set;
 
 public class PeerDialogPreference extends DialogPreference
 {
     private String jsonStr;
-    private static ArrayList<Peer> peers = new ArrayList<Peer>();
-    private Object[] jsonkeys;
+    private static ArrayList<Peer> peers = new ArrayList<>();
 
     public PeerDialogPreference(Context context, AttributeSet attrs)
     {
@@ -50,15 +49,15 @@ public class PeerDialogPreference extends DialogPreference
     protected void onBindDialogView(View view)
     {
         super.onBindDialogView(view);
-        final EditText editName = (EditText)view.findViewById(R.id.peerName);
-        final EditText editURL = (EditText)view.findViewById(R.id.peerURL);
-        final EditText editLogin = (EditText)view.findViewById(R.id.peerLogin);
-        final EditText editPassword = (EditText)view.findViewById(R.id.peerPassword);
-        ImageView addItem = (ImageView)view.findViewById(R.id.addPeer);
+        final EditText editName = view.findViewById(R.id.peerName);
+        final EditText editURL = view.findViewById(R.id.peerURL);
+        final EditText editLogin = view.findViewById(R.id.peerLogin);
+        final EditText editPassword = view.findViewById(R.id.peerPassword);
+        ImageView addItem = view.findViewById(R.id.addPeer);
         JsonParser parser = new JsonParser();
         JsonObject orthancJson = parser.parse(jsonStr).getAsJsonObject();
         Set<String> keys = orthancJson.keySet();
-        jsonkeys = keys.toArray();
+        Object[] jsonkeys = keys.toArray();
         peers.clear();
 
         try {
@@ -76,11 +75,11 @@ public class PeerDialogPreference extends DialogPreference
         }
 
         try {
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewPeer);
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewPeer);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
             final PeerAdapter adapter;
-            adapter = new PeerAdapter(peers, this.getContext());
+            adapter = new PeerAdapter(peers);
             recyclerView.setAdapter(adapter);
             addItem.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,7 +133,6 @@ public class PeerDialogPreference extends DialogPreference
                 for (int i = 0; i <= peers.size() - 1; i++) {
                     JsonArray arrayJSON = new JsonArray();
                     Peer node = peers.get(i);
-                    //arrayJSON.add(node.mName);
                     arrayJSON.add(node.mURL);
                     arrayJSON.add(node.mLogin);
                     arrayJSON.add(node.mPassword);

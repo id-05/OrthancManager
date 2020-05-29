@@ -1,42 +1,42 @@
 package com.example.orthancmanager.settings;
 
-public class Peer {
+class Peer {
 
-    public String getmURL() {
+    String getmURL() {
         return mURL;
     }
 
-    public void setmURL(String mURL) {
+    void setmURL(String mURL) {
         this.mURL = mURL;
     }
 
-    public String getmLogin() {
+    String getmLogin() {
         return mLogin;
     }
 
-    public void setmLogin(String mLogin) {
+    void setmLogin(String mLogin) {
         this.mLogin = mLogin;
     }
 
-    public String getmPassword() {
+    String getmPassword() {
         return mPassword;
     }
 
-    public void setmPassword(String mPassword) {
+    void setmPassword(String mPassword) {
         this.mPassword = mPassword;
     }
 
-    public String mURL;
-    public String mLogin;
-    public String mPassword;
+    String mURL;
+    String mLogin;
+    String mPassword;
 
-    public String getmName() {
+    String getmName() {
         return mName;
     }
 
-    public void setmName(String mName) {
+    void setmName(String mName) {
         this.mName = mName;
     }
 
-    public String mName;
+    String mName;
 }

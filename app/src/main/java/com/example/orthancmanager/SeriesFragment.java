@@ -24,7 +24,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -33,15 +32,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class SeriesFragment extends Fragment implements ConnectionCallback {
     private JsonParser parserJson = new JsonParser();
     @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
-    private ArrayList<Serie> series = new ArrayList<Serie>();
-    private SerieAdapter adapter = new    SerieAdapter(series,this.getContext());
+    private ArrayList<Serie> series = new ArrayList<>();
+    private SerieAdapter adapter = new    SerieAdapter(this.getContext(), series);
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View serieView = inflater.inflate(R.layout.fragment_series, container, false);
-        RecyclerView recyclerView = (RecyclerView) serieView.findViewById(R.id.resyclerSerie);
+        RecyclerView recyclerView = serieView.findViewById(R.id.resyclerSerie);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
@@ -53,24 +51,24 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
         super.setMenuVisibility(menuVisible);
         if ((menuVisible)&(StudyFragment.newClick)) {
             String data = SeachFragment.prefs.getString("StudyOrthancID", "0");
-            getOrthancData(SeachFragment.server,"/studies/",data);
+            getOrthancData(SeachFragment.server, data);
             StudyFragment.newClick = false;
         }
     }
 
-    private void getOrthancData(final OrthancServer server, final String tool, final String param) {
+    private void getOrthancData(final OrthancServer server, final String param) {
         @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, String> execute = new AbstractAsyncWorker<String>(this, server, param) {
             @SuppressLint("StaticFieldLeak")
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             protected String doAction() throws Exception {
                 String result = null;
-                String auth =new String(server.login + ":" + server.password);
+                String auth = server.login + ":" + server.password;
                 byte[] data1 = auth.getBytes(UTF_8);
                 String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
                 try {
                     String fulladdress = "http://"+server.ipaddress+":"+server.port;
-                    URL url = new URL(fulladdress+tool+param+"/series");
+                    URL url = new URL(fulladdress+ "/studies/" +param+"/series");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
                     connection.setRequestProperty("Authorization", "Basic "+base64);
@@ -79,8 +77,8 @@ public class SeriesFragment extends Fragment implements ConnectionCallback {
                     connection.connect();
                     int responseCode=connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-                        String line = null;
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), UTF_8));
+                        String line;
                         StringBuilder sb = new StringBuilder();
                         while ((line = bufferedReader.readLine()) != null) {
                             sb.append(line);

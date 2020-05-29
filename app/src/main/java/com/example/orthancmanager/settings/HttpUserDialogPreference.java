@@ -21,8 +21,8 @@ import java.util.Set;
 public class HttpUserDialogPreference extends DialogPreference
 {
     private String jsonStr;
-    private static ArrayList<String> bufLogin = new ArrayList<String>();
-    private static ArrayList<String> bufPassword = new ArrayList<String>();
+    private static ArrayList<String> bufLogin = new ArrayList<>();
+    private static ArrayList<String> bufPassword = new ArrayList<>();
 
     public HttpUserDialogPreference(Context context, AttributeSet attrs)
     {
@@ -49,11 +49,11 @@ public class HttpUserDialogPreference extends DialogPreference
     protected void onBindDialogView(View view)
     {
         super.onBindDialogView(view);
-        final EditText editLogin = (EditText)view.findViewById(R.id.addLogin);
-        final EditText editPassword = (EditText)view.findViewById(R.id.addPassword);
-        ImageView addItem = (ImageView)view.findViewById(R.id.addItem);
+        final EditText editLogin = view.findViewById(R.id.addLogin);
+        final EditText editPassword = view.findViewById(R.id.addPassword);
+        ImageView addItem = view.findViewById(R.id.addItem);
         JsonParser parser = new JsonParser();
-        JsonObject orthancJson=new JsonObject();
+        JsonObject orthancJson;
         orthancJson = parser.parse(jsonStr).getAsJsonObject();
         Set<String> keys = orthancJson.keySet();
         Object[] jsonkeys = keys.toArray();
@@ -64,11 +64,11 @@ public class HttpUserDialogPreference extends DialogPreference
             bufPassword.add(orthancJson.get(jsonkeys[i].toString()).getAsString());
         }
         try {
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewHttp);
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewHttp);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
             final HttpUserDialogAdapter adapter;
-            adapter = new HttpUserDialogAdapter(bufLogin, bufPassword, this.getContext());
+            adapter = new HttpUserDialogAdapter(bufLogin, bufPassword);
             recyclerView.setAdapter(adapter);
             addItem.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,17 +90,17 @@ public class HttpUserDialogPreference extends DialogPreference
         }
     }
 
-    public static void delItem(int i){
+    static void delItem(int i){
         bufLogin.remove(i);
         bufPassword.remove(i);
     }
 
-    public String getValue()
+    private String getValue()
     {
         return jsonStr;
     }
 
-    public void setValue(String value)
+    private void setValue(String value)
     {
             jsonStr = value;
             persistString(value);
@@ -116,7 +116,7 @@ public class HttpUserDialogPreference extends DialogPreference
             {
                 JsonObject jsonObj = new JsonObject();
                 for(int i=0; i<=bufLogin.size()-1; i++){
-                    jsonObj.addProperty(bufLogin.get(i).toString(),bufPassword.get(i).toString());
+                    jsonObj.addProperty(bufLogin.get(i), bufPassword.get(i));
                 }
                 setValue(jsonObj.toString());
             }

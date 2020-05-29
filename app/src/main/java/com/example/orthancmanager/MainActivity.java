@@ -19,7 +19,6 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import com.example.orthancmanager.datastorage.DateBase;
 import com.example.orthancmanager.datastorage.OrthancServer;
 import com.google.gson.JsonObject;
@@ -35,8 +34,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class MainActivity extends AppCompatActivity implements ConnectionCallback {
 
     private ArrayList<OrthancServer> ServerList = new ArrayList<>();
-    private Button test;
-    private Button test2;
     public static DateBase dbHelper;
     public ServerCardAdapter adapter;
 
@@ -80,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     @Override
     protected void onStart() {
         super.onStart();
-        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -173,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 }
                 while (cursor.moveToNext());
             }else {
-                //серверов ещё не добавлено
+
             }
             cursor.close();
         }catch (SQLException e){
@@ -194,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         newValues.put("comment","test");
         try {
             SQLiteDatabase userDB = dbHelper.getWritableDatabase();
-            long rowID = userDB.insertOrThrow("servers", null, newValues);
             userDB.close();
         }catch (SQLException e){
             print("error add to base "+e.toString());
@@ -244,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
             @Override
             protected String doAction() throws Exception {
                 String result = null;
-                String auth =new String(server.login + ":" + server.password);
+                String auth = server.login + ":" + server.password;
                 byte[] data1 = auth.getBytes(UTF_8);
                 String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
                 sleep(100);
@@ -259,16 +255,15 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     connection.connect();
                     int responseCode=connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        boolean resultConnect = true;
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-                        String line = null;
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), UTF_8));
+                        String line;
                         StringBuilder sb = new StringBuilder();
                         while ((line = bufferedReader.readLine()) != null) {
                             sb.append(line);
                         }
                         result = sb.toString();
                     }else {
-
+                        MainActivity.print("Error responsecode "+responseCode);
                     }
                     connection.disconnect();
                 }catch (Exception e) {

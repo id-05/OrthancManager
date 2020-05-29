@@ -9,7 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
 
         <Space
             android:layout_width="match_parent"
@@ -87,7 +88,8 @@
                     android:gravity="center"
                     android:hint="@string/passwordNewServer"
                     android:inputType="textPersonName"
-                    android:autofillHints="" />
+                    android:autofillHints=""
+                    tools:ignore="TextFields" />
 
                 <ImageView
                     android:id="@+id/addItem"
@@ -95,7 +97,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0"
                     android:contentDescription="@string/todo"
-                    app:srcCompat="@drawable/ic_add_black_24dp" />
+                    app:srcCompat="@drawable/ic_add_black_24dp"
+                    tools:ignore="VectorDrawableCompat" />
 
             </LinearLayout>
         </RelativeLayout>

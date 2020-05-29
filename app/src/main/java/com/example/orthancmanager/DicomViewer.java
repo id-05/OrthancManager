@@ -30,7 +30,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class DicomViewer extends AppCompatActivity implements ConnectionCallback {
 
-    private ArrayList<Bitmap> images = new ArrayList<Bitmap>();
+    private ArrayList<Bitmap> images = new ArrayList<>();
     HttpURLConnection connection;
     private ImageView imageView;
     private Bitmap bitmap;
@@ -56,13 +56,13 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
         setContentView(R.layout.activity_dicom_viewer);
         Objects.requireNonNull(getSupportActionBar()).hide();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        numberView = (TextView)findViewById(R.id.numberView);
-        patientName = (TextView)findViewById(R.id.patientName);
-        patientSex = (TextView)findViewById(R.id.patientSex);
-        patientBirth = (TextView)findViewById(R.id.patientBirth);
-        studyDescription = (TextView)findViewById(R.id.studyDescriptionView);
-        serieDescription = (TextView)findViewById(R.id.serieDescription);
-        imageView = (ImageView)findViewById(R.id.imageView);
+        numberView = findViewById(R.id.numberView);
+        patientName = findViewById(R.id.patientName);
+        patientSex = findViewById(R.id.patientSex);
+        patientBirth = findViewById(R.id.patientBirth);
+        studyDescription = findViewById(R.id.studyDescriptionView);
+        serieDescription = findViewById(R.id.serieDescription);
+        imageView = findViewById(R.id.imageView);
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -72,7 +72,7 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
         });
         String buf = SeachFragment.prefs.getString("InstancesOrthancID", "0");
         instances=(JsonArray) parserJson.parse(buf);
-        seekBar = (SeekBar)findViewById(R.id.seekBar);
+        seekBar = findViewById(R.id.seekBar);
         seekBar.setMax(instances.size());
         seekBar.setProgress(0);
         currentPosition = 0;
@@ -118,22 +118,22 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
         patientBirth.setText(SeachFragment.prefs.getString("patientBirthDate", "0"));
         serieDescription.setText(SeachFragment.prefs.getString("serieDescription", "0"));
         currentPosition = 0;
-        getOrthancData(SeachFragment.server,"/instances/",instances.get(currentPosition).toString().replace("\"",""));
+        getOrthancData(SeachFragment.server, instances.get(currentPosition).toString().replace("\"",""));
     }
 
-    private void getOrthancData(final OrthancServer server, final String tool, final String param) {
+    private void getOrthancData(final OrthancServer server, final String param) {
         @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, String> execute = new AbstractAsyncWorker<String>(this, server, param) {
             @SuppressLint("StaticFieldLeak")
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
-            protected String doAction() throws Exception {
+            protected String doAction() {
                 String result = null;
-                String auth =new String(server.login + ":" + server.password);
+                String auth = server.login + ":" + server.password;
                 byte[] data1 = auth.getBytes(UTF_8);
                 String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
                 try {
                     String fulladdress = "http://"+server.ipaddress+":"+server.port;
-                    URL url = new URL(fulladdress+tool+param+"/preview");
+                    URL url = new URL(fulladdress+ "/instances/" +param+"/preview");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
                     connection.setRequestProperty("Authorization", "Basic "+base64);
@@ -175,7 +175,7 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
             imageView.setImageBitmap(bitmap);
             numberView.setText((currentPosition) + "/" + instances.size());
             if(currentPosition<instances.size()) {
-                getOrthancData(SeachFragment.server, "/instances/", instances.get(currentPosition).toString().replace("\"", ""));
+                getOrthancData(SeachFragment.server, instances.get(currentPosition).toString().replace("\"", ""));
             }
             if (currentPosition == instances.size()) {
                 loadComplite = true; }

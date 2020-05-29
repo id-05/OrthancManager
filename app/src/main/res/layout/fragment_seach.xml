@@ -45,7 +45,8 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:text="@string/star"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    tools:ignore="LabelFor" />
             </FrameLayout>
 
         </LinearLayout>
@@ -85,7 +86,8 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:text="@string/star"
-                    android:autofillHints="" />
+                    android:autofillHints=""
+                    tools:ignore="LabelFor" />
             </FrameLayout>
 
         </LinearLayout>
@@ -125,7 +127,8 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:text="@string/star"
-                    android:autofillHints="" />
+                    android:autofillHints=""
+                    tools:ignore="LabelFor" />
             </FrameLayout>
 
         </LinearLayout>
@@ -267,7 +270,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:autofillHints="" />
+                android:autofillHints=""
+                tools:ignore="LabelFor" />
         </LinearLayout>
 
         <Space

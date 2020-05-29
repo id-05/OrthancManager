@@ -28,7 +28,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class ServerSettings extends AppCompatActivity implements ConnectionCallback{
 
     int id;
-    String json;
+    //String json;
     OrthancServer server = new OrthancServer();
     int modeCallback;
     //1 - read
@@ -114,9 +114,8 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             protected String doAction() throws Exception {
-                String urlParameters = param;
                 String result = null;
-                String auth =new String(server.login + ":" + server.password);
+                String auth = server.login + ":" + server.password;
                 byte[] data1 = auth.getBytes(UTF_8);
                 String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
                 try {
@@ -125,30 +124,20 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Authorization", "Basic "+base64);
-                    connection.setRequestProperty("Content-Length",  String.valueOf(fulladdress+urlParameters));
+                    connection.setRequestProperty("Content-Length", fulladdress + param);
                     connection.setConnectTimeout(1000);
                     connection.setRequestMethod("POST");
                     connection.connect();
                     OutputStream os = connection.getOutputStream();
-                    os.write(urlParameters.getBytes());
+                    os.write(param.getBytes());
                     int responseCode=connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-                        String line = null;
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), UTF_8));
+                        String line;
                         StringBuilder sb = new StringBuilder();
                         while ((line = bufferedReader.readLine()) != null) {
                             if(truestring(line)){
-                                int i = line.indexOf("}");
-                                if(i!= -1){
-                                    if ((i == (line.length()-1)&(i!=0))) {
-                                        sb.append(line);
-                                    }else
-                                    {
-                                        sb.append(line);
-                                    }
-                                }else {
-                                    sb.append(line);
-                                }
+                                sb.append(line);
                             }
                         }
                         bufferedReader.close();
@@ -167,14 +156,13 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
 
     private static Boolean truestring(String str){
         String buf = "/*";
-        Boolean troubleSimbol = true;
-        Character char3 = buf.charAt(1);
-        String buf2 = str;
-        int j = buf2.indexOf("//");
-        int k = buf2.indexOf("http");
-        Boolean ifSlash = false;
-        Boolean ifHTTP = false;
-        Boolean check = false;
+        boolean troubleSimbol = true;
+        char char3 = buf.charAt(1);
+        int j = str.indexOf("//");
+        int k = str.indexOf("http");
+        boolean ifSlash = false;
+        boolean ifHTTP = false;
+        boolean check = false;
         if(j!=-1){
             ifSlash = true;
             check = true;
@@ -189,9 +177,9 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                 check = false;
             }
         }
-        buf2.replaceAll("\\s+","");
-        if(buf2.length()>0){
-            Character char1 = buf2.charAt(0);
+        str.replaceAll("\\s+","");
+        if(str.length()>0){
+            char char1 = str.charAt(0);
             if((char1 == char3)|(check)){
                 troubleSimbol = false;
             }
@@ -336,7 +324,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             boolean Mpeg2TransferSyntaxAccepted=false;
             boolean RleTransferSyntaxAccepted=false;
             JsonParser parser = new JsonParser();
-            JsonObject orthancJson = new JsonObject();
+            JsonObject orthancJson;
             orthancJson = parser.parse(prefs.getString("TransferSyntax", "none")).getAsJsonObject();
             if (orthancJson.has("DeflatedTransfer")) DeflatedTransferSyntaxAccepted=orthancJson.get("DeflatedTransfer").getAsBoolean();
             if (orthancJson.has("JpegTransfer")) JpegTransferSyntaxAccepted=orthancJson.get("JpegTransfer").getAsBoolean();
@@ -426,16 +414,15 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             addPreferencesFromResource(R.xml.settings);
         }
     }
 
     public String ModifyStr(String str){
-        String result = null;
-        String buf0 = null;
-        String buf = null;
-        String buf2 = null;
+        String result;
+        String buf0;
+        String buf;
+        String buf2;
         buf0 = str.replace("\\","\\\\");
         buf = buf0.replace("/","\\/");
         buf2 = buf.replace("\"","\\\"");

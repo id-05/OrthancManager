@@ -23,7 +23,7 @@ import java.util.Set;
 public class DicomModalitiesDialogPreference extends DialogPreference
 {
     private String jsonStr;
-    private static ArrayList<DicomModaliti> dicomModalities = new ArrayList<DicomModaliti>();
+    private static ArrayList<DicomModaliti> dicomModalities = new ArrayList<>();
 
     public DicomModalitiesDialogPreference(Context context, AttributeSet attrs)
     {
@@ -50,12 +50,12 @@ public class DicomModalitiesDialogPreference extends DialogPreference
     protected void onBindDialogView(View view)
     {
         super.onBindDialogView(view);
-        final EditText editName = (EditText)view.findViewById(R.id.addName);
-        final EditText editAET = (EditText)view.findViewById(R.id.addNameModalities);
-        final EditText editIP = (EditText)view.findViewById(R.id.addIPModalities);
-        final EditText editPORT = (EditText)view.findViewById(R.id.addPort);
-        final Spinner chooseProperty = (Spinner) view.findViewById(R.id.PropertySpinner);
-        ImageView addItem = (ImageView)view.findViewById(R.id.addModalitiesItem);
+        final EditText editName = view.findViewById(R.id.addName);
+        final EditText editAET = view.findViewById(R.id.addNameModalities);
+        final EditText editIP = view.findViewById(R.id.addIPModalities);
+        final EditText editPORT = view.findViewById(R.id.addPort);
+        final Spinner chooseProperty = view.findViewById(R.id.PropertySpinner);
+        ImageView addItem = view.findViewById(R.id.addModalitiesItem);
         JsonParser parser = new JsonParser();
         JsonObject orthancJson = parser.parse(jsonStr).getAsJsonObject();
         Set<String> keys = orthancJson.keySet();
@@ -78,11 +78,11 @@ public class DicomModalitiesDialogPreference extends DialogPreference
         }
 
         try {
-            RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewDicomModalities);
+            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewDicomModalities);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
             recyclerView.setLayoutManager(linearLayoutManager);
             final DicomModelitiesAdapter adapter;
-            adapter = new DicomModelitiesAdapter(dicomModalities, this.getContext());
+            adapter = new DicomModelitiesAdapter(dicomModalities);
             recyclerView.setAdapter(adapter);
             addItem.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,7 +139,6 @@ public class DicomModalitiesDialogPreference extends DialogPreference
                 for(int i=0; i<=dicomModalities.size()-1; i++){
                     JsonArray arrayJSON = new JsonArray();
                     DicomModaliti node = dicomModalities.get(i);
-
                     arrayJSON.add(node.mTitle);
                     arrayJSON.add(node.mIP);
                     arrayJSON.add(Integer.valueOf(node.mPort));
@@ -178,12 +177,12 @@ public class DicomModalitiesDialogPreference extends DialogPreference
     {
         String value;
 
-        public SavedState(Parcelable superState)
+        SavedState(Parcelable superState)
         {
             super(superState);
         }
 
-        public SavedState(Parcel source)
+        SavedState(Parcel source)
         {
             super(source);
             value = source.readString();

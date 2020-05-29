@@ -1,7 +1,5 @@
 package com.example.orthancmanager;
 
-
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,36 +7,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.orthancmanager.datastorage.Study;
-
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 
 public class StudyAdapter extends RecyclerView.Adapter<StudyAdapter.StudyViewHolder>{
 
-    private Context context;
-    private ArrayList<Study> studys = new ArrayList<Study>();
-    private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
+    private ArrayList<Study> studys;
 
-    StudyAdapter(ArrayList<Study> studys, Context context) {
+    StudyAdapter(ArrayList<Study> studys) {
         this.studys = studys;
-        this.context = context;
     }
 
     @NonNull
     @Override
     public StudyAdapter.StudyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.study_adapter, parent, false);
-        StudyAdapter.StudyViewHolder studyViewHolder = new StudyAdapter.StudyViewHolder(v);
-        return studyViewHolder;
-    }
-
-    StudyAdapter(Context context){
-        this.context = context;
+        return new StudyViewHolder(v);
     }
 
     @Override
@@ -59,8 +46,8 @@ public class StudyAdapter extends RecyclerView.Adapter<StudyAdapter.StudyViewHol
                 @Override
                 public void onClick(View view) {
                     Study bufStudy = studys.get(position);
-                    SeachFragment.editor.putString("StudyOrthancID", bufStudy.StudyOrthancId.toString());
-                    SeachFragment.editor.putString("StudyDescription", bufStudy.studyDescription.toString());
+                    SeachFragment.editor.putString("StudyOrthancID", bufStudy.getOrthancId());
+                    SeachFragment.editor.putString("StudyDescription", bufStudy.getStudyDescription());
                     SeachFragment.editor.commit();
                     StudyFragment.newClick = true;
                     ServerPanel.TabChange(3);
@@ -76,18 +63,18 @@ public class StudyAdapter extends RecyclerView.Adapter<StudyAdapter.StudyViewHol
         return studys.size();
     }
 
-    public class StudyViewHolder extends RecyclerView.ViewHolder {
+    static class StudyViewHolder extends RecyclerView.ViewHolder {
 
         TextView studyDate;
         TextView studyDescription;
         TextView accessionNumber;
         LinearLayout studyLayout;
-        public StudyViewHolder(@NonNull View itemView) {
+        StudyViewHolder(@NonNull View itemView) {
             super(itemView);
-            studyDate = (TextView)itemView.findViewById(R.id.studyDate);
-            studyDescription = (TextView)itemView.findViewById(R.id.studyDescription);
-            accessionNumber = (TextView)itemView.findViewById(R.id.accessionNumber);
-            studyLayout = (LinearLayout)itemView.findViewById(R.id.studyLayout);
+            studyDate = itemView.findViewById(R.id.studyDate);
+            studyDescription = itemView.findViewById(R.id.studyDescription);
+            accessionNumber = itemView.findViewById(R.id.accessionNumber);
+            studyLayout = itemView.findViewById(R.id.studyLayout);
         }
     }
 }

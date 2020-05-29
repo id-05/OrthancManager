@@ -1,6 +1,5 @@
 package com.example.orthancmanager.settings;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +13,11 @@ import java.util.ArrayList;
 
 public class HttpUserDialogAdapter extends RecyclerView.Adapter<HttpUserDialogAdapter.HttpUserDialogViewHolder>{
 
-    private Context context;
-    private String jsonStr;
-    private ArrayList<String> bufLogin = new ArrayList<String>();
-    private ArrayList<String> bufPassword = new ArrayList<String>();
+    private ArrayList<String> bufLogin;
+    private ArrayList<String> bufPassword;
 
 
-    HttpUserDialogAdapter(ArrayList<String> bufLogin, ArrayList<String> bufPassword, Context context) {
-        this.jsonStr = jsonStr;
-        this.context = context;
+    HttpUserDialogAdapter(ArrayList<String> bufLogin, ArrayList<String> bufPassword) {
         this.bufLogin = bufLogin;
         this.bufPassword = bufPassword;
     }
@@ -31,12 +26,7 @@ public class HttpUserDialogAdapter extends RecyclerView.Adapter<HttpUserDialogAd
     @Override
     public HttpUserDialogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.http_users_adapter, parent, false);
-        HttpUserDialogViewHolder httpUserDialogViewHolder = new HttpUserDialogViewHolder(v);
-        return httpUserDialogViewHolder;
-    }
-
-    HttpUserDialogAdapter(Context context){
-        this.context = context;
+        return new HttpUserDialogViewHolder(v);
     }
 
     @Override
@@ -47,8 +37,8 @@ public class HttpUserDialogAdapter extends RecyclerView.Adapter<HttpUserDialogAd
     @Override
     public void onBindViewHolder(@NonNull final HttpUserDialogAdapter.HttpUserDialogViewHolder holder, final int position) {
         try {
-            holder.viewLogin.setText(bufLogin.get(position).toString());
-            holder.viewPassword.setText(bufPassword.get(position).toString());
+            holder.viewLogin.setText(bufLogin.get(position));
+            holder.viewPassword.setText(bufPassword.get(position));
             holder.deleteItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -74,9 +64,9 @@ public class HttpUserDialogAdapter extends RecyclerView.Adapter<HttpUserDialogAd
 
         HttpUserDialogViewHolder(@NonNull View itemView) {
             super(itemView);
-            viewLogin = (TextView)itemView.findViewById(R.id.textLogin);
-            viewPassword = (TextView)itemView.findViewById(R.id.textPassword);
-            deleteItem = (ImageView)itemView.findViewById(R.id.deleteItem);
+            viewLogin = itemView.findViewById(R.id.textLogin);
+            viewPassword = itemView.findViewById(R.id.textPassword);
+            deleteItem = itemView.findViewById(R.id.deleteItem);
         }
     }
 }

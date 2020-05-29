@@ -54,7 +54,8 @@
                         android:padding="8dp"
                         android:text="@string/countinstances"
                         android:textSize="10sp"
-                        app:autoSizeTextType="uniform" />
+                        app:autoSizeTextType="uniform"
+                        tools:ignore="SmallSp" />
 
                     <TextView
                         android:id="@+id/countInstances"
@@ -68,7 +69,8 @@
                         android:padding="8dp"
                         android:text="@string/zero"
                         android:textSize="10sp"
-                        app:autoSizeTextType="uniform" />
+                        app:autoSizeTextType="uniform"
+                        tools:ignore="RtlHardcoded,SmallSp" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -82,7 +84,8 @@
                         android:padding="8dp"
                         android:text="@string/countpatients"
                         android:textSize="10sp"
-                        app:autoSizeTextType="uniform" />
+                        app:autoSizeTextType="uniform"
+                        tools:ignore="SmallSp" />
 
                     <TextView
                         android:id="@+id/countPatients"
@@ -92,7 +95,8 @@
                         android:padding="8dp"
                         android:text="@string/zero"
                         android:textSize="10sp"
-                        app:autoSizeTextType="uniform" />
+                        app:autoSizeTextType="uniform"
+                        tools:ignore="RtlHardcoded,SmallSp" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -106,7 +110,8 @@
                         android:padding="8dp"
                         android:text="@string/countseries"
                         android:textSize="10sp"
-                        app:autoSizeTextType="uniform" />
+                        app:autoSizeTextType="uniform"
+                        tools:ignore="SmallSp" />
 
                     <TextView
                         android:id="@+id/countSeries"
@@ -116,7 +121,8 @@
                         android:padding="8dp"
                         android:text="@string/zero"
                         android:textSize="10sp"
-                        app:autoSizeTextType="uniform" />
+                        app:autoSizeTextType="uniform"
+                        tools:ignore="RtlHardcoded,SmallSp" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -130,7 +136,8 @@
                         android:padding="8dp"
                         android:text="@string/countstudies"
                         android:textSize="10sp"
-                        app:autoSizeTextType="uniform" />
+                        app:autoSizeTextType="uniform"
+                        tools:ignore="SmallSp" />
 
                     <TextView
                         android:id="@+id/countStudies"
@@ -140,7 +147,8 @@
                         android:padding="8dp"
                         android:text="@string/zero"
                         android:textSize="10sp"
-                        app:autoSizeTextType="uniform" />
+                        app:autoSizeTextType="uniform"
+                        tools:ignore="RtlHardcoded,SmallSp" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -154,7 +162,8 @@
                         android:padding="8dp"
                         android:text="@string/totalDiskSizeMB"
                         android:textSize="10sp"
-                        app:autoSizeTextType="uniform" />
+                        app:autoSizeTextType="uniform"
+                        tools:ignore="SmallSp" />
 
                     <TextView
                         android:id="@+id/totalDiskSizeMB"
@@ -165,7 +174,8 @@
                         android:padding="8dp"
                         android:text="@string/zero"
                         android:textSize="10sp"
-                        app:autoSizeTextType="uniform" />
+                        app:autoSizeTextType="uniform"
+                        tools:ignore="RtlHardcoded,SmallSp" />
                 </FrameLayout>
 
                 <Space

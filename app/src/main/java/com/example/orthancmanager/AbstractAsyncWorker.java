@@ -1,19 +1,16 @@
 package com.example.orthancmanager;
 
 import android.os.AsyncTask;
-
 import com.example.orthancmanager.datastorage.OrthancServer;
-
 import static java.lang.Thread.sleep;
 
 public abstract class AbstractAsyncWorker<String> extends AsyncTask<Void, Void, String> {
-    private ConnectionCallback<String> callback;
+    private ConnectionCallback callback;
     private Throwable t;
     private OrthancServer server;
     private String param;
 
-    //В конструктор передаём интерфейс
-    protected AbstractAsyncWorker(ConnectionCallback callback, OrthancServer server, java.lang.String param) {
+    AbstractAsyncWorker(ConnectionCallback callback, OrthancServer server, java.lang.String param) {
         this.callback = callback;
         this.server = server;
         this.param = (String) param;
@@ -23,17 +20,17 @@ public abstract class AbstractAsyncWorker<String> extends AsyncTask<Void, Void, 
     protected void onPreExecute() {
         super.onPreExecute();
         if (callback != null) {
-            callback.onBegin(); //Сообщаем через интерфейс о начале
+            callback.onBegin();
         }
     }
 
-    protected abstract String doAction() throws Exception; //Этот метод будем переопределять
+    protected abstract String doAction() throws Exception;
 
     @Override
     protected String doInBackground(Void... params) {
         try {
 
-            return doAction(); //В параллельном потоке вызываем абстрактный метод.
+            return doAction();
         } catch (Exception e) {
             t = e;
             return null;
@@ -44,7 +41,7 @@ public abstract class AbstractAsyncWorker<String> extends AsyncTask<Void, Void, 
     protected void onPostExecute(String v) {
         super.onPostExecute(v);
         if (callback != null) {
-            callback.onEnd(); //Сообщаем об окончании
+            callback.onEnd();
         }
         try {
             sleep(0);
@@ -54,13 +51,13 @@ public abstract class AbstractAsyncWorker<String> extends AsyncTask<Void, Void, 
         generateCallback(v,server,param);
     }
 
-    private void generateCallback(String data, OrthancServer server, String param) { //Генерируем ответ
+    private void generateCallback(String data, OrthancServer server, String param) {
         if (callback == null) return;
-        if (data != null) { //Есть данные - всё хорошо
+        if (data != null) {
             callback.onSuccess((java.lang.String) data, server, (java.lang.String) param);
         } else if (t != null) {
-            callback.onFailure(t); //Есть ошибка - вызываем onFailure
-        } else { //А такая ситуация вообще не должна появляться)
+            callback.onFailure(t);
+        } else {
             callback.onFailure(new NullPointerException("Result is empty but error empty too"));
         }
     }

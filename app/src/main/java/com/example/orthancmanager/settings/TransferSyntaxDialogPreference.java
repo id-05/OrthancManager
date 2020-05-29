@@ -12,7 +12,6 @@ import com.example.orthancmanager.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-
 public class TransferSyntaxDialogPreference extends DialogPreference
 {
     private String jsonStr;
@@ -58,7 +57,7 @@ public class TransferSyntaxDialogPreference extends DialogPreference
         super.onBindDialogView(view);
 
         JsonParser parser = new JsonParser();
-        JsonObject orthancJson=new JsonObject();
+        JsonObject orthancJson;
         orthancJson = parser.parse(jsonStr).getAsJsonObject();
         if (orthancJson.has("DeflatedTransfer")) DeflatedTransferSyntaxAccepted=orthancJson.get("DeflatedTransfer").getAsBoolean();
         if (orthancJson.has("JpegTransfer")) JpegTransferSyntaxAccepted=orthancJson.get("JpegTransfer").getAsBoolean();
@@ -68,13 +67,13 @@ public class TransferSyntaxDialogPreference extends DialogPreference
         if (orthancJson.has("Mpeg2Transfer")) Mpeg2TransferSyntaxAccepted=orthancJson.get("Mpeg2Transfer").getAsBoolean();
         if (orthancJson.has("RleTransfer")) RleTransferSyntaxAccepted=orthancJson.get("RleTransfer").getAsBoolean();
 
-        DeflatedTransfer = (Switch)view.findViewById(R.id.DeflatedTransfer);
-        JpegTransfer = (Switch)view.findViewById(R.id.JpegTransfer);
-        Jpeg2000Transfer = (Switch)view.findViewById(R.id.Jpeg2000Transfer);
-        JpegLosslessTransfer = (Switch)view.findViewById(R.id.JpegLosslessTransfer);
-        JpipTransfer = (Switch)view.findViewById(R.id.JpipTransfer);
-        Mpeg2Transfer = (Switch)view.findViewById(R.id.Mpeg2Transfer);
-        RleTransfer = (Switch)view.findViewById(R.id.RleTransfer);
+        DeflatedTransfer = view.findViewById(R.id.DeflatedTransfer);
+        JpegTransfer = view.findViewById(R.id.JpegTransfer);
+        Jpeg2000Transfer = view.findViewById(R.id.Jpeg2000Transfer);
+        JpegLosslessTransfer = view.findViewById(R.id.JpegLosslessTransfer);
+        JpipTransfer = view.findViewById(R.id.JpipTransfer);
+        Mpeg2Transfer = view.findViewById(R.id.Mpeg2Transfer);
+        RleTransfer = view.findViewById(R.id.RleTransfer);
         DeflatedTransfer.setChecked(DeflatedTransferSyntaxAccepted);
         JpegTransfer.setChecked(JpegTransferSyntaxAccepted);
         Jpeg2000Transfer.setChecked(Jpeg2000TransferSyntaxAccepted);
@@ -84,12 +83,12 @@ public class TransferSyntaxDialogPreference extends DialogPreference
         RleTransfer.setChecked(RleTransferSyntaxAccepted);
     }
 
-    public String getValue()
+    private String getValue()
     {
         return jsonStr;
     }
 
-    public void setValue(String value)
+    private void setValue(String value)
     {
         jsonStr = value;
         persistString(value);

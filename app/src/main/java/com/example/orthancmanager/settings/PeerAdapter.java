@@ -1,6 +1,5 @@
 package com.example.orthancmanager.settings;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,29 +13,21 @@ import java.util.ArrayList;
 
 public class PeerAdapter extends RecyclerView.Adapter<PeerAdapter.PeerViewHolder>{
 
-    private Context context;
-    private ArrayList<Peer> peers= new ArrayList<Peer>();
+    private ArrayList<Peer> peers;
 
-
-    PeerAdapter(ArrayList<Peer> peers, Context context) {
+    PeerAdapter(ArrayList<Peer> peers) {
         this.peers = peers;
-        this.context = context;
     }
 
     @NonNull
     @Override
     public PeerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.peer_adapter, parent, false);
-        PeerViewHolder peerViewHolder = new PeerViewHolder(v);
-        return peerViewHolder;
-    }
-
-    PeerAdapter(Context context){
-        this.context = context;
+        return new PeerViewHolder(v);
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
@@ -44,10 +35,10 @@ public class PeerAdapter extends RecyclerView.Adapter<PeerAdapter.PeerViewHolder
     public void onBindViewHolder(@NonNull final PeerAdapter.PeerViewHolder holder, final int position) {
         try {
             Peer node = peers.get(position);
-            holder.viewName.setText(node.mName.toString());
-            holder.viewURL.setText(node.mURL.toString());
-            holder.viewLogin.setText(node.mLogin.toString());
-            holder.viewPassword.setText(node.mPassword.toString());
+            holder.viewName.setText(node.getmName());
+            holder.viewURL.setText(node.getmURL());
+            holder.viewLogin.setText(node.getmLogin());
+            holder.viewPassword.setText(node.getmPassword());
             holder.imageDel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -75,11 +66,11 @@ public class PeerAdapter extends RecyclerView.Adapter<PeerAdapter.PeerViewHolder
 
         PeerViewHolder(@NonNull View itemView) {
             super(itemView);
-            viewName = (TextView)itemView.findViewById(R.id.peerName);
-            viewURL = (TextView)itemView.findViewById(R.id.peerURL);
-            viewLogin = (TextView)itemView.findViewById(R.id.peerLogin);
-            viewPassword = (TextView)itemView.findViewById(R.id.peerPassword);
-            imageDel = (ImageView)itemView.findViewById(R.id.deletePeer);
+            viewName = itemView.findViewById(R.id.peerName);
+            viewURL = itemView.findViewById(R.id.peerURL);
+            viewLogin = itemView.findViewById(R.id.peerLogin);
+            viewPassword = itemView.findViewById(R.id.peerPassword);
+            imageDel = itemView.findViewById(R.id.deletePeer);
         }
     }
 }

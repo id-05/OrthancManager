@@ -1,6 +1,5 @@
 package com.example.orthancmanager;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,30 +10,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.orthancmanager.datastorage.Patient;
 import java.util.ArrayList;
 
-
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder>{
 
-    private Context context;
-    private ArrayList<Patient> patients = new ArrayList<Patient>();
+    private ArrayList<Patient> patients;
 
-    public PatientAdapter(ArrayList<Patient> patients, Context context) {
+    PatientAdapter(ArrayList<Patient> patients) {
         this.patients = patients;
-        this.context = context;
     }
 
+    @NonNull
     @Override
     public PatientAdapter.PatientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.patient_adapter, parent, false);
-        PatientAdapter.PatientViewHolder patientViewHolder = new PatientAdapter.PatientViewHolder(v);
-        return patientViewHolder;
-    }
-
-    PatientAdapter(Context context){
-        this.context = context;
+        return new PatientViewHolder(v);
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
@@ -48,10 +40,10 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
                 @Override
                 public void onClick(View view) {
                     Patient bufPatient = patients.get(position);
-                    SeachFragment.editor.putString("PatientOrthancID", bufPatient.orthancID.toString());
-                    SeachFragment.editor.putString("patientName", bufPatient.name);
-                    SeachFragment.editor.putString("patientBirthDate", bufPatient.birthDate);
-                    SeachFragment.editor.putString("patientSex", bufPatient.sex);
+                    SeachFragment.editor.putString("PatientOrthancID", bufPatient.getPatientOrthancId());
+                    SeachFragment.editor.putString("patientName", bufPatient.getName());
+                    SeachFragment.editor.putString("patientBirthDate", bufPatient.getPatientBirthDate());
+                    SeachFragment.editor.putString("patientSex", bufPatient.getPatientSex());
                     SeachFragment.editor.commit();
                     PatientsFragment.newClick = true;
                     ServerPanel.TabChange(2);
@@ -67,16 +59,16 @@ public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientV
         return patients.size();
     }
 
-    public class PatientViewHolder extends RecyclerView.ViewHolder {
+    static class PatientViewHolder extends RecyclerView.ViewHolder {
 
         TextView patientID;
         TextView patientName;
         LinearLayout patientLayout;
-        public PatientViewHolder(@NonNull View itemView) {
+        PatientViewHolder(@NonNull View itemView) {
             super(itemView);
-            patientID = (TextView)itemView.findViewById(R.id.patientId);
-            patientName = (TextView)itemView.findViewById(R.id.patientName);
-            patientLayout = (LinearLayout)itemView.findViewById(R.id.patientLayout);
+            patientID = itemView.findViewById(R.id.patientId);
+            patientName = itemView.findViewById(R.id.patientName);
+            patientLayout = itemView.findViewById(R.id.patientLayout);
         }
     }
 }

@@ -6,15 +6,14 @@ import com.google.gson.JsonParser;
 
 public class JsonSettings {
 
-    //public JsonObject index = new JsonObject();
     JsonObject dicomNode=new JsonObject();
     JsonObject orthancPeer=new JsonObject();
     JsonObject contentType=new JsonObject();
     JsonObject dictionary=new JsonObject();
     private JsonArray luaFolder=new JsonArray();
     private JsonArray pluginsFolder=new JsonArray();
-    JsonObject users =new JsonObject();
-    JsonObject userMetadata=new JsonObject();
+    JsonObject users = new JsonObject();
+    JsonObject userMetadata = new JsonObject();
     String orthancName;
     String storageDirectory;
     String indexDirectory;

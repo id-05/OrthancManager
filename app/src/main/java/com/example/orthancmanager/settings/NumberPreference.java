@@ -41,7 +41,7 @@ public class NumberPreference extends DialogPreference
     protected void onBindDialogView(View view)
     {
         super.onBindDialogView(view);
-        editText = (EditText) view.findViewById(R.id.numberPreference);
+        editText = view.findViewById(R.id.numberPreference);
         editText.setText(currentNumber);
     }
 

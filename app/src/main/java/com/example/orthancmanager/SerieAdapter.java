@@ -16,26 +16,23 @@ import java.util.ArrayList;
 public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.SerieViewHolder> {
 
     private Context context;
-    private ArrayList<Serie> series = new ArrayList<Serie>();
+    private ArrayList<Serie> series;// = new ArrayList<>();
 
-    public SerieAdapter(ArrayList<Serie> series, Context context) {
-        this.series = series;
-    }
-
+    @NonNull
     @Override
     public SerieAdapter.SerieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.serie_adapter, parent, false);
         this.context= parent.getContext();
-        SerieAdapter.SerieViewHolder serieViewHolder = new SerieAdapter.SerieViewHolder(v);
-        return serieViewHolder;
+        return new SerieViewHolder(v);
     }
 
-    public SerieAdapter(Context context){
+    SerieAdapter(Context context, ArrayList<Serie> series){
         this.context = context;
+        this.series = series;
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
@@ -43,9 +40,9 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.SerieViewHol
     public void onBindViewHolder(@NonNull final SerieViewHolder holder, final int position) {
         try {
             final Serie serie = series.get(position);
-            holder.serieDescription.setText(serie.getSerieDescription().toString());
+            holder.serieDescription.setText(serie.getSerieDescription());
             holder.Instances.setText(String.valueOf(serie.getNbInstances()));
-            holder.serieNumber.setText(serie.getSeriesNumber().toString());
+            holder.serieNumber.setText(serie.getSeriesNumber());
             holder.serieLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -74,17 +71,17 @@ public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.SerieViewHol
         return series.size();
     }
 
-    public class SerieViewHolder extends RecyclerView.ViewHolder {
+    static class SerieViewHolder extends RecyclerView.ViewHolder {
         TextView serieDescription;
         TextView serieNumber;
         TextView Instances;
         LinearLayout serieLayout;
-        public SerieViewHolder(@NonNull View itemView) {
+        SerieViewHolder(@NonNull View itemView) {
             super(itemView);
-            serieDescription = (TextView)itemView.findViewById(R.id.serieDescription);
-            serieNumber = (TextView)itemView.findViewById(R.id.serieNumber);
-            Instances = (TextView)itemView.findViewById(R.id.serieInstances);
-            serieLayout = (LinearLayout)itemView.findViewById(R.id.serieLayout);
+            serieDescription = itemView.findViewById(R.id.serieDescription);
+            serieNumber = itemView.findViewById(R.id.serieNumber);
+            Instances = itemView.findViewById(R.id.serieInstances);
+            serieLayout = itemView.findViewById(R.id.serieLayout);
         }
     }
 }

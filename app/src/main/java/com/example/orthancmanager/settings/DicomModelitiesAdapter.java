@@ -1,6 +1,5 @@
 package com.example.orthancmanager.settings;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,28 +14,21 @@ import java.util.ArrayList;
 
 public class DicomModelitiesAdapter extends RecyclerView.Adapter<DicomModelitiesAdapter.DicomModelitiesViewHolder>{
 
-    private Context context;
-    private ArrayList<DicomModaliti> dicomModalities= new ArrayList<DicomModaliti>();
+    private ArrayList<DicomModaliti> dicomModalities;
 
-
-    public DicomModelitiesAdapter(ArrayList<DicomModaliti> dicomModalities, Context context) {
+    DicomModelitiesAdapter(ArrayList<DicomModaliti> dicomModalities) {
         this.dicomModalities = dicomModalities;
-        this.context = context;
     }
 
+    @NonNull
     @Override
     public DicomModelitiesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.dicom_modalities_adapter, parent, false);
-        DicomModelitiesViewHolder dicomModelitiesViewHolder = new DicomModelitiesViewHolder(v);
-        return dicomModelitiesViewHolder;
-    }
-
-    DicomModelitiesAdapter(Context context){
-        this.context = context;
+        return new DicomModelitiesViewHolder(v);
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
@@ -44,11 +36,11 @@ public class DicomModelitiesAdapter extends RecyclerView.Adapter<DicomModelities
     public void onBindViewHolder(@NonNull final DicomModelitiesAdapter.DicomModelitiesViewHolder holder, final int position) {
         try {
             DicomModaliti node = dicomModalities.get(position);
-            holder.viewTitle.setText(node.mTitle.toString());
-            holder.viewName.setText(node.mName.toString());
-            holder.viewIP.setText(node.mIP.toString());
-            holder.viewPort.setText(node.mPort.toString());
-            holder.viewProperty.setText(node.mProperty.toString());
+            holder.viewTitle.setText(node.getmTitle());
+            holder.viewName.setText(node.getmName());
+            holder.viewIP.setText(node.getmIP());
+            holder.viewPort.setText(node.getmPort());
+            holder.viewProperty.setText(node.getmProperty());
             holder.imageDel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -77,12 +69,12 @@ public class DicomModelitiesAdapter extends RecyclerView.Adapter<DicomModelities
 
         DicomModelitiesViewHolder(@NonNull View itemView) {
             super(itemView);
-            viewTitle = (TextView)itemView.findViewById(R.id.nameClient);
-            viewName = (TextView)itemView.findViewById(R.id.nameModalities);
-            viewIP = (TextView)itemView.findViewById(R.id.IPclient);
-            viewPort = (TextView)itemView.findViewById(R.id.PORTclient);
-            viewProperty = (TextView)itemView.findViewById(R.id.Propertyclient);
-            imageDel = (ImageView)itemView.findViewById(R.id.deleteModalities);
+            viewTitle = itemView.findViewById(R.id.nameClient);
+            viewName = itemView.findViewById(R.id.nameModalities);
+            viewIP = itemView.findViewById(R.id.IPclient);
+            viewPort = itemView.findViewById(R.id.PORTclient);
+            viewProperty = itemView.findViewById(R.id.Propertyclient);
+            imageDel = itemView.findViewById(R.id.deleteModalities);
         }
     }
 }

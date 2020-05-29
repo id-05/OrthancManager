@@ -58,6 +58,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
     private EditText editIdName;
     static boolean newSeach = false;
 
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @Override
@@ -192,7 +193,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
             String modality =  modalities.toString();
             queryDetails.addProperty("Modality", modality);
             query.add("Query", queryDetails);
-            getOrthancData(server,"/tools/find", query.toString());
+            getOrthancData(server, query.toString());
             try {
                 statusImage.setVisibility(View.VISIBLE);
                 AnimationDrawable mAnimation = (AnimationDrawable) statusImage.getDrawable();
@@ -203,19 +204,19 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         }
     };
 
-    private void getOrthancData(final OrthancServer server, final String tool, final String param) {
+    private void getOrthancData(final OrthancServer server, final String param) {
         @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, String> execute = new AbstractAsyncWorker<String>(this, server, param) {
             @SuppressLint("StaticFieldLeak")
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             protected String doAction() throws Exception {
                 String result = null;
-                String auth = new String(server.login + ":" + server.password);
+                String auth = server.login + ":" + server.password;
                 byte[] data1 = auth.getBytes(UTF_8);
                 String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
                 try {
                     String fulladdress = "http://" + server.ipaddress + ":" + server.port;
-                    URL url = new URL(fulladdress + tool);
+                    URL url = new URL(fulladdress + "/tools/find");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Authorization", "Basic " + base64);

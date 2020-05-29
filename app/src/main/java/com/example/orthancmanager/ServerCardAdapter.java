@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 
 public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.ServerViewHolder> implements View.OnCreateContextMenuListener  {
 
-    ArrayList<OrthancServer> servers;
+    private ArrayList<OrthancServer> servers;
     private Context context;
 
     ServerCardAdapter(ArrayList<OrthancServer> servers, Context context){
@@ -32,7 +31,7 @@ public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.Se
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
@@ -40,8 +39,7 @@ public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.Se
     @Override
     public ServerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.server_card, parent, false);
-        ServerViewHolder serverViewHolder = new ServerViewHolder(v);
-        return serverViewHolder;
+        return new ServerViewHolder(v);
     }
 
     @Override
@@ -84,7 +82,6 @@ public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.Se
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-
                         switch (item.getItemId()) {
                             case R.id.itemSetting:
                             {
@@ -102,7 +99,6 @@ public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.Se
                                 AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
                                 alertDialog.setTitle(R.string.confirmdeletion);
                                 alertDialog.setMessage(R.string.areyousure);
-                                //alertDialog.setIcon(R.drawable.delete);
                                 alertDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,int which) {
                                         MainActivity.serverDelBase(servers.get(i));
@@ -148,7 +144,7 @@ public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.Se
 
     }
 
-    public static class ServerViewHolder extends RecyclerView.ViewHolder {
+    static class ServerViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
         TextView serverName;
         TextView serverIP;
@@ -160,19 +156,19 @@ public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.Se
         TextView countStudies;
         TextView totalDiskSizeMB;
 
-        public ServerViewHolder(View itemView)  {
+        ServerViewHolder(View itemView)  {
             super(itemView);
-            layot = (RelativeLayout)itemView.findViewById(R.id.cardLayot);
+            layot = itemView.findViewById(R.id.cardLayot);
             layot.setBackgroundResource(R.drawable.connect_false_fon);
-            cardView = (CardView)itemView.findViewById(R.id.cardView);
-            serverName = (TextView)itemView.findViewById(R.id.server_name);
-            serverIP = (TextView)itemView.findViewById(R.id.server_ip);
-            menuicon = (ImageView)itemView.findViewById(R.id.editIcon);
-            countInstances = (TextView) itemView.findViewById(R.id.countInstances);
-            countPatients = (TextView) itemView.findViewById(R.id.countPatients);
-            countSeries = (TextView) itemView.findViewById(R.id.countSeries);
-            countStudies = (TextView) itemView.findViewById(R.id.countStudies);
-            totalDiskSizeMB = (TextView) itemView.findViewById(R.id.totalDiskSizeMB);
+            cardView = itemView.findViewById(R.id.cardView);
+            serverName = itemView.findViewById(R.id.server_name);
+            serverIP = itemView.findViewById(R.id.server_ip);
+            menuicon = itemView.findViewById(R.id.editIcon);
+            countInstances = itemView.findViewById(R.id.countInstances);
+            countPatients = itemView.findViewById(R.id.countPatients);
+            countSeries = itemView.findViewById(R.id.countSeries);
+            countStudies = itemView.findViewById(R.id.countStudies);
+            totalDiskSizeMB = itemView.findViewById(R.id.totalDiskSizeMB);
         }
     }
 }

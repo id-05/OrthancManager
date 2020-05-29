@@ -1,7 +1,7 @@
 package com.example.orthancmanager;
 
-
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -18,6 +18,7 @@ public class ServerPanelPageAdapter extends FragmentPagerAdapter {
         this.server = server;
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -33,11 +34,9 @@ public class ServerPanelPageAdapter extends FragmentPagerAdapter {
                 return new StudyFragment();
             case 3:
                 return new SeriesFragment();
-            default:
-                return null;
         }
+        return null;
     }
-
 
     @Override
     public int getCount() {

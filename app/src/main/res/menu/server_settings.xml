@@ -6,11 +6,11 @@
         android:id="@+id/resetserver"
         android:checkable="false"
         android:icon="@drawable/ic_refresh_24dp"
-        android:title="Item"
+        android:title=""
         app:showAsAction="always" />
     <item
         android:id="@+id/savesettings"
         android:icon="@drawable/ic_save_24dp"
-        android:title="Item"
-        app:showAsAction="always" />
+        android:title=""
+        app:showAsAction="ifRoom" />
 </menu>

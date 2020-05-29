@@ -1,6 +1,5 @@
 package com.example.orthancmanager;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
@@ -8,27 +7,16 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.example.orthancmanager.datastorage.OrthancServer;
-import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import static com.example.orthancmanager.MainActivity.dbHelper;
 import static com.example.orthancmanager.MainActivity.print;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ServerPanel extends AppCompatActivity implements ConnectionCallback{
 
-    //String selection = null;
-    //String[] selectionArgs = null;
     int id;
     OrthancServer server = new OrthancServer();
     public String jsonSetting;
@@ -41,8 +29,6 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
         setContentView(R.layout.activity_server_panel);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-        TabItem tabView = findViewById(R.id.tabItem1);
-        TabItem tabSettings = findViewById(R.id.tabItem2);
         viewPager = findViewById(R.id.viewPage);
         Bundle arguments = getIntent().getExtras();
         if(arguments!=null){
@@ -114,90 +100,20 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id) {
-            case R.id.servpanelSetting: {
-                Intent i = new Intent(ServerPanel.this, ServerSettings.class);
-                i.putExtra("serverid", server.getId());
-                i.putExtra("json",jsonSetting);
-                startActivity(i);
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
+        if (id == R.id.servpanelSetting) {
+            Intent i = new Intent(ServerPanel.this, ServerSettings.class);
+            i.putExtra("serverid", server.getId());
+            i.putExtra("json", jsonSetting);
+            startActivity(i);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        //getOrthancSettings(server,null);
-        //frag1 = new ServerPanelViewer();
-        //FragmentTransaction ft = getFragmentManager().beginTransaction();
-        //ft.replace(R.id.frag,frag1);
-        //ft.commit();
     }
-
-    @SuppressLint("StaticFieldLeak")
-    private void getOrthancSettings(final OrthancServer server, final String param) {
-        new AbstractAsyncWorker<String>(this,server,param) {
-            @SuppressLint("StaticFieldLeak")
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            protected String doAction() throws Exception {
-                String urlParameters = "f = io.open(\"/\\etc\\/orthanc\\/orthanc.json\",\"r+\");" +
-                        "print(f:read(\"*a\"))"+
-                        "f:close()";
-                String result = null;
-                String auth =new String(server.login + ":" + server.password);
-                byte[] data1 = auth.getBytes(UTF_8);
-                String base64 = Base64.encodeToString(data1, Base64.NO_WRAP);
-                try {
-                    String fulladdress = "http://"+server.ipaddress+":"+server.port;
-                    URL url = new URL(fulladdress+"/tools/execute-script");
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setDoOutput(true);
-                    connection.setRequestProperty("Authorization", "Basic "+base64);
-                    connection.setRequestProperty("Content-Length",  String.valueOf(fulladdress+urlParameters));
-                    connection.setConnectTimeout(10000);
-                    connection.setRequestMethod("POST");
-                    connection.connect();
-                    OutputStream os = connection.getOutputStream();
-                    os.write(urlParameters.getBytes());
-                    int responseCode=connection.getResponseCode();
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-                        String line = null;
-                        StringBuilder sb = new StringBuilder();
-                        while ((line = bufferedReader.readLine()) != null) {
-                            {
-                                int i = line.indexOf("}");
-                                if(i!= -1){
-                                    if (((i == (line.length()-1))&(i!=0))) {
-                                        sb.append(line);
-                                    }else
-                                    {
-                                        sb.append(line);
-                                    }
-                                }else {
-                                    sb.append(line);
-                                }
-                            }
-                        }
-                        bufferedReader.close();
-                        result = sb.toString();
-                    }else {
-                        MainActivity.print( "error on server panel =  "+responseCode);
-                    }
-                    os.close();
-                }catch (Exception e) {
-                    MainActivity.print("error get thread :"+e.toString());
-                }
-
-                return result;
-            }
-        }.execute();
-    }
-
 
     @Override
     public void onBackPressed() {
