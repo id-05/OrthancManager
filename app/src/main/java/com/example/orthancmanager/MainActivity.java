@@ -19,6 +19,9 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
 import com.example.orthancmanager.datastorage.DateBase;
 import com.example.orthancmanager.datastorage.OrthancServer;
 import com.google.gson.JsonObject;
@@ -33,9 +36,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class MainActivity extends AppCompatActivity implements ConnectionCallback {
 
-    private ArrayList<OrthancServer> ServerList = new ArrayList<>();
+    private static ArrayList<OrthancServer> ServerList = new ArrayList<>();
     public static DateBase dbHelper;
     public ServerCardAdapter adapter;
+    static TextView ifNoServerMes;
 
     public static OrthancServer getServerById(int id) {
         OrthancServer server = new OrthancServer();
@@ -72,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         dbHelper = new DateBase(this);
         setContentView(R.layout.activity_main);
+        ifNoServerMes = findViewById(R.id.noserver);
+        ifNoServerMes.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -145,12 +151,13 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         Log.d("orthanclog",str);
     }
 
-    public void GetServerList(ArrayList<OrthancServer> serverList){
+    public static void GetServerList(ArrayList<OrthancServer> serverList){
         SQLiteDatabase userDB = dbHelper.getWritableDatabase();
         try {
             Cursor cursor = userDB.query("servers", null, null, null, null, null, null);
             if (cursor.moveToFirst()) {
                 do {
+                    ifNoServerMes.setVisibility(View.INVISIBLE);
                     OrthancServer server = new OrthancServer();
                     server.setId(cursor.getInt(cursor.getColumnIndex("id")));
                     server.name = (cursor.getString(cursor.getColumnIndex("name")));
@@ -170,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 }
                 while (cursor.moveToNext());
             }else {
-
+                ifNoServerMes.setVisibility(View.VISIBLE);
             }
             cursor.close();
         }catch (SQLException e){
@@ -191,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         newValues.put("comment","test");
         try {
             SQLiteDatabase userDB = dbHelper.getWritableDatabase();
+            userDB.insertOrThrow("servers", null, newValues);
             userDB.close();
         }catch (SQLException e){
             print("error add to base "+e.toString());
@@ -322,7 +330,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     @Override
     public void onFailure(Throwable t) {
-        //MainActivity.print("failure");
         adapter.notifyDataSetChanged();
     }
 

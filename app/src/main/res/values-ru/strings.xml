@@ -199,5 +199,6 @@
     <string name="skbclose">]</string>
     <string name="generic">Generic</string>
     <string name="skobkastart">[</string>
+    <string name="ifnoservermes">Вы ещё не добавили ни одного сервера. Что бы добавить сервер воспользуйтесь пунктом меню "Добавить сервер"! Для подключения используйте учетные данные существующего HTTP-пользователя.</string>
 
 </resources>

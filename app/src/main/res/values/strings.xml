@@ -254,6 +254,7 @@
     <string name="skbclose">]</string>
     <string name="generic">Generic</string>
     <string name="skobkastart">[</string>
+    <string name="ifnoservermes">You have not added any servers. To add a server, click Add Server!</string>
     >
 
     >
