@@ -6,5 +6,6 @@
         android:title="@string/titleAddServer" />
     <item
         android:id="@+id/TitleSittings"
-        android:title="@string/mainSettings" />
+        android:title="@string/mainSettings"
+        android:visible="false" />
 </menu>
