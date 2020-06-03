@@ -259,6 +259,8 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
     public void onSuccess(String data, OrthancServer server, String param) {
         editor.putString("SeachResult",data);
         editor.putInt("currentServerId",server.id);
+        //editor.putString("seachMode",seachspinner);
+        //editor.putString("name",editIdName.getText().toString());
         editor.commit();
         newSeach = true;
         ServerPanel.TabChange(1);
