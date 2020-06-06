@@ -8,4 +8,4 @@ This app is written in Android Studio, designed to manage Orthanc servers. Ortha
 
 
 
-![](https://github.com/id-05/OrthancManager/blob/master/images/1.jpg)
+![](https://github.com/id-05/OrthancManager/blob/master/images/1.png)
