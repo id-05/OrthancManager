@@ -1,3 +1,7 @@
+
+[logo]: https://github.com/id-05/OrthancManager/blob/master/images/googleplaylogo.jpg
+[google]: https://play.google.com/store/apps/details?id=com.orthancmanager "щелкните, чтобы посетить Google.com"
+
 ### 	Description
 
 This app is written in Android Studio, designed to manage Orthanc servers. Orthanc is a popular open source DICOM server. The application allows you to view and modify the server configuration file (orthanc.json), as well as view records in the DICOM server database and the images themselves.
