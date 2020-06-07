@@ -47,7 +47,6 @@
     <string-array name="seachtype">
         <item>Patient name</item>
         <item>Patient ID</item>
-        <item>Accession number</item>
     </string-array>
     <string-array name="Property">
         <item>Generic</item>

@@ -57,6 +57,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
     private ArrayList<String> selectorList = new ArrayList<>();
     private EditText editIdName;
     static boolean newSeach = false;
+    public String selectSeachMetod;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -137,6 +138,8 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
     private final AdapterView.OnItemSelectedListener seachSpinnerListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            String[] seachtypearray = getResources().getStringArray(R.array.seachtype);
+            selectSeachMetod = seachtypearray[i];
         }
 
         @Override
@@ -178,7 +181,12 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
             JsonObject queryDetails=new JsonObject();
             String date = format.format(calendarFromDate.getTime())+"-"+format.format(calendarToDate.getTime());
             queryDetails.addProperty("StudyDate", date);
-            queryDetails.addProperty("PatientID", editIdName.getText().toString());
+            if(selectSeachMetod.equals("Patient ID")){
+                queryDetails.addProperty("PatientID", editIdName.getText().toString());
+            }
+            if(selectSeachMetod.equals("Patient name")){
+                queryDetails.addProperty("PatientID", "*");
+            }
             StringBuilder modalities=new StringBuilder();
             if (cr.isChecked()) modalities.append("CR\\");
             if (ct.isChecked()) modalities.append("CT\\");
@@ -259,8 +267,8 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
     public void onSuccess(String data, OrthancServer server, String param) {
         editor.putString("SeachResult",data);
         editor.putInt("currentServerId",server.id);
-        //editor.putString("seachMode",seachspinner);
-        //editor.putString("name",editIdName.getText().toString());
+        editor.putString("seachMode",selectSeachMetod);
+        editor.putString("name",editIdName.getText().toString());
         editor.commit();
         newSeach = true;
         ServerPanel.TabChange(1);

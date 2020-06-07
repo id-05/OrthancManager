@@ -33,6 +33,8 @@ public class PatientsFragment extends Fragment {
     private ArrayList<Patient> patients = new ArrayList<>();
     private PatientAdapter adapter = new PatientAdapter(patients);
     static Boolean newClick = false;
+    String seachMode;
+    String seachpatientName;
 
     @Nullable
     @Override
@@ -51,8 +53,11 @@ public class PatientsFragment extends Fragment {
         super.setMenuVisibility(menuVisible);
         if ((menuVisible)&(SeachFragment.newSeach)) {
             String data = prefs.getString("SeachResult", "*");
+            seachMode = prefs.getString("seachMode", "*");
+            seachpatientName = prefs.getString("name", "*");
             SeachFragment.newSeach = false;
             getPatientsFromJson(data);
+
         }
     }
 
@@ -110,7 +115,15 @@ public class PatientsFragment extends Fragment {
                 Patient patient=new Patient(patientName,patientId,patientBirthDate,patientSex,parentPatientID);
                     patient.addStudy(studyObj);
                 patientMap.put(parentPatientID, patient);
-                patients.add(patient);
+                if(seachMode.equals("Patient ID")){
+                    patients.add(patient);
+                }
+                if(seachMode.equals("Patient name")){
+                    if(patient.name.toUpperCase().contains(seachpatientName.toUpperCase())){
+                        patients.add(patient);
+                    }
+                }
+
             }
         }
         adapter.notifyDataSetChanged();
