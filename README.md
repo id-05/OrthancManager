@@ -1,6 +1,6 @@
 
-[logo]: https://github.com/id-05/OrthancManager/blob/master/images/googleplaylogo.jpg
-[google]: https://play.google.com/store/apps/details?id=com.orthancmanager "щелкните, чтобы посетить Google.com"
+[![](https://github.com/id-05/OrthancManager/blob/master/images/googleplaylogo.jpg)
+(https://play.google.com/store/apps/details?id=com.orthancmanager) 
 
 ### 	Description
 
