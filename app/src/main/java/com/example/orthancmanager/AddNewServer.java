@@ -198,7 +198,7 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
     final View.OnClickListener pressSave = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if((!ipaddressEdit.getText().toString().equals("")) & (!portEdit.getText().toString().equals("")))
+            if((!ipaddressEdit.getText().toString().equals("")) & (!portEdit.getText().toString().equals("")) & (!pathtojson.getText().toString().equals("")))
             {
                 switch (method) {
                     case "new":{
@@ -233,6 +233,9 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                 }
                 if(portEdit.getText().toString().equals("")){
                     Toast toast = Toast.makeText(AddNewServer.this, R.string.failurePORT, Toast.LENGTH_SHORT); toast.show();
+                }
+                if(pathtojson.getText().toString().equals("")){
+                    Toast toast = Toast.makeText(AddNewServer.this, R.string.failurepathtojson, Toast.LENGTH_SHORT); toast.show();
                 }
             }
         }
