@@ -16,8 +16,8 @@ android {
         applicationId "com.orthancmanager"
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.01"
+        versionCode 4
+        versionName "1.03"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

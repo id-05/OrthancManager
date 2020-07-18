@@ -118,11 +118,11 @@
     <string name="HttpsCACertificatessum">Путь к сертификатам CA (certification authority) для проверки одноранговых узлов в HTTPS-запросах. Из документации curl (опция "—cacert"): предлагает использовать указанный файл сертификата для проверки одноранговых узлов. Этот файл может содержать несколько сертификатов CA. Сертификат(ы) должен быть в формате PEM. В системах на базе Debian этот параметр может быть установлен в значение: /etc / ssl/certs/ca-certificates.crt </string>
     <string name="Advancedoptions">Дополнительные параметры</string>
     <string name="StableAge">Stable Age</string>
-    <string name="StableAgesum">Количество секунд без получения какого-либо экземпляра? до того как пациент, исследование или серия считаются стабильными</string>
+    <string name="StableAgesum">Количество секунд без получения какого-либо экземпляра, до того как пациент, исследование или серия считаются стабильными</string>
     <string name="StrictAetComparison">Сравнение AET с учетом регистра</string>
     <string name="StrictAetComparisonsum">По умолчанию Orthanc сравнивает AET без учета регистра. Включение этого параметра, предполагает дальнейшее сопоставление с учетом регистра</string>
     <string name="StoreMD5ForAttachments">Хранить MD5 сумму для полученных данных</string>
-    <string name="StoreMD5ForAttachmentssum">Если включено, MD5 файлов DICOM будут вычислены и сохранены в базе данных Orthanc. Эта информация может использоваться для обнаружения повреждения диска за счет небольших затрат на производительность</string>
+    <string name="StoreMD5ForAttachmentssum">Если включено, суммы MD5 файлов DICOM будут вычислены и сохранены в базе данных Orthanc. Эта информация может использоваться для обнаружения повреждения диска за счет небольших затрат на производительность</string>
     <string name="LimitFindResults">Limit Find Results</string>
     <string name="LimitFindResultssum">Максимальное количество результатов для одного запроса C-FIND на уровне пациента, исследования или серии. Установка этого параметра в "0" означает отсутствие ограничения</string>
     <string name="LimitFindInstances">Limit Find Instances</string>
