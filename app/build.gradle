@@ -50,4 +50,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'net.imagej:ij:1.53a'
+    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
 }

@@ -3,12 +3,14 @@ package com.example.orthancmanager;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -20,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.orthancmanager.datastorage.DateBase;
@@ -40,6 +43,11 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     public static DateBase dbHelper;
     public ServerCardAdapter adapter;
     static TextView ifNoServerMes;
+    public ImageView horizimage, columnimage;
+    public SharedPreferences sPref;
+    private int viewStyle;
+    private DrawerLayout drawerlayout;
+
 
     public static OrthancServer getServerById(int id) {
         OrthancServer server = new OrthancServer();
@@ -78,17 +86,26 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         setContentView(R.layout.activity_main);
         ifNoServerMes = findViewById(R.id.noserver);
         ifNoServerMes.setVisibility(View.INVISIBLE);
+        horizimage = findViewById(R.id.horstyle);
+        horizimage.setOnClickListener(horizstyleclick);
+        columnimage = findViewById(R.id.columnstyle);
+        columnimage.setOnClickListener(columnstyleclick);
+        drawerlayout = findViewById(R.id.drawerlayoutid);
+        loadCONFIG();
     }
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onStart() {
         super.onStart();
+        drawerlayout.closeDrawers();
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new GridLayoutManager(this,2);
+        LinearLayoutManager linearLayoutManager = new GridLayoutManager(this,viewStyle);
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new ServerCardAdapter(ServerList,this);
         recyclerView.setAdapter(adapter);
+        drawerlayout.openDrawer(-1);
     }
 
     @Override
@@ -141,6 +158,24 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    View.OnClickListener horizstyleclick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            viewStyle = 1;
+            saveCONFIG();
+            onStart();
+        }
+    };
+
+    View.OnClickListener columnstyleclick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            viewStyle = 2;
+            saveCONFIG();
+            onStart();
+        }
+    };
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
@@ -336,5 +371,18 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
     @Override
     public void onEnd() {
 
+    }
+
+    //это методы чтения и записи для ini файла
+    public void saveCONFIG() {
+        sPref = getSharedPreferences("config",MODE_PRIVATE);
+        SharedPreferences.Editor ed = sPref.edit();
+        ed.putInt("VIEWSTYLE", viewStyle);
+        ed.commit();
+    }
+
+    public void loadCONFIG() {
+        sPref = getSharedPreferences("config",MODE_PRIVATE);
+        viewStyle = sPref.getInt("VIEWSTYLE", 1);
     }
 }
