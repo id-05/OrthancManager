@@ -105,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new ServerCardAdapter(ServerList,this);
         recyclerView.setAdapter(adapter);
-        drawerlayout.openDrawer(-1);
     }
 
     @Override
