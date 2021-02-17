@@ -45,8 +45,8 @@
         <item>C:\\Program Files\\Orthanc Server\\Configuration\\</item>
     </string-array>
     <string-array name="seachtype">
-        <item>Patient name</item>
         <item>Patient ID</item>
+        <item>Patient name</item>
     </string-array>
     <string-array name="Property">
         <item>Generic</item>
