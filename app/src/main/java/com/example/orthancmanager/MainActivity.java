@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                     connection.setDoInput(true);
                     connection.setRequestProperty("Authorization", "Basic "+base64);
                     connection.setRequestMethod("GET");
-                    connection.setConnectTimeout(1000);
+                    connection.setConnectTimeout(2000);/////////////////i change it
                     connection.connect();
                     int responseCode=connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {

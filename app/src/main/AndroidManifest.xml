@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DicomViewer"></activity>
+        <activity android:name=".BackupMaster"></activity>
+        <activity android:name=".DicomViewer" />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" />

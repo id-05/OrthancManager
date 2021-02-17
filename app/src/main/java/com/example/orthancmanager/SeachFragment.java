@@ -73,9 +73,9 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
             id = getArguments().getInt("serverid");
         }
         server = MainActivity.getServerById(id);
-        calendarFromDate.set(Calendar.YEAR, 2015);
-        calendarFromDate.set(Calendar.MONTH, 1);
-        calendarFromDate.set(Calendar.DAY_OF_MONTH, 1);
+//        calendarFromDate.set(Calendar.YEAR, 2015);
+//        calendarFromDate.set(Calendar.MONTH, 1);
+//        calendarFromDate.set(Calendar.DAY_OF_MONTH, 1);
         cr = fragmentView.findViewById(R.id.cbCR);
         ct = fragmentView.findViewById(R.id.cbCT);
         mr = fragmentView.findViewById(R.id.cbMR);

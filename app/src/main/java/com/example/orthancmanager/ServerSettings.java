@@ -1,6 +1,7 @@
 package com.example.orthancmanager;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -28,7 +30,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class ServerSettings extends AppCompatActivity implements ConnectionCallback{
 
     int id;
-    //String json;
+    String stringforbackup;
     OrthancServer server = new OrthancServer();
     int modeCallback;
     //1 - read
@@ -102,6 +104,14 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                 SaveSettings();
                 return true;
             }
+
+            case R.id.backupsettings: {
+                Intent i = new Intent(ServerSettings.this, BackupMaster.class);
+                i.putExtra("serverid", server.getId());
+                i.putExtra("backupsettings", stringforbackup);
+                startActivity(i);
+                return true;
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -135,13 +145,18 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), UTF_8));
                         String line;
                         StringBuilder sb = new StringBuilder();
+                        StringBuilder sbforbackup = new StringBuilder();
                         while ((line = bufferedReader.readLine()) != null) {
+                            //Log.d("orthanclog",line);
+                            sbforbackup.append(line);
+                            sbforbackup.append("\n");
                             if(truestring(line)){
                                 sb.append(line);
                             }
                         }
                         bufferedReader.close();
                         result = sb.toString();
+                        stringforbackup = sbforbackup.toString();
                     }else {
                         MainActivity.print( "Error server response =  "+responseCode);
                     }

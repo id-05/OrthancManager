@@ -13,4 +13,9 @@
         android:icon="@drawable/ic_save_24dp"
         android:title=""
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/backupsettings"
+        android:icon="@drawable/ic_baseline_backup_24"
+        android:title="Item"
+        app:showAsAction="ifRoom" />
 </menu>

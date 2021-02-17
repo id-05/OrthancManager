@@ -1,0 +1,2537 @@
+openapi: 3.0.0
+info:
+  title: Orthanc
+  version: 1.0.0
+  description: >-
+    One of the major strengths of Orthanc lies in its built-in RESTful API, that can be used to drive Orthanc from external applications, independently of the programming language that is used to develop these applications. The REST API of Orthanc gives a full programmatic access to all the core features of Orthanc. Importantly, Orthanc Explorer (the embedded administrative interface of Orthanc) entirely resorts to this REST API for all its features. This implies that anything that can be done through Orthanc Explorer, can also be done through REST queries.<p>
+    This documentation is <b>work-in-progress</b>: The entire REST API is not covered yet. Please contribute by improving the source code of the documentation: https://bitbucket.org/sjodogne/orthanc-book/src/default/
+servers:
+  - url: 'https://demo.orthanc-server.com'
+components:
+
+####################################################################################
+## SCHEMAS / MODELS
+####################################################################################
+
+  schemas:
+    patient:
+      properties:
+        ID:
+          type: string
+        Studies:
+          type: array
+          items:
+            type: string
+        MainDicomTags:
+          type: object
+          properties:
+            OtherPatientIDs:
+              type: string
+            PatientBirthDate:
+              type: string
+            PatientName:
+              type: string
+            PatientSex:
+              type: string
+        ParentPatient:
+              type: string
+        Type:
+          type: string
+          enum:
+            - Patient
+      example: {
+        "ID" : "07a6ec1c-1be5920b-18ef5358-d24441f3-10e926ea",
+        "MainDicomTags" : {
+          "OtherPatientIDs" : "(null)",
+          "PatientBirthDate" : "0",
+          "PatientID" : "000000185",
+          "PatientName" : "Anonymous^Unknown",
+          "PatientSex" : "O"
+        },
+        "Studies" : [ "9ad2b0da-a406c43c-6e0df76d-1204b86f-78d12c15" ],
+        "Type" : "Patient"
+      }
+    study:
+      properties:
+        ID:
+          type: string
+        Series:
+          type: array
+          items:
+            type: string
+        MainDicomTags:
+          type: object
+          properties:
+            AccesionNumber:
+              type: string
+            StudyDate:
+              type: string
+            StudyDescription:
+              type: string
+            StudyID:
+              type: string
+            StudyInstanceUID:
+              type: string
+            StudyTime:
+              type: string
+        ParentPatient:
+              type: string
+        Type:
+          type: string
+          enum:
+            - Study
+      example: {
+        "ID" : "9ad2b0da-a406c43c-6e0df76d-1204b86f-78d12c15",
+        "MainDicomTags" : {
+          "AccessionNumber" : "(null)",
+          "StudyDate" : "20120716",
+          "StudyDescription" : "TestSUVce-TF",
+          "StudyID" : "23848",
+          "StudyInstanceUID" : "1.2.840.113704.1.111.7016.1342451220.40",
+          "StudyTime" : "170728"
+        },
+        "ParentPatient" : "07a6ec1c-1be5920b-18ef5358-d24441f3-10e926ea",
+        "Series" : [
+          "6821d761-31fb55a9-031ebecb-ba7f9aae-ffe4ddc0",
+          "2cc6336f-2d4ae733-537b3ca3-e98184b1-ba494b35",
+          "7384c47e-6398f2a8-901846ef-da1e2e0b-6c50d598"
+        ],
+        "Type" : "Study"
+      }
+    series:
+      properties:
+        ID:
+          type: string
+        ExpectedNumberOfInstances:
+          type: number
+        Instances:
+          type: array
+          items:
+            type: string
+        MainDicomTags:
+          type: object
+          properties:
+            Manufacturer:
+              type: string
+            Modality:
+              type: string
+            NumberOfSlices:
+              type: string
+            ProtocolName:
+              type: string
+            SeriesDate:
+              type: string
+            SeriesDescription:
+              type: string
+            SeriesInstanceUID:
+              type: string
+            SeriesNumber:
+              type: string
+            SeriesTime:
+              type: string
+            StationName:
+              type: string
+        ParentStudy:
+              type: string
+        Type:
+          type: string
+          enum:
+            - Series
+        Status:
+          type: string
+          enum:
+            - Complete
+      example: {
+        "ExpectedNumberOfInstances" : 45,
+        "ID" : "2cc6336f-2d4ae733-537b3ca3-e98184b1-ba494b35",
+        "Instances" : [
+          "41bc3f74-360f9d10-6ae9ffa4-01ea2045-cbd457dd",
+          "1d3de868-6c4f0494-709fd140-7ccc4c94-a6daa3a8",
+          "1010f80b-161b71c0-897ec01b-c85cd206-e669a3ea",
+          "e668dcbf-8829a100-c0bd203b-41e404d9-c533f3d4"
+        ],
+        "MainDicomTags" : {
+          "Manufacturer" : "Philips Medical Systems",
+          "Modality" : "PT",
+          "NumberOfSlices" : "45",
+          "ProtocolName" : "CHU/Body_PET/CT___50",
+          "SeriesDate" : "20120716",
+          "SeriesDescription" : "[WB_CTAC] Body",
+          "SeriesInstanceUID" : "1.3.46.670589.28.2.12.30.26407.37145.2.2516.0.1342458737",
+          "SeriesNumber" : "587370",
+          "SeriesTime" : "171121",
+          "StationName" : "r054-svr"
+        },
+        "ParentStudy" : "9ad2b0da-a406c43c-6e0df76d-1204b86f-78d12c15",
+        "Status" : "Complete",
+        "Type" : "Series"
+      }
+    instance:
+      properties:
+        FileSize:
+          type: number
+        FileUuid: 
+          type: string
+        ID:
+          type: string
+        IndexInSeries:
+          type: number
+        MainDicomTags:
+          type: object
+          properties:
+            AcquisitionNumber:
+              type: string
+            ImageIndex:
+              type: string
+            ImagePositionPatient:
+              type: string
+            InstanceNumber:
+              type: string
+            SOPInstanceUID:
+              type: string
+        ParentSeries:
+              type: string
+        Type:
+          enum:
+            - Instance
+      example: {
+        "FileSize" : 35440,
+        "FileUuid" : "7976ad32-4d15-439b-8789-bf70f52200ec",
+        "ID" : "055bfbaf-2aae936c-82ed5a9a-9267f8b7-416a4000",
+        "IndexInSeries" : 59,
+        "MainDicomTags" : {
+            "AcquisitionNumber" : "2",
+            "ImageIndex" : "59",
+            "ImagePositionPatient" : "-134.74816\\-272.14441\\-712.764",
+            "InstanceNumber" : "59",
+            "SOPInstanceUID" : "1.3.12.2.1107.5.1.4.36085.2.0.3752288429331748"
+        },
+        "ParentSeries" : "318603c5-03e8cffc-a82b6ee1-3ccd3c1e-18d7e3bb",
+        "Type" : "Instance"
+      }
+
+
+    jobId:
+      properties:
+        ID:
+          type: string
+        Path:
+          type: string
+      example: {
+        "ID": "11541b16-e368-41cf-a8e9-3acf4061d238",
+        "Path": "/jobs/11541b16-e368-41cf-a8e9-3acf4061d238"
+      }
+
+
+    jobCStore:
+      properties:
+        Description:
+          type: string
+        FailedInstancesCount: 
+          type: number
+        InstancesCount:
+          type: number
+        LocalAet:
+          type: string
+        RemoteAet:
+          type: string
+      example: {
+        "Description": "REST API",
+        "FailedInstancesCount": 0,
+        "InstancesCount": 1,
+        "LocalAet": "ORTHANCA",
+        "RemoteAet": "ORTHANCB"
+      }
+
+
+    jobPeerStore:
+      properties:
+        Description:
+          type: string
+        FailedInstancesCount: 
+          type: number
+        InstancesCount:
+          type: number
+        Peer:
+          type: string
+      example: {
+        "Description": "REST API",
+        "FailedInstancesCount": 0,
+        "InstancesCount": 1,
+        "Peer": [
+          "http://127.0.0.1:8543/"
+        ]
+      }
+
+
+    listOfResourcesWithAsynchOption:
+      properties:
+        Resources:
+          description: A list of resources IDs (Patient, Studies, Series or Instances)
+          type: array
+          items:
+            type: string
+        Asynchronous:
+          description: true to create a job and return immediately, false to wait for job completion.  
+            The response will vary according to this parameter.  If the call is synchronous, you'll receive
+            a completed job in the response while if the call is asynchronous, you'll receive a job identifier.
+          type: boolean
+      example: {
+        "Resources" : ["62cdfbea-07c71f0c-cd643b19-841a306a-01221339"],
+        "Asynchronous" : true
+      }
+
+
+    listOfResources:
+      description: A list of resources IDs (Patient, Studies, Series or Instances)
+      schema:
+        type: array
+        items:
+          type: string
+      example: ["62cdfbea-07c71f0c-cd643b19-841a306a-01221339"]
+
+
+    singleResource:
+      description: A resource ID (Patient, Studies, Series or Instances)
+      type: string
+      example: "62cdfbea-07c71f0c-cd643b19-841a306a-01221339"
+
+    peer:
+      required:
+        - Url
+      properties:
+        Url:
+          type: string
+          description: the root url of the Orthanc Rest API of the other peer
+        Username: 
+          type: string
+        Password:
+          type: string
+        HttpHeaders:
+          description: HTTP headers to add to every request sent to that peer
+          type: object
+        CertificateFile:
+          type: string
+        CertificateKeyFile:
+          type: string
+        CertificateKeyPassword:
+          type: string
+      example: {
+        "Url" : "http://localhost:8044",
+        "Username" : "alice",                          
+        "Password" : "alicePassword",                  
+        "HttpHeaders" : { "Token" : "Hello world" },   
+        "CertificateFile" : "client.crt",              
+        "CertificateKeyFile" : "client.key",           
+        "CertificateKeyPassword" : "certpass"          
+      }
+
+
+####################################################################################
+## ROUTES / PATHS
+####################################################################################
+
+paths:
+  /instances:
+    post:
+      tags: [Instances]
+      description: The upload of DICOM files is possible by querying the REST API using the following syntax.
+      requestBody:
+        description: DICOM file
+        content:
+          application/dicom: {}
+      responses:
+        200:
+          description: New instance successfully posted
+          content:
+            application/json:
+              schema:
+                properties:
+                  ID:
+                    description: New Orthanc instance ID
+                    type: string
+                  Path:
+                    description: URL path for the instance
+                    type: string
+                  Status:
+                    description: Status
+                    type: string
+                    enum:
+                      - Success
+    get:
+      tags: [Instances]
+      description: Get all DICOM instances ID's in Orthanc
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: number
+          description: Limit the number of results to the specified. number
+        - name: since
+          in: query
+          schema:
+            type: number
+          description: Show only the resources since the index provided.
+      responses:
+        200:
+          description: Array of all instances ID's
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example: [
+   "055bfbaf-2aae936c-82ed5a9a-9267f8b7-416a4000",
+   "62dc1ec1-9fc2dd9d-aa66eae1-0db608b1-e17f8ce8"
+]
+  /instances/{Id}:
+    get:
+      tags: [Instances]
+      description: Get an instance from Orthanc
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Orthanc instance
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/instance"
+    delete:
+      tags : [Instances]
+      description: Delete an instance
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+       200:
+         description: Success
+  /instances/{Id}/simplified-tags:
+    get:
+      tags: [Instances]
+      description: Get the human readable tags for the DICOM instance.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: DICOM tags and values
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {
+  "ACR_NEMA_2C_VariablePixelDataGroupLength" : "57130",
+  "AccessionNumber" : null,
+  "AcquisitionDate" : "20120716",
+  "AcquisitionDateTime" : "20120716171219",
+  "AcquisitionTime" : "171219",
+  "ActualFrameDuration" : "3597793",
+  "AttenuationCorrectionMethod" : "CTAC-SG",
+  "PatientID" : "000000185",
+  "PatientName" : "Anonymous^Unknown",
+  "PatientOrientationCodeSequence" : [
+     {
+        "CodeMeaning" : "recumbent",
+        "CodeValue" : "F-10450",
+        "CodingSchemeDesignator" : "99SDM",
+        "PatientOrientationModifierCodeSequence" : [
+           {
+              "CodeMeaning" : "supine",
+              "CodeValue" : "F-10340",
+              "CodingSchemeDesignator" : "99SDM"
+           }
+        ]
+     }
+  ],
+  "StudyDescription" : "TestSUVce-TF",
+  "StudyID" : "23848",
+  "StudyInstanceUID" : "1.2.840.113704.1.111.7016.1342451220.40",
+  "StudyTime" : "171117",
+  "TypeOfDetectorMotion" : "NONE",
+  "Units" : "BQML",
+  "Unknown" : null,
+  "WindowCenter" : "1.496995e+04",
+  "WindowWidth" : "2.993990e+04"
+}
+  /instances/{Id}/tags:
+    get:
+      tags: [Instances]
+      description: Get the detailed tags for the DICOM instance.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: simplify
+          required: false
+          description: Show more user-friendly tags like in /simplified-tags
+          in: query
+          schema:
+            type: boolean
+        - name: short
+          required: false
+          description: Shorten the values so that they are not separate JSON objects with the user-friendly description of the tag and the type. Instead, values are given as direct values to the tags.
+          in: query
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: DICOM tags and values
+          content:
+            application/json:
+              schema:
+                type: object
+              example: 
+                {
+   "0008,0005" : {
+      "Name" : "SpecificCharacterSet",
+      "Type" : "String",
+      "Value" : "ISO_IR 100"
+   },
+   "0008,0008" : {
+      "Name" : "ImageType",
+      "Type" : "String",
+      "Value" : "ORIGINAL\\PRIMARY\\HEADER_CORRECTED"
+   },
+   "0008,0016" : {
+      "Name" : "SOPClassUID",
+      "Type" : "String",
+      "Value" : "1.2.840.10008.5.1.4.1.1.128"
+   },
+   "0008,0018" : {
+      "Name" : "SOPInstanceUID",
+      "Type" : "String",
+      "Value" : "1.3.12.2.1107.5.1.4.36085.2.0.3752288429331748"
+   },
+   "0008,0020" : {
+      "Name" : "StudyDate",
+      "Type" : "String",
+      "Value" : "20040304"
+   },
+   "0008,0021" : {
+      "Name" : "SeriesDate",
+      "Type" : "String",
+      "Value" : "20040304"
+   },
+   "0008,0022" : {
+      "Name" : "AcquisitionDate",
+      "Type" : "String",
+      "Value" : "20040304"
+   }
+}
+  /instances/{Id}/header:
+    get:
+      tags: [Instances]
+      description: Get the detailed header tags for the DICOM instance.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: simplify
+          required: false
+          description: Show more user-friendly tags like in /simplified-tags
+          in: query
+          schema:
+            type: boolean
+        - name: short
+          required: false
+          description: Shorten the values so that they are not separate JSON objects with the user-friendly description of the tag and the type. Instead, values are given as direct values to the tags.
+          in: query
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: DICOM tags and values
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {
+   "0002,0000" : {
+      "Name" : "FileMetaInformationGroupLength",
+      "Type" : "String",
+      "Value" : "222"
+   },
+   "0002,0002" : {
+      "Name" : "MediaStorageSOPClassUID",
+      "Type" : "String",
+      "Value" : "1.2.840.10008.5.1.4.1.1.128"
+   },
+   "0002,0003" : {
+      "Name" : "MediaStorageSOPInstanceUID",
+      "Type" : "String",
+      "Value" : "1.3.12.2.1107.5.1.4.36085.2.0.3752288429331748"
+   },
+   "0002,0010" : {
+      "Name" : "TransferSyntaxUID",
+      "Type" : "String",
+      "Value" : "1.2.840.10008.1.2.1"
+   },
+   "0002,0012" : {
+      "Name" : "ImplementationClassUID",
+      "Type" : "String",
+      "Value" : "1.2.826.0.1.3680043.2.1143.107.104.103.115.2.2.4"
+   },
+   "0002,0013" : {
+      "Name" : "ImplementationVersionName",
+      "Type" : "String",
+      "Value" : "GDCM 2.2.4"
+   },
+   "0002,0016" : {
+      "Name" : "SourceApplicationEntityTitle",
+      "Type" : "String",
+      "Value" : "gdcmconv"
+   }
+}
+  /instances/{Id}/content/{Tag}:
+    get:
+      tags: [Instances]
+      description: Get the value for a single tag of a DICOM instance.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: Tag
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Returns the DICOM tag value or value sub-structure.
+          content:
+            application/json:
+              schema:
+                type: object
+            text/plain:
+              example: Anonymous^Unknown
+  /instances/{Id}/file:
+    get:
+      tags: [Instances]
+      description: Download the DICOM instance file in DCM format.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: DICOM file contents
+          content:
+            application/dicom: {}
+  /instances/{Id}/preview:
+    get:
+      tags: [Instances]
+      description: Download a preview image of the DICOM instance.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: Accept
+          description: Default is image/png
+          required: false
+          in: header
+          schema:
+            type: string
+            enum:
+              - image/png
+              - image/jpeg
+      responses:
+        200:
+          description: DICOM preview
+          content:
+            image/png: {}
+            image/jpg: {}
+  /instances/{Id}/{PixelFormat}:
+    get:
+      tags: [Instances]
+      description: Download an image of the DICOM instance in the specified format.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: PixelFormat
+          required: true
+          in: path
+          schema:
+            type: string
+            enum:
+              - image-uint8
+              - image-uint16
+              - image-int16
+              - matlab
+              - raw
+              - raw.gz
+        - name: Accept
+          required: true
+          in: header
+          schema:
+            type: string
+            enum:
+              - image/png
+              - image/jpeg
+              - image/x-portable-arbitrarymap
+      responses:
+        200:
+          description: Image
+          content:
+            image/png: {}
+            image/jpg: {}
+            image/x-portable-arbitrarymap: {}
+            application/octet-stream: {}
+            text/plain: {}
+  /instances/{Id}/pdf:
+    get:
+      tags: [Instances]
+      description: Download the embedded PDF of the DICOM instance.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string    
+      responses:
+        200:
+          description: The raw PDF bytes are returned.
+          content:
+            application/pdf: {}
+        404:
+          description: The instance does not contain an encapsulated PDF or the instance is not found.
+  /series:
+    get:
+      tags: [Series]
+      description: Get all DICOM series ID's in Orthanc
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: number
+          description: Limit the number of results to the specified. number
+        - name: since
+          in: query
+          schema:
+            type: number
+          description: Show only the resources since the index provided.
+      responses:
+        200:
+          description: Array of all series ID's
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example: [
+   "055bfbaf-2aae936c-82ed5a9a-9267f8b7-416a4000",
+   "62dc1ec1-9fc2dd9d-aa66eae1-0db608b1-e17f8ce8"
+]
+  /series/{Id}:
+    get:
+      tags: [Series]
+      description: Get a series from Orthanc
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Orthanc series
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/series"
+    delete:
+      tags : [Series]
+      description: Delete a series
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+       200:
+         description: Success
+  /series/{Id}/instances:
+    get:
+      tags: [Series]
+      description: Get the instances for a series
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Orthanc instances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/instance"
+         
+  /studies:
+    get:
+      tags: [Studies]
+      description: Get all DICOM studies ID's in Orthanc
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: number
+          description: Limit the number of results to the specified. number
+        - name: since
+          in: query
+          schema:
+            type: number
+          description: Show only the resources since the index provided.
+      responses:
+        200:
+          description: Array of all study ID's
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example: [
+   "055bfbaf-2aae936c-82ed5a9a-9267f8b7-416a4000",
+   "62dc1ec1-9fc2dd9d-aa66eae1-0db608b1-e17f8ce8"
+]
+  /studies/{Id}:
+    get:
+      tags: [Studies]
+      description: Get a study from Orthanc
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Orthanc study
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/study"
+    delete:
+      tags : [Studies]
+      description: Delete a study
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+       200:
+         description: Success
+  /studies/{Id}/series:
+    get:
+      tags: [Studies]
+      description: Get the series for a study
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Orthanc series
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/series"
+  /studies/{Id}/instances:
+    get:
+      tags: [Studies]
+      description: Get the instances for a study
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Orthanc instances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/instance"
+
+  /patients:
+    get:
+      tags: [Patients]
+      description: Get all DICOM patient ID's in Orthanc
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: number
+          description: Limit the number of results to the specified. number
+        - name: since
+          in: query
+          schema:
+            type: number
+          description: Show only the resources since the index provided.
+      responses:
+        200:
+          description: Array of all patient ID's
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example: [
+   "055bfbaf-2aae936c-82ed5a9a-9267f8b7-416a4000",
+   "62dc1ec1-9fc2dd9d-aa66eae1-0db608b1-e17f8ce8"
+]
+  /patients/{Id}:
+    get:
+      tags: [Patients]
+      description: Get a patient from Orthanc
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Orthanc patient
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/patient"
+    delete:
+      tags : [Patients]
+      description: Delete a patient
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+       200:
+         description: Success
+  /patients/{Id}/studies:
+    get:
+      tags: [Patients]
+      description: Get the studies for a patient
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/study"
+  /patients/{Id}/series:
+    get:
+      tags: [Patients]
+      description: Get the series for a patient
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Orthanc series
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/series"
+  /patients/{Id}/instances:
+    get:
+      tags: [Patients]
+      description: Get the instances for a patient
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Orthanc instances
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/instance"
+
+  /peers:
+    get:
+      tags: [Orthanc Peers]
+      description: Get a list of Orthanc peers.
+      parameters:
+        - name: expand
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        200:
+          description: List of Orthanc peers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /peers/{Peer}:
+    put:
+      tags: [Orthanc Peers]
+      summary: Add a new Orthanc peer. 
+      description: Note that this will only be stored in memory unless the 'OrthancPeersInDatabase' configuration option is set.
+      parameters:
+        - name: Peer
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/peer"
+      responses:
+        200:
+          description: Peer created
+  /peers/{Peer}/store:
+    post:
+      tags: [Orthanc Peers]
+      summary: Send resources to an Orthanc peer.
+      parameters:
+        - name: Peer
+          in: path
+          required: true
+          description: the peer alias as defined in the Orthanc configuration file
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/listOfResourcesWithAsynchOption"
+                - $ref: "#/components/schemas/listOfResources"          
+          text/plain:
+            schema:
+              $ref: "#/components/schemas/singleResource"
+      responses:
+        200:
+          description: Jobs that have been created
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/jobId"
+                  - $ref: "#/components/schemas/jobPeerStore"
+
+  /modalities/{Modality}/store:
+    post:
+      tags: [Remote Modalities]
+      summary: Send resources from Orthanc to a remote modality through C-Store.
+      parameters:
+        - name: Modality
+          in: path
+          required: true
+          description: the modality alias where you want to send data (as defined in the Orthanc configuration file)
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/listOfResourcesWithAsynchOption"
+                - $ref: "#/components/schemas/listOfResources"
+          text/plain:
+            schema:
+              $ref: "#/components/schemas/singleResource"
+      responses:
+        200:
+          description: Jobs that have been created
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: "#/components/schemas/jobId"
+                  - $ref: "#/components/schemas/jobCStore"
+
+
+  /modalities/{Modality}/query:
+    post:
+      tags: [Remote Modalities]
+      description: To initiate a query you perform a POST command against the Modality with the identifiers you are looking for. This search is case insensitive unless configured otherwise within the Orthanc configuration file. Note that queries are cleaned up after a period of inactivity, which can sometimes be very short. You will need to access the query results quickly.
+      parameters:
+        - name: Modality
+          in: path
+          required: true
+          description: The Modality to be queried from within the Orthanc configuration file
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Level:
+                  type: string
+                  enum:
+                    - Patient
+                    - Study
+                    - Series
+                    - Instance
+                Query:
+                  type: object
+                  properties:
+                    PatientID:
+                      type: string
+                    StudyDescription:
+                      type: string
+                      description: Match the study description. Note that wildcard "*" can be used to match any text (eg. "*Chest*").
+                    PatientName:
+                      type: string
+                    StudyDate:
+                      type: string
+                      description: This is the study date in the format "20160504". Note that ranges can be used using a hyphen (eg. "20160504-" and "20160504-20170504").
+                    StudyTime:
+                      type: string
+                  required: [Level, Query]
+                  example: {"Level":"Study","Query": {"PatientID":"","StudyDescription":"*Chest*","PatientName":""}}
+      responses:
+        200:
+          description: Query successful
+          content:
+            application/json:
+              schema:
+                properties:
+                  ID:
+                    type: string
+                  Path:
+                    type: string
+              example: {
+   "ID": "5af318ac-78fb-47ff-b0b0-0df18b0588e0",
+   "Path": "/queries/5af318ac-78fb-47ff-b0b0-0df18b0588e0"
+}
+  /queries/{QueryID}/level:
+    get:
+      tags: [Remote Modalities]
+      description: Review the query level, such as Patient, Study, Series or Instance.
+      parameters:
+        - name: QueryID
+          description: This is the query ID that comes from posting a query to the modality.
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Return the level of the query, whether Patient, Study, Series or Instance.
+          content:
+            text/plain:
+              example: Series
+  /queries/{QueryID}/modality:
+    get:
+      tags: [Remote Modalities]
+      description: Review the query modality name that the query was originally performed against.
+      parameters:
+        - name: QueryID
+          description: This is the query ID that comes from posting a query to the modality.
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Return the name of the modality that the query was run against.
+          content:
+            text/plain:
+              example: SomeModalityName
+  /queries/{QueryID}/query:
+    get:
+      tags: [Remote Modalities]
+      description: Review the query that was posted.
+      parameters:
+        - name: QueryID
+          description: This is the query ID that comes from posting a query to the modality.
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Return the query identifiers that were used originally when it was posted.
+  /queries/{QueryID}/answers:
+    get:
+      tags: [Remote Modalities]
+      description: Review the query answers.
+      parameters:
+        - name: QueryID
+          description: This is the query ID that comes from posting a query to the modality.
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Return the query answers.
+  /queries/{QueryID}/answers/{Idx}/content:
+    get:
+      tags: [Remote Modalities]
+      description: Review a specific query answer. If there are content items missing, you may add them by adding that identifier to the original query. For example if we wanted Modalities listed in this JSON answer in the initial query we would add to the POST body "ModalitiesInStudy":""
+      parameters:
+        - name: QueryID
+          description: This is the query ID that comes from posting a query to the modality.
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Idx
+          description: This is the index of a specific answer in the list of answers of the query.
+          in: path
+          required: true
+          schema:
+            type: number
+      responses:
+        200:
+          description: Return a single query answer
+          content:
+            application/json: {}
+  /queries/{QueryID}/retrieve:
+    post:
+      tags: [Remote Modalities]
+      description: You can perform a C-Move to retrieve all studies within the original query using a post command and identifying the Modality (named in this example Orthanc), to be one to in the POST contents. The C-Move can be done asynchronously using an Orthanc job using a JSON parameter in the request body.
+      parameters:
+        - name: QueryID
+          description: This is the query ID that comes from posting a query to the modality.
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The request body is the name of the modality to perform the C-Move or a JSON structure with additional information.
+        content:
+          text/plain:
+            example: Orthanc
+          application/json:
+            schema:
+              properties:
+                TargetAet:
+                  type: string
+                Synchronous:
+                  type: boolean
+                  default: true
+                  description: If Synchronous is set to false then this operation runs as an Orthanc job. The output of this request will indicate the Job ID.
+                Priority:
+                  type: number
+                  default: 0
+                  description: If Synchronous is set to false then this sets the priority of the job. The default priority is 0.
+            example: {"TargetAet":"Orthanc","Synchronous":false}
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  ID:
+                    type: string
+                    description: The ID of the job if the retrieve is asynchronous (ie. Synchronous is set to true)
+                  Path:
+                    type: string
+                    description: The URL path of the job if the retrieve is asynchronous (ie. Synchronous is set to false)
+              example: {
+    "ID" : "11541b16-e368-41cf-a8e9-3acf4061d238",
+    "Path" : "/jobs/11541b16-e368-41cf-a8e9-3acf4061d238"
+}
+  /queries/{QueryID}/answers/{Idx}/retrieve:
+    post:
+      tags: [Remote Modalities]
+      description: You can perform a C-Move to retrieve a specific study within the original query using a post command and identifying the Modality (named in this example Orthanc), to be one to in the POST contents.
+      parameters:
+        - name: QueryID
+          description: This is the query ID that comes from posting a query to the modality.
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: Idx
+          description: This is the index of a specific answer in the list of answers of the query.
+          in: path
+          required: true
+          schema:
+            type: number
+      requestBody:
+        description: The request body is the name of the modality to perform the C-Move.
+        content:
+          text/plain:
+            example: Orthanc
+      responses:
+        200:
+          description: Success
+  /tools/find:
+    post:
+      tags: [Find]
+      description: Performing a find within Orthanc is very similar to using Queries against DICOM modalities and the additional options listed above work with find also. When performing a find, you will receive the Orthanc ID’s of all the matched items within your find. For example if you perform a study level find and 5 Studies match you will receive 5 study level Orthanc ID’s in JSON format as a response.
+      requestBody:
+        description: The request body gives the parameters for the find much like when querying a remote modality.
+        content:
+          application/json:
+            schema:
+              properties:
+                Level:
+                  type: string
+                  enum:
+                    - Patient
+                    - Study
+                    - Series
+                    - Instance
+                Expand:
+                  type: boolean
+                  description: Returns an array of resources instead of just ID's.
+                Limit:
+                  type: number
+                Query:
+                  properties:
+                    Modality:
+                      type: string
+                    StudyDate:
+                      type: string
+                    PatientID:
+                      type: string
+            example: {"Level":"Instance","Limit": 2, "Query":{"Modality":"CR","StudyDate":"20180323-","PatientID":"*"}}
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: string
+                  - type: array
+                    items:
+                      $ref: "#/components/schemas/instance"
+                  - type: array
+                    items:
+                      $ref: "#/components/schemas/series"
+                  - type: array
+                    items:
+                      $ref: "#/components/schemas/study"
+                  - type: array
+                    items:
+                      $ref: "#/components/schemas/patient"
+              example: [ "6821d761-31fb55a9-031ebecb-ba7f9aae-ffe4ddc0", "2cc6336f-2d4ae733-537b3ca3-e98184b1-ba494b35" ]
+  /changes:
+    get:
+      tags: [Tracking Changes]
+      parameters:
+        - name: limit
+          description: Limit the number of changes to a maximum of the provided number.
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: since
+          description: Show only changes that have happened after the change with the provided sequence number.
+          in: query
+          required: false
+          schema:
+            type: number
+      description: Whenever Orthanc receives a new DICOM instance, this event is recorded in the so-called “Changes Log”. This enables remote scripts to react to the arrival of new DICOM resources. A typical application is auto-routing, where an external script waits for a new DICOM instance to arrive into Orthanc, then forward this instance to another modality.
+      responses:
+        200:
+          description: The list of recent changes
+          content:
+            application/json:
+              schema:
+                properties:
+                  Changes:
+                    type: array
+                    items:
+                      properties:
+                        ChangeType:
+                          type: string
+                          enum:
+                            - NewPatient
+                            - NewStudy
+                            - NewSeries
+                            - NewInstance
+                            - StablePatient
+                            - StableStudy
+                            - StableSeries
+                            - StableInstance
+                        Date:
+                          type: string
+                        ID:
+                          type: string
+                        Path:
+                          type: string
+                        ResourceType:
+                          type: string
+                          enum:
+                            - Patient
+                            - Study
+                            - Series
+                            - Instance
+                        Seq:
+                          type: number
+                  Done:
+                    type: boolean
+                    description: The flag Done is set to true if no further event has occurred after this lastly returned event. If Done is set to false, further events are available and can be retrieved. This is done by setting the since option that specifies from which sequence number the changes must be returned.
+                  Last:
+                    type: number
+                    description: The flag Last records the sequence number of the lastly returned event.
+              example: {
+  "Changes" : [
+     {
+        "ChangeType" : "NewInstance",
+        "Date" : "20130507T143902",
+        "ID" : "8e289db9-0e1437e1-3ecf395f-d8aae463-f4bb49fe",
+        "Path" : "/instances/8e289db9-0e1437e1-3ecf395f-d8aae463-f4bb49fe",
+        "ResourceType" : "Instance",
+        "Seq" : 921
+     },
+     {
+        "ChangeType" : "NewSeries",
+        "Date" : "20130507T143902",
+        "ID" : "cceb768f-e0f8df71-511b0277-07e55743-9ef8890d",
+        "Path" : "/series/cceb768f-e0f8df71-511b0277-07e55743-9ef8890d",
+        "ResourceType" : "Series",
+        "Seq" : 922
+     },
+     {
+        "ChangeType" : "NewStudy",
+        "Date" : "20130507T143902",
+        "ID" : "c4ec7f68-9b162055-2c8c5888-5bf5752f-155ab19f",
+        "Path" : "/studies/c4ec7f68-9b162055-2c8c5888-5bf5752f-155ab19f",
+        "ResourceType" : "Study",
+        "Seq" : 923
+     },
+     {
+        "ChangeType" : "NewPatient",
+        "Date" : "20130507T143902",
+        "ID" : "dc65762c-f476e8b9-898834f4-2f8a5014-2599bc94",
+        "Path" : "/patients/dc65762c-f476e8b9-898834f4-2f8a5014-2599bc94",
+        "ResourceType" : "Patient",
+        "Seq" : 924
+     }
+  ],
+  "Done" : true,
+  "Last" : 924
+}
+    delete:
+      tags : [Tracking Changes]
+      description: Clear the content of the changes log
+      responses:
+       200:
+         description: Success
+         
+  /exports:
+    get:
+      tags: [Exported Resources]
+      description: For medical traceability, Orthanc can be configured to store a log of all the resources that have been exported to remote modalities.
+      responses:
+        200: {description: Success}
+        
+    delete:
+      tags: [Exported Resources]
+      description: In auto-routing scenarios, it is important to prevent this log to grow indefinitely as incoming instances are routed. You can either disable this logging by setting the option LogExportedResources to false in the configuration file, or periodically clear this log by DELETE-ing this URI.
+      responses:
+        200: {description: Success}
+        
+  /instances/{Id}/anonymize:
+    post:
+      tags: [Anonymization]
+      description: Anonymize the instance by erasing all the tags that are specified in Table E.1-1 from PS 3.15 of the DICOM standard 2008 or 2017c (default). The response will contain the anonymized DICOM result. New UUIDs are automatically generated for the instance.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                DicomVersion:
+                  type: string
+                  description: Specifies which version of the DICOM standard shall be used for anonymization. Allowed values are 2008 and 2017c (default value if the parameter is absent). This parameter has been introduced in Orthanc 1.3.0. In earlier version, the 2008 standard was used.
+                  enum:
+                    - 2017c
+                    - 2008
+                Replace:
+                  type: object
+                  description: Replace is an associative array that associates a DICOM tag with its new string value. The value is dynamically cast to the proper DICOM data type (an HTTP error will occur if the cast fails). Replacements are applied after all the tags to anonymize have been removed.
+                Keep:
+                  type: array
+                  items:
+                    type: string
+                  description: List of DICOM tags that should be kept through the anonymization process.
+                KeepPrivateTags:
+                  type: boolean
+                  description: If KeepPrivateTags is set to true in the JSON request, private tags (i.e. manufacturer-specific tags) are not removed by the anonymization process. The default behavior consists in removing the private tags, as such tags can contain patient-specific information.
+            example: {"Replace":{"PatientName":"Hello","0010-1001":"World"},"Keep":["StudyDescription", "SeriesDescription"],"KeepPrivateTags": true, "DicomVersion" : "2017c"}        
+      responses:
+        200:
+          description: The response contains a DICOM file that has been anonymized.
+          content:
+            application/dicom: {}
+            
+  /patients/{Id}/anonymize:
+    post:
+      tags: [Anonymization]
+      description: Anonymize the patient
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                DicomVersion:
+                  type: string
+                  description: Specifies which version of the DICOM standard shall be used for anonymization. Allowed values are 2008 and 2017c (default value if the parameter is absent). This parameter has been introduced in Orthanc 1.3.0. In earlier version, the 2008 standard was used.
+                  enum:
+                    - 2017c
+                    - 2008
+                Replace:
+                  type: object
+                  description: Replace is an associative array that associates a DICOM tag with its new string value. The value is dynamically cast to the proper DICOM data type (an HTTP error will occur if the cast fails). Replacements are applied after all the tags to anonymize have been removed.
+                Keep:
+                  type: array
+                  items:
+                    type: string
+                  description: List of DICOM tags that should be kept through the anonymization process.
+                KeepPrivateTags:
+                  type: boolean
+                  description: If KeepPrivateTags is set to true in the JSON request, private tags (i.e. manufacturer-specific tags) are not removed by the anonymization process. The default behavior consists in removing the private tags, as such tags can contain patient-specific information.
+                Synchronous:
+                  type: boolean
+                  default: true
+                  description: If Synchronous is set to false then this operation runs as an Orthanc job. The output of this request will indicate the Job ID.
+                Priority:
+                  type: number
+                  default: 0
+                  description: If Synchronous is set to false then this sets the priority of the job. The default priority is 0.
+            example: {"Replace":{"PatientName":"Hello","0010-1001":"World"},"Keep":["StudyDescription", "SeriesDescription"],"KeepPrivateTags": true, "DicomVersion" : "2017c"}        
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  ID:
+                    type: string
+                    description: The ID of the new anonymized patient.
+                  Path:
+                    type: string
+                    description: The URL of the new anonymized patient.
+                  PatientID:
+                    type: string
+                  Type:
+                    type: string
+                    enum:
+                      - Patient
+              example: {
+  "ID" : "f7ff9e8b-7bb2e09b-70935a5d-785e0cc5-d9d0abf0",
+  "Path" : "/patients/f7ff9e8b-7bb2e09b-70935a5d-785e0cc5-d9d0abf0",
+  "PatientID" : "f7ff9e8b-7bb2e09b-70935a5d-785e0cc5-d9d0abf0",
+  "Type" : "Patient"
+}
+
+  /studies/{Id}/anonymize:
+    post:
+      tags: [Anonymization]
+      description: Anonymize the study
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                DicomVersion:
+                  type: string
+                  description: Specifies which version of the DICOM standard shall be used for anonymization. Allowed values are 2008 and 2017c (default value if the parameter is absent). This parameter has been introduced in Orthanc 1.3.0. In earlier version, the 2008 standard was used.
+                  enum:
+                    - 2017c
+                    - 2008
+                Replace:
+                  type: object
+                  description: Replace is an associative array that associates a DICOM tag with its new string value. The value is dynamically cast to the proper DICOM data type (an HTTP error will occur if the cast fails). Replacements are applied after all the tags to anonymize have been removed.
+                Keep:
+                  type: array
+                  items:
+                    type: string
+                  description: List of DICOM tags that should be kept through the anonymization process.
+                KeepPrivateTags:
+                  type: boolean
+                  description: If KeepPrivateTags is set to true in the JSON request, private tags (i.e. manufacturer-specific tags) are not removed by the anonymization process. The default behavior consists in removing the private tags, as such tags can contain patient-specific information.
+                Synchronous:
+                  type: boolean
+                  default: true
+                  description: If Synchronous is set to false then this operation runs as an Orthanc job. The output of this request will indicate the Job ID.
+                Priority:
+                  type: number
+                  default: 0
+                  description: If Synchronous is set to false then this sets the priority of the job. The default priority is 0.
+            example: {"Replace":{"PatientName":"Hello","0010-1001":"World"},"Keep":["StudyDescription", "SeriesDescription"],"KeepPrivateTags": true, "DicomVersion" : "2017c"}        
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  ID:
+                    type: string
+                    description: The ID of the new anonymized study.
+                  Path:
+                    type: string
+                    description: The URL of the new anonymized study.
+              example: {
+  "ID" : "3bd3d343-82879d86-da77321c-1d23fd6b-faa07bce",
+  "Path" : "/studies/3bd3d343-82879d86-da77321c-1d23fd6b-faa07bce"
+}
+
+  /series/{Id}/anonymize:
+    post:
+      tags: [Anonymization]
+      description: Anonymize the series
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                DicomVersion:
+                  type: string
+                  description: Specifies which version of the DICOM standard shall be used for anonymization. Allowed values are 2008 and 2017c (default value if the parameter is absent). This parameter has been introduced in Orthanc 1.3.0. In earlier version, the 2008 standard was used.
+                  enum:
+                    - 2017c
+                    - 2008
+                Replace:
+                  type: object
+                  description: Replace is an associative array that associates a DICOM tag with its new string value. The value is dynamically cast to the proper DICOM data type (an HTTP error will occur if the cast fails). Replacements are applied after all the tags to anonymize have been removed.
+                Keep:
+                  type: array
+                  items:
+                    type: string
+                  description: List of DICOM tags that should be kept through the anonymization process.
+                KeepPrivateTags:
+                  type: boolean
+                  description: If KeepPrivateTags is set to true in the JSON request, private tags (i.e. manufacturer-specific tags) are not removed by the anonymization process. The default behavior consists in removing the private tags, as such tags can contain patient-specific information.
+                Synchronous:
+                  type: boolean
+                  default: true
+                  description: If Synchronous is set to false then this operation runs as an Orthanc job. The output of this request will indicate the Job ID.
+                Priority:
+                  type: number
+                  default: 0
+                  description: If Synchronous is set to false then this sets the priority of the job. The default priority is 0.
+            example: {"Replace":{"PatientName":"Hello","0010-1001":"World"},"Keep":["StudyDescription", "SeriesDescription"],"KeepPrivateTags": true, "DicomVersion" : "2017c"}        
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  ID:
+                    type: string
+                    description: The ID of the new anonymized series.
+                  Path:
+                    type: string
+                    description: The URL of the new anonymized series.
+              example: {
+  "ID" : "3bd3d343-82879d86-da77321c-1d23fd6b-faa07bce",
+  "Path" : "/series/3bd3d343-82879d86-da77321c-1d23fd6b-faa07bce"
+}
+            
+  /instances/{Id}/modify:
+    post:
+      tags: [Modification]
+      description: Orthanc allows to modify a set of specified tags in a single DICOM instance and to download the resulting modified DICOM file.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Replace:
+                  type: object
+                  description: The Replace associative array specifies the substitions to be applied (cf. anonymization).
+                Remove:
+                  type: array
+                  items:
+                    type: string
+                  description: The Remove array specifies the list of the tags to remove.
+                RemovePrivateTags:
+                  type: boolean
+                  description: If RemovePrivateTags is set to true, the private tags (i.e. manufacturer-specific tags) are removed.
+                Force:
+                  type: boolean
+                  description: The Force option must be set to true, in order to allow the modification of the PatientID, as such a modification of the DICOM identifiers might lead to breaking the DICOM model of the real-world. In general, any explicit modification to one of the PatientID, StudyInstanceUID, SeriesInstanceUID, and SOPInstanceUID requires Force to be set to true, in order to prevent any unwanted side effect.
+                  default: false
+            example: {"Replace":{"PatientName":"hello","PatientID":"world"},"Remove":["InstitutionName"],"RemovePrivateTags": true, "Force": true}       
+      responses:
+        200:
+          description: The response contains a DICOM file that has been anonymized.
+          content:
+            application/dicom: {}
+            
+  /studies/{Id}/modify:
+    post:
+      tags: [Modification]
+      description: It is possible to modify all the instances from a study or from a series in a single request. In this case, the modified instances are stored back into the Orthanc store.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Replace:
+                  type: object
+                  description: The Replace associative array specifies the substitions to be applied (cf. anonymization).
+                Remove:
+                  type: array
+                  items:
+                    type: string
+                  description: The Remove array specifies the list of the tags to remove.
+                RemovePrivateTags:
+                  type: boolean
+                  description: If RemovePrivateTags is set to true, the private tags (i.e. manufacturer-specific tags) are removed.
+                Force:
+                  type: boolean
+                  description: The Force option must be set to true, in order to allow the modification of the PatientID, as such a modification of the DICOM identifiers might lead to breaking the DICOM model of the real-world. In general, any explicit modification to one of the PatientID, StudyInstanceUID, SeriesInstanceUID, and SOPInstanceUID requires Force to be set to true, in order to prevent any unwanted side effect.
+                  default: false
+                Synchronous:
+                  type: boolean
+                  default: true
+                  description: If Synchronous is set to false then this operation runs as an Orthanc job. The output of this request will indicate the Job ID.
+                Priority:
+                  type: number
+                  default: 0
+                  description: If Synchronous is set to false then this sets the priority of the job. The default priority is 0.
+            example: {"Replace":{"InstitutionName":"My own clinic"}}      
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  ID:
+                    type: string
+                    description: The ID of the new modified study.
+                  Path:
+                    type: string
+                    description: The URL of the new modified study.
+              example: {
+  "ID" : "3bd3d343-82879d86-da77321c-1d23fd6b-faa07bce",
+  "Path" : "/studies/3bd3d343-82879d86-da77321c-1d23fd6b-faa07bce"
+}
+
+  /series/{Id}/modify:
+    post:
+      tags: [Modification]
+      description: It is possible to modify all the instances from a study or from a series in a single request. In this case, the modified instances are stored back into the Orthanc store.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Replace:
+                  type: object
+                  description: The Replace associative array specifies the substitions to be applied (cf. anonymization).
+                Remove:
+                  type: array
+                  items:
+                    type: string
+                  description: The Remove array specifies the list of the tags to remove.
+                RemovePrivateTags:
+                  type: boolean
+                  description: If RemovePrivateTags is set to true, the private tags (i.e. manufacturer-specific tags) are removed.
+                Force:
+                  type: boolean
+                  description: The Force option must be set to true, in order to allow the modification of the PatientID, as such a modification of the DICOM identifiers might lead to breaking the DICOM model of the real-world. In general, any explicit modification to one of the PatientID, StudyInstanceUID, SeriesInstanceUID, and SOPInstanceUID requires Force to be set to true, in order to prevent any unwanted side effect.
+                  default: false
+                Synchronous:
+                  type: boolean
+                  default: true
+                  description: If Synchronous is set to false then this operation runs as an Orthanc job. The output of this request will indicate the Job ID.
+                Priority:
+                  type: number
+                  default: 0
+                  description: If Synchronous is set to false then this sets the priority of the job. The default priority is 0.
+            example: {"Replace":{"InstitutionName":"My own clinic"}}      
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  ID:
+                    type: string
+                    description: The ID of the new modified study.
+                  Path:
+                    type: string
+                    description: The URL of the new modified study.
+              example: {
+  "ID" : "3bd3d343-82879d86-da77321c-1d23fd6b-faa07bce",
+  "Path" : "/series/3bd3d343-82879d86-da77321c-1d23fd6b-faa07bce"
+}
+
+  /patients/{Id}/modify:
+    post:
+      tags: [Modification]
+      description: Starting with Orthanc 0.7.5, Orthanc can also modify all the instances of a patient with a single REST call.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Replace:
+                  type: object
+                  description: The Replace associative array specifies the substitions to be applied (cf. anonymization).
+                Remove:
+                  type: array
+                  items:
+                    type: string
+                  description: The Remove array specifies the list of the tags to remove.
+                RemovePrivateTags:
+                  type: boolean
+                  description: If RemovePrivateTags is set to true, the private tags (i.e. manufacturer-specific tags) are removed.
+                Force:
+                  type: boolean
+                  description: The Force option must be set to true, in order to allow the modification of the PatientID, as such a modification of the DICOM identifiers might lead to breaking the DICOM model of the real-world. In general, any explicit modification to one of the PatientID, StudyInstanceUID, SeriesInstanceUID, and SOPInstanceUID requires Force to be set to true, in order to prevent any unwanted side effect.
+                  default: false
+                Synchronous:
+                  type: boolean
+                  default: true
+                  description: If Synchronous is set to false then this operation runs as an Orthanc job. The output of this request will indicate the Job ID.
+                Priority:
+                  type: number
+                  default: 0
+                  description: If Synchronous is set to false then this sets the priority of the job. The default priority is 0.
+            example: {"Replace":{"PatientID":"Hello","PatientName":"Sample patient name"},"Force":true}   
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  ID:
+                    type: string
+                    description: The ID of the new modified patient.
+                  Path:
+                    type: string
+                    description: The URL of the new modified patient.
+                  PatientID:
+                    type: string
+                  Type:
+                    type: string
+                    enum:
+                      - Patient
+              example: {
+  "ID" : "f7ff9e8b-7bb2e09b-70935a5d-785e0cc5-d9d0abf0",
+  "Path" : "/patients/f7ff9e8b-7bb2e09b-70935a5d-785e0cc5-d9d0abf0",
+  "PatientID" : "f7ff9e8b-7bb2e09b-70935a5d-785e0cc5-d9d0abf0",
+  "Type" : "Patient"
+}
+
+  /studies/{Id}/split:
+    post:
+      tags: [Split/merge DICOM studies]
+      description: "Starting with Orthanc 1.5.0, Orthanc supports splitting and merging DICOM studies through its REST API. By issuing the example command, the series whose Orthanc identifier is 6ca4c9f3-5e895cb3-4d82c6da-09e060fe-9c59f228, and that is part of the source study with identifier in the URL, will be removed from the source study, and will be moved to a brand new study. This is done by generating a new value for all the following DICOM tags in the DICOM instances of the series of interest: StudyInstanceUID (0x0020, 0x000d), SeriesInstanceUID (0x0020, 0x000e), and SOPInstanceUID (0x0008, 0x0018)"
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Series:
+                  type: array
+                  items:
+                    type: string
+                  description: Series gives the list of series to be separated from the parent study (mandatory option). These series must all be children of the same source study, that is specified in the URI.
+                Replace:
+                  type: object
+                  description: Replace allows to overwrite the DICOM tags that are part of the "Patient Module Attributes" and the "General Study Module Attributes", as specified by the DICOM 2011 standard in Tables C.7-1 and C.7-3.
+                Remove:
+                  type: array
+                  items:
+                    type: string
+                  description: Remove allows to remove DICOM tags from the same modules as in the Replace options.
+                KeepSource:
+                  type: boolean
+                  description: KeepSource (Boolean value), if set to true, instructs Orthanc to keep a copy of the original series in the source study. By default, the original series are deleted from Orthanc.
+                Synchronous:
+                  type: boolean
+                  default: true
+                  description: If Synchronous is set to false then this operation runs as an Orthanc job. The output of this request will indicate the Job ID.
+                Priority:
+                  type: number
+                  default: 0
+                  description: If Synchronous is set to false then this sets the priority of the job. The default priority is 0.
+            example: {"Series":["6ca4c9f3-5e895cb3-4d82c6da-09e060fe-9c59f228"],"Replace":{"PatientName":"HELLO"},"Remove":["AccessionNumber"]}
+      responses:
+        200:
+          description: Success
+          
+  /studies/{Id}/merge:
+    post:
+      tags: [Split/merge DICOM studies]
+      description: "Merge DICOM series into another DICOM study. By issuing this command, the DICOM series whose Orthanc identifier is ef2ce55f-9342856a-aee23907-2667e859-9f3b734d, will be merged into target study with identifier Id in the URL. As in the case of splitting, this is done by updating the following DICOM tags: StudyInstanceUID (0x0020, 0x000d), SeriesInstanceUID (0x0020, 0x000e), and SOPInstanceUID (0x0008, 0x0018). Furthermore, all the DICOM tags that are part of the “Patient Module Attributes” and the “General Study Module Attributes” (as specified by the DICOM 2011 standard in Tables C.7-1 and C.7-3), are modified to match the target study."
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Resources:
+                  type: array
+                  items:
+                    type: string
+                  description: Resources gives the list of source studies or source series that are to be merged into the target study.
+                KeepSource:
+                  type: boolean
+                  description: KeepSource (Boolean value), if set to true, instructs Orthanc to keep the source studies and series. By default, the original resources are deleted from Orthanc.
+                Synchronous:
+                  type: boolean
+                  default: true
+                  description: If Synchronous is set to false then this operation runs as an Orthanc job. The output of this request will indicate the Job ID.
+                Priority:
+                  type: number
+                  default: 0
+                  description: If Synchronous is set to false then this sets the priority of the job. The default priority is 0.
+            example: {"Resources":["ef2ce55f-9342856a-aee23907-2667e859-9f3b734d"]}
+      responses:
+        200:
+          description: Success
+
+  /instances/{Id}/frames:
+    get:
+      tags: [Frames]
+      description: Get the list of frames for a DICOM instance.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: number
+              example: [0, 75]
+  /instances/{Id}/frames/{Idx}/{PixelFormat}:
+    get:
+      tags: [Frames]
+      description: Get the image data of a frame within an instance.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: Idx
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: PixelFormat
+          required: true
+          in: path
+          schema:
+            type: string
+            enum:
+              - image-uint8
+              - image-uint16
+              - image-int16
+              - matlab
+              - raw
+              - raw.gz
+        - name: Accept
+          required: true
+          in: header
+          schema:
+            type: string
+            enum:
+              - image/png
+              - image/jpeg
+              - image/x-portable-arbitrarymap
+      responses:
+        200:
+          description: Image
+          content:
+            image/png: {}
+            image/jpg: {}
+            image/x-portable-arbitrarymap: {}
+            application/octet-stream: {}
+            text/plain: {}
+  /instances/{Id}/frames/{Idx}/preview:
+    get:
+      tags: [Frames]
+      description: Download a preview image of the frame of a DICOM instance.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: Idx
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: Accept
+          description: Default is image/png
+          required: false
+          in: header
+          schema:
+            type: string
+            enum:
+              - image/png
+              - image/jpeg
+      responses:
+        200:
+          description: DICOM preview
+          content:
+            image/png: {}
+            image/jpg: {}
+            
+  /tools/lookup:
+    post:
+      tags: [Lookup]
+      description: Lookup resources by their UID
+      requestBody:
+        content:
+          text/plain:
+            example: "1.2.826.0.1.3680043.8.1055.1.20111103111148288.81713267.86905863"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    ID:
+                      type: string
+                    Path:
+                      type: string
+                    Type:
+                      type: string
+                      enum:
+                        - Patient
+                        - Study
+                        - Series
+                        - Instance
+                  example: {
+      "ID" : "53a15d3a-ec236c65-5958be97-e31b8725-5f55ca69",
+      "Path" : "/instances/53a15d3a-ec236c65-5958be97-e31b8725-5f55ca69",
+      "Type" : "Instance"
+   }
+   
+  /tools/create-archive:
+    post:
+      tags: [Archive]
+      description: Create an archive (zip) of the specified resource ID's as a collection of DICOM files.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - type: array
+                  items:
+                    type: string
+                - properties:
+                    Synchronous:
+                      type: boolean
+                      default: true
+                      description: If synchronous is set to false then the archive is created through a job. The job ID and path will be given in the response. Once that job is complete then you can access the archive from the /jobs/{Id}/archive endpoint.
+                    Resources:
+                      type: array
+                      items:
+                        type: string
+              example: [ 
+            'ca29faea-b6a0e17f-067743a1-8b778011-a48b2a17',
+            '0a9b3153-2512774b-2d9580de-1fc3dcf6-3bd83918',
+            '1e2c125c-411b8e86-3f4fe68e-a7584dd3-c6da78f0'
+        ]
+      responses:
+        200:
+          description: Success
+          content:
+            application/zip: {}
+            application/json:
+              schema:
+                properties:
+                  ID:
+                    type: string
+                  Path:
+                    type: string
+                example: {
+   "ID" : "6c5bab22-79ae-4eca-b0af-d979431801bd",
+   "Path" : "/jobs/6c5bab22-79ae-4eca-b0af-d979431801bd"
+}
+   
+  /tools/default-encoding:
+    get:
+      tags: [I18N]
+      description: Get the default text encoding for the Orthanc server.
+      responses:
+        200:
+          description: Success
+          content:
+            text/plain:
+              example: Latin1
+    post:
+      tags: [I18N]
+      description: Set the default text encoding for the Orthanc server.
+      requestBody:
+        content:
+          text/plain:
+            example: "Latin1"
+      responses:
+        200:
+          description: Success
+          
+  /jobs:
+    get:
+      tags: [Jobs]
+      description: The list of all jobs can be retrieved as follows.
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+              example: [ "e0d12aac-47eb-454f-bb7f-9857931e2904" ]
+              
+  /jobs/{Id}:
+    get:
+      tags: [Jobs]
+      description: The list of all jobs can be retrieved as follows.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  CompletionTime:
+                    type: string
+                  Content:
+                    type: array
+                    items:
+                      properties:
+                        Description:
+                          type: string
+                        InstanceCount:
+                          type: number
+                        UncompressedSizeMB:
+                          type: number
+                  CreationTime:
+                    type: string
+                  EffectiveRuntime:
+                    type: number
+                  ErrorCode:
+                    type: number
+                  ErrorDescription:
+                    type: string
+                  ID:
+                    type: string
+                  Priority:
+                    type: number
+                  Progress:
+                    type: number
+                  State:
+                    type: string
+                    enum:
+                      - Success
+                      - Failure
+                      - Pending
+                      - Running
+                      - Paused
+                      - Retry
+                  Timestamp:
+                    type: string
+                  Type:
+                    type: string
+              example: {
+  "CompletionTime" : "20190306T095223.753851",
+  "Content" : {
+    "Description" : "REST API",
+    "InstancesCount" : 1,
+    "UncompressedSizeMB" : 0
+  },
+  "CreationTime" : "20190306T095223.750666",
+  "EffectiveRuntime" : 0.001,
+  "ErrorCode" : 0,
+  "ErrorDescription" : "Success",
+  "ID" : "e0d12aac-47eb-454f-bb7f-9857931e2904",
+  "Priority" : 0,
+  "Progress" : 100,
+  "State" : "Success",
+  "Timestamp" : "20190306T095408.556082",
+  "Type" : "Archive"
+}
+  /jobs/{Id}/archive:
+    get:
+      tags: [Jobs]
+      description: Get the archive generated by the job. Note that the job must be an archive job and it must be complete.
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/zip: {}
+  /jobs/{Id}/cancel:
+    post:
+      tags: [Jobs]
+      description: Cancel the job
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+       200:
+         description: Success
+  /jobs/{Id}/pause:
+    post:
+      tags: [Jobs]
+      description: Pause the job
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+       200:
+         description: Success
+  /jobs/{Id}/resume:
+    post:
+      tags: [Jobs]
+      description: Resume the job
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+       200:
+         description: Success
+  /jobs/{Id}/resubmit:
+    post:
+      tags: [Jobs]
+      description: Retry the job
+      parameters:
+        - name: Id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+       200:
+         description: Success
+         
+  /tools/create-dicom:
+    post:
+      tags: [PDF]
+      description: The /tools/create-dicom URI can be used to upload a PDF file to Orthanc. You can retrieve the PDF from the instance using /instances/{Id}/pdf.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Tags:
+                  properties:
+                    PatientName:
+                      type: string
+                    Modality:
+                      type: string
+                Content:
+                  type: string
+                  pattern: 'data:application/pdf;base64,.*'
+                  description: Base 64 encoded bytes of the PDF to store.
+            example: {"Tags" : {"PatientName" : "Benjamino", "Modality" : "CT"},"Content" : "data:application/pdf;base64,<base64contentsofpdf>"}
+      responses:
+        200:
+          description: The ID of the new DICOM instance is returned.
+          content:
+            text/plain:
+              example: "e0d12aac-47eb-454f-bb7f-9857931e2904"
+
+  /tools/metrics-prometheus:
+    get:
+      tags: [Prometheus Metrics]
+      description: Orthanc publishes its metrics according to the text-based format of Prometheus (check also the OpenMetrics project), onto the /tools/metrics-prometheus URI of the REST API.
+      responses:
+        200:
+          description: Success
+          content:
+            text/plain:
+              example: |
+                orthanc_count_instances 1 1551868380543
+                orthanc_count_patients 1 1551868380543
+                orthanc_count_series 1 1551868380543
+                orthanc_count_studies 1 1551868380543
+                orthanc_disk_size_mb 0.0135002136 1551868380543
+                orthanc_jobs_completed 1 1551868380543
+                orthanc_jobs_failed 0 1551868380543
+                orthanc_jobs_pending 0 1551868380543
+                orthanc_jobs_running 0 1551868380543
+                orthanc_jobs_success 1 1551868380543
+                orthanc_rest_api_active_requests 1 1551868380543
+                orthanc_rest_api_duration_ms 0 1551868094265
+                orthanc_storage_create_duration_ms 0 1551865919315
+                orthanc_storage_read_duration_ms 0 1551865943752
+                orthanc_store_dicom_duration_ms 5 1551865919319
+                orthanc_uncompressed_size_mb 0.0135002136 1551868380543
+
+  /tools/metrics:
+    get:
+      tags: [Prometheus Metrics]
+      description: Get the enablement state of the metrics gathering.
+      responses:
+        200:
+          description: Success
+          content:
+            text/plain:
+              example: "1"
+    put:
+      tags: [Prometheus Metrics]
+      description: Set the enablement state of the metrics gathering.
+      requestBody:
+        content:
+          text/plain:
+            example: "1"
+      responses:
+        200:
+          description: Success
+
+  /system:
+    get:
+      tags: [System]
+      description: Get system information for the Orthanc server.
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  ApiVersion:
+                    type: number
+                  DatabaseBackendPlugin:
+                    type: string
+                  DatabaseVersion:
+                    type: number
+                  DicomAet:
+                    type: string
+                  DicomPort:
+                    type: number
+                  HttpPort:
+                    type: number
+                  Name:
+                    type: string
+                  PluginsEnabled:
+                    type: boolean
+                  StorageAreaPlugin:
+                    type: string
+                  Version:
+                    type: string
+              example: {
+   "ApiVersion" : 3,
+   "DatabaseBackendPlugin" : null,
+   "DatabaseVersion" : 6,
+   "DicomAet" : "ORTHANC",
+   "DicomPort" : 4242,
+   "HttpPort" : 8042,
+   "Name" : "Orthanc Demo",
+   "PluginsEnabled" : true,
+   "StorageAreaPlugin" : null,
+   "Version" : "1.5.7"
+}
+
+  /statistics:
+    get:
+      tags: [Statistics]
+      description: Get statistics about the data stored in Orthanc.
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  CountInstances:
+                    type: number
+                  CountPatients:
+                    type: number
+                  CountSeries:
+                    type: number
+                  CountStudies:
+                    type: number
+                  TotalDiskSize:
+                    type: string
+                  TotalDiskSizeMB:
+                    type: number
+                  TotalUncompressedSize:
+                    type: string
+                  TotalUncompressedSizeMB:
+                    type: number
+              example: {
+   "CountInstances" : 2352,
+   "CountPatients" : 7,
+   "CountSeries" : 23,
+   "CountStudies" : 7,
+   "TotalDiskSize" : "913213057",
+   "TotalDiskSizeMB" : 870,
+   "TotalUncompressedSize" : "913213057",
+   "TotalUncompressedSizeMB" : 870
+}
+
+  /tools/execute-script:
+    post:
+      tags: [Lua]
+      description: Execute the posted Lua script
+      requestBody:
+        content:
+          text/plain:
+            example: print(42)
+      responses:
+        200:
+          description: Script executed
+          content:
+            text/plain:
+              example: "42"
