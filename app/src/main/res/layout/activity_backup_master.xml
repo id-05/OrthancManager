@@ -6,4 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.orthancmanager.BackupMaster">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="135dp"
+        tools:layout_editor_absoluteY="493dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

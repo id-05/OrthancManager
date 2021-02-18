@@ -43,12 +43,12 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
 
     private Button butFromDate;
     private Button butToDate;
-    private Calendar calendarFromDate  = Calendar.getInstance();
-    private Calendar calendarToDate = Calendar.getInstance();
+    private final Calendar calendarFromDate  = Calendar.getInstance();
+    private final Calendar calendarToDate = Calendar.getInstance();
     private int id;
     public static OrthancServer server = new OrthancServer();
     @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
+    private final SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
     static SharedPreferences prefs;
     static SharedPreferences.Editor editor;
     private ImageView statusImage;
@@ -148,7 +148,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         }
     };
 
-    private DatePickerDialog.OnDateSetListener datefrom = new DatePickerDialog.OnDateSetListener() {
+    private final DatePickerDialog.OnDateSetListener datefrom = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             calendarFromDate.set(Calendar.YEAR, year);
             calendarFromDate.set(Calendar.MONTH, monthOfYear);
@@ -159,7 +159,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         }
     };
 
-    private DatePickerDialog.OnDateSetListener dateto = new DatePickerDialog.OnDateSetListener() {
+    private final DatePickerDialog.OnDateSetListener dateto = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             calendarToDate.set(Calendar.YEAR, year);
             calendarToDate.set(Calendar.MONTH, monthOfYear);
@@ -170,7 +170,7 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         }
     };
 
-    private View.OnClickListener seachClick = new View.OnClickListener() {
+    private final View.OnClickListener seachClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             JsonObject query=new JsonObject();
