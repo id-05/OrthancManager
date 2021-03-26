@@ -195,32 +195,32 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/month"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="L.MONTH" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/week"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="L.WEEK" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/yesterday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="YESTERDAY" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/today"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="TODAY" />
         </LinearLayout>
 
         <Space

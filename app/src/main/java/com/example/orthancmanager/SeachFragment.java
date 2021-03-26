@@ -42,7 +42,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class SeachFragment extends Fragment implements ConnectionCallback{
 
     private Button butFromDate;
-    private Button butToDate;
+    private Button butToDate, month, week, today, yesterday;
     private final Calendar calendarFromDate  = Calendar.getInstance();
     private final Calendar calendarToDate = Calendar.getInstance();
     private int id;
@@ -86,6 +86,12 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
         mg = fragmentView.findViewById(R.id.cbMG);
         dx = fragmentView.findViewById(R.id.cbDX);
         customModalities = fragmentView.findViewById(R.id.customMod);
+
+        month = fragmentView.findViewById(R.id.month);
+        week = fragmentView.findViewById(R.id.week);
+        yesterday = fragmentView.findViewById(R.id.yesterday);
+        today = fragmentView.findViewById(R.id.today);
+
         Spinner seachSpinner = fragmentView.findViewById(R.id.spinnerSeach);
         ArrayAdapter<String> spinnerSeachAdapter = new ArrayAdapter<>(
                 Objects.requireNonNull(getContext()),
@@ -120,6 +126,71 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
                         calendarFromDate.get(Calendar.MONTH),
                         calendarFromDate.get(Calendar.DAY_OF_MONTH))
                         .show();
+            }
+        });
+
+        today.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+
+                butFromDate.setText(DateUtils.formatDateTime(getActivity(),
+                        cal.getTimeInMillis(),
+                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+
+                butToDate.setText(DateUtils.formatDateTime(getActivity(),
+                        cal.getTimeInMillis(),
+                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+            }
+        });
+
+        yesterday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DATE, -1);
+
+                butFromDate.setText(DateUtils.formatDateTime(getActivity(),
+                        cal.getTimeInMillis(),
+                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+
+                butToDate.setText(DateUtils.formatDateTime(getActivity(),
+                        cal.getTimeInMillis(),
+                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+            }
+        });
+
+        week.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calNow = Calendar.getInstance();
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DATE, -7);
+
+                butFromDate.setText(DateUtils.formatDateTime(getActivity(),
+                        cal.getTimeInMillis(),
+                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+
+                butToDate.setText(DateUtils.formatDateTime(getActivity(),
+                        calNow.getTimeInMillis(),
+                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+            }
+        });
+
+        month.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calNow = Calendar.getInstance();
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.MONTH, -1);
+
+                butFromDate.setText(DateUtils.formatDateTime(getActivity(),
+                        cal.getTimeInMillis(),
+                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
+
+                butToDate.setText(DateUtils.formatDateTime(getActivity(),
+                        calNow.getTimeInMillis(),
+                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
             }
         });
 
