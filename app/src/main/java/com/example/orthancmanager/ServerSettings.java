@@ -147,7 +147,6 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
                         StringBuilder sb = new StringBuilder();
                         StringBuilder sbforbackup = new StringBuilder();
                         while ((line = bufferedReader.readLine()) != null) {
-                            //Log.d("orthanclog",line);
                             sbforbackup.append(line);
                             sbforbackup.append("\n");
                             if(truestring(line)){
