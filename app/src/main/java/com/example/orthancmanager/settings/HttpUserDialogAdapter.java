@@ -13,8 +13,8 @@ import java.util.ArrayList;
 
 public class HttpUserDialogAdapter extends RecyclerView.Adapter<HttpUserDialogAdapter.HttpUserDialogViewHolder>{
 
-    private ArrayList<String> bufLogin;
-    private ArrayList<String> bufPassword;
+    ArrayList<String> bufLogin;
+    ArrayList<String> bufPassword;
 
 
     HttpUserDialogAdapter(ArrayList<String> bufLogin, ArrayList<String> bufPassword) {

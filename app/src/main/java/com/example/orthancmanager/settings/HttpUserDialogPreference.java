@@ -20,9 +20,9 @@ import java.util.Set;
 
 public class HttpUserDialogPreference extends DialogPreference
 {
-    private String jsonStr;
-    private static ArrayList<String> bufLogin = new ArrayList<>();
-    private static ArrayList<String> bufPassword = new ArrayList<>();
+    String jsonStr;
+    static ArrayList<String> bufLogin = new ArrayList<>();
+    static ArrayList<String> bufPassword = new ArrayList<>();
 
     public HttpUserDialogPreference(Context context, AttributeSet attrs)
     {

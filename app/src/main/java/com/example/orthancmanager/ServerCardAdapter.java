@@ -1,5 +1,6 @@
 package com.example.orthancmanager;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,13 +18,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.date.OrthancServer;
 import java.util.ArrayList;
 
 public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.ServerViewHolder> implements View.OnCreateContextMenuListener  {
 
-    private ArrayList<OrthancServer> servers;
-    private Context context;
+    ArrayList<OrthancServer> servers;
+    Context context;
 
     ServerCardAdapter(ArrayList<OrthancServer> servers, Context context){
         this.servers = servers;
@@ -80,6 +81,7 @@ public class ServerCardAdapter extends RecyclerView.Adapter<ServerCardAdapter.Se
                 PopupMenu popupMenu = new PopupMenu(context, serverViewHolder.menuicon);
                 popupMenu.inflate(R.menu.recycler_adapter_menu);
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @SuppressLint("NonConstantResourceId")
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {

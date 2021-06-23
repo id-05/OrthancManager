@@ -9,14 +9,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.orthancmanager.datastorage.Serie;
+import com.example.orthancmanager.date.Serie;
 import com.google.gson.JsonArray;
 import java.util.ArrayList;
 
 public class SerieAdapter extends RecyclerView.Adapter<SerieAdapter.SerieViewHolder> {
 
-    private Context context;
-    private ArrayList<Serie> series;// = new ArrayList<>();
+    Context context;
+    ArrayList<Serie> series;
 
     @NonNull
     @Override

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class PeerAdapter extends RecyclerView.Adapter<PeerAdapter.PeerViewHolder>{
 
-    private ArrayList<Peer> peers;
+    ArrayList<Peer> peers;
 
     PeerAdapter(ArrayList<Peer> peers) {
         this.peers = peers;

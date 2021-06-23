@@ -2,6 +2,11 @@ package com.example.orthancmanager.settings;
 
 class Peer {
 
+    String mURL;
+    String mLogin;
+    String mPassword;
+    String mName;
+
     String getmURL() {
         return mURL;
     }
@@ -26,10 +31,6 @@ class Peer {
         this.mPassword = mPassword;
     }
 
-    String mURL;
-    String mLogin;
-    String mPassword;
-
     String getmName() {
         return mName;
     }
@@ -38,5 +39,5 @@ class Peer {
         this.mName = mName;
     }
 
-    String mName;
+
 }

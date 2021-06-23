@@ -7,15 +7,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.orthancmanager.datastorage.Study;
+import com.example.orthancmanager.date.Study;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 public class StudyAdapter extends RecyclerView.Adapter<StudyAdapter.StudyViewHolder>{
 
-    private ArrayList<Study> studys;
+    ArrayList<Study> studys;
 
     StudyAdapter(ArrayList<Study> studys) {
         this.studys = studys;

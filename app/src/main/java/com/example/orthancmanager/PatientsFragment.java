@@ -12,8 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.orthancmanager.datastorage.Patient;
-import com.example.orthancmanager.datastorage.Study;
+import com.example.orthancmanager.date.Patient;
+import com.example.orthancmanager.date.Study;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -26,12 +26,12 @@ import java.util.Iterator;
 
 public class PatientsFragment extends Fragment {
 
-    private SharedPreferences prefs;
-    private JsonParser parserJson = new JsonParser();
+    SharedPreferences prefs;
+    JsonParser parserJson = new JsonParser();
     @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
-    private ArrayList<Patient> patients = new ArrayList<>();
-    private PatientAdapter adapter = new PatientAdapter(patients);
+    SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
+    ArrayList<Patient> patients = new ArrayList<>();
+    PatientAdapter adapter = new PatientAdapter(patients);
     static Boolean newClick = false;
     String seachMode;
     String seachpatientName;
@@ -57,7 +57,6 @@ public class PatientsFragment extends Fragment {
             seachpatientName = prefs.getString("name", "*");
             SeachFragment.newSeach = false;
             getPatientsFromJson(data);
-
         }
     }
 
@@ -119,7 +118,7 @@ public class PatientsFragment extends Fragment {
                     patients.add(patient);
                 }
                 if(seachMode.equals("Patient name")){
-                    if(patient.name.toUpperCase().contains(seachpatientName.toUpperCase())){
+                    if(patient.getName().toUpperCase().contains(seachpatientName.toUpperCase())){
                         patients.add(patient);
                     }
                 }

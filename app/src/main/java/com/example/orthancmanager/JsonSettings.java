@@ -10,8 +10,8 @@ public class JsonSettings {
     JsonObject orthancPeer=new JsonObject();
     JsonObject contentType=new JsonObject();
     JsonObject dictionary=new JsonObject();
-    private JsonArray luaFolder=new JsonArray();
-    private JsonArray pluginsFolder=new JsonArray();
+    JsonArray luaFolder=new JsonArray();
+    JsonArray pluginsFolder=new JsonArray();
     JsonObject users = new JsonObject();
     JsonObject userMetadata = new JsonObject();
     String orthancName;

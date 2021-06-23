@@ -10,11 +10,10 @@ import android.view.View;
 import android.widget.EditText;
 import com.example.orthancmanager.R;
 
-
 public class NumberPreference extends DialogPreference
 {
-    private String currentNumber;
-    private EditText editText;
+    String currentNumber;
+    EditText editText;
 
     public NumberPreference(Context context, AttributeSet attrs)
     {

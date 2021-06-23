@@ -1,4 +1,4 @@
-package com.example.orthancmanager.datastorage;
+package com.example.orthancmanager.date;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

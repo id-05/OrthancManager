@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.date.OrthancServer;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 import java.io.IOException;
@@ -30,22 +30,22 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class DicomViewer extends AppCompatActivity implements ConnectionCallback {
 
-    private ArrayList<Bitmap> images = new ArrayList<>();
+    ArrayList<Bitmap> images = new ArrayList<>();
     HttpURLConnection connection;
-    private ImageView imageView;
-    private Bitmap bitmap;
-    private JsonArray instances;
+    ImageView imageView;
+    Bitmap bitmap;
+    JsonArray instances;
     JsonParser parserJson = new JsonParser();
-    public int curIndexInst = 0;
-    private TextView numberView;
-    private TextView patientName;
-    private TextView patientSex;
-    private TextView patientBirth;
-    private TextView studyDescription;
-    private TextView serieDescription;
-    private SeekBar seekBar;
-    private int currentPosition;
-    private Boolean loadComplite = false;
+    int curIndexInst = 0;
+    TextView numberView;
+    TextView patientName;
+    TextView patientSex;
+    TextView patientBirth;
+    TextView studyDescription;
+    TextView serieDescription;
+    SeekBar seekBar;
+    int currentPosition;
+    Boolean loadComplite = false;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @SuppressLint({"ClickableViewAccessibility", "SourceLockedOrientationActivity"})
@@ -70,7 +70,7 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
                 return true;
             }
         });
-        String buf = SeachFragment.prefs.getString("InstancesOrthancID", "0");
+        String buf = SeachFragment.getPrefs().getString("InstancesOrthancID", "0");
         instances=(JsonArray) parserJson.parse(buf);
         seekBar = findViewById(R.id.seekBar);
         seekBar.setMax(instances.size());
@@ -111,12 +111,12 @@ public class DicomViewer extends AppCompatActivity implements ConnectionCallback
     @Override
     protected void onResume() {
         super.onResume();
-        patientName.setText(SeachFragment.prefs.getString("patientName", "0"));
-        patientSex.setText(SeachFragment.prefs.getString("patientSex", "0"));
-        patientBirth.setText(SeachFragment.prefs.getString("patientBirthDate", "0"));
-        studyDescription.setText(SeachFragment.prefs.getString("StudyDescription", "0"));
-        patientBirth.setText(SeachFragment.prefs.getString("patientBirthDate", "0"));
-        serieDescription.setText(SeachFragment.prefs.getString("serieDescription", "0"));
+        patientName.setText(SeachFragment.getPrefs().getString("patientName", "0"));
+        patientSex.setText(SeachFragment.getPrefs().getString("patientSex", "0"));
+        patientBirth.setText(SeachFragment.getPrefs().getString("patientBirthDate", "0"));
+        studyDescription.setText(SeachFragment.getPrefs().getString("StudyDescription", "0"));
+        patientBirth.setText(SeachFragment.getPrefs().getString("patientBirthDate", "0"));
+        serieDescription.setText(SeachFragment.getPrefs().getString("serieDescription", "0"));
         currentPosition = 0;
         getOrthancData(SeachFragment.server, instances.get(currentPosition).toString().replace("\"",""));
     }

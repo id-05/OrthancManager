@@ -5,18 +5,19 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.date.OrthancServer;
 
 public class ServerPanelPageAdapter extends FragmentPagerAdapter {
 
-    private int numOfTabs;
-    private OrthancServer server;
+    int numOfTabs;
+    OrthancServer server;
 
     ServerPanelPageAdapter(OrthancServer server, FragmentManager fm, int numOfTabs) {
         super(fm, numOfTabs);
         this.numOfTabs = numOfTabs;
         this.server = server;
     }
+
 
     @NonNull
     @Override
@@ -35,7 +36,7 @@ public class ServerPanelPageAdapter extends FragmentPagerAdapter {
             case 3:
                 return new SeriesFragment();
         }
-        return null;
+        return new SeachFragment();
     }
 
     @Override

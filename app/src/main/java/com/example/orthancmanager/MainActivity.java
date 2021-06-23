@@ -24,9 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.example.orthancmanager.datastorage.DateBase;
-import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.date.DateBase;
+import com.example.orthancmanager.date.OrthancServer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
@@ -39,14 +38,14 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class MainActivity extends AppCompatActivity implements ConnectionCallback {
 
-    private static ArrayList<OrthancServer> ServerList = new ArrayList<>();
-    public static DateBase dbHelper;
-    public ServerCardAdapter adapter;
-    static TextView ifNoServerMes;
-    public ImageView horizimage, columnimage;
-    public SharedPreferences sPref;
-    private int viewStyle;
-    private DrawerLayout drawerlayout;
+    ArrayList<OrthancServer> ServerList = new ArrayList<>();
+    static  DateBase dbHelper;
+    ServerCardAdapter adapter;
+    TextView ifNoServerMes;
+    ImageView horizimage, columnimage;
+    SharedPreferences sPref;
+    int viewStyle;
+    DrawerLayout drawerlayout;
 
 
     public static OrthancServer getServerById(int id) {
@@ -140,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
                 startActivity(i);
                 return true;
             case R.id.TitleSittings:
-                Intent j = new Intent(MainActivity.this, ProgrammSetting.class);
+                Intent j = new Intent(MainActivity.this, AddNewServer.class);
                 startActivity(j);
                 return true;
             default:
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         Log.d("orthanclog",str);
     }
 
-    public static void GetServerList(ArrayList<OrthancServer> serverList){
+    public void GetServerList(ArrayList<OrthancServer> serverList){
         SQLiteDatabase userDB = dbHelper.getWritableDatabase();
         try {
             Cursor cursor = userDB.query("servers", null, null, null, null, null, null);
@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
         userDB.delete("servers","id = " + id, null);
     }
 
-    public static void serverUpdateBase(OrthancServer server) {
+    public void serverUpdateBase(OrthancServer server) {
         int id = server.getId();
         ContentValues newValues = new ContentValues();
         newValues.put("name",server.getName());
@@ -372,7 +372,6 @@ public class MainActivity extends AppCompatActivity implements ConnectionCallbac
 
     }
 
-    //это методы чтения и записи для ini файла
     public void saveCONFIG() {
         sPref = getSharedPreferences("config",MODE_PRIVATE);
         SharedPreferences.Editor ed = sPref.edit();

@@ -14,8 +14,8 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.orthancmanager.datastorage.OrthancServer;
-import com.example.orthancmanager.datastorage.Serie;
+import com.example.orthancmanager.date.OrthancServer;
+import com.example.orthancmanager.date.Serie;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -30,10 +30,10 @@ import java.util.Iterator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class SeriesFragment extends Fragment implements ConnectionCallback {
-    private JsonParser parserJson = new JsonParser();
+    JsonParser parserJson = new JsonParser();
     @SuppressLint("SimpleDateFormat")
-    private ArrayList<Serie> series = new ArrayList<>();
-    private SerieAdapter adapter = new    SerieAdapter(this.getContext(), series);
+    ArrayList<Serie> series = new ArrayList<>();
+    SerieAdapter adapter = new    SerieAdapter(this.getContext(), series);
 
     @Nullable
     @Override

@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.date.OrthancServer;
 import com.google.android.material.tabs.TabLayout;
 import static com.example.orthancmanager.MainActivity.dbHelper;
 import static com.example.orthancmanager.MainActivity.print;
@@ -19,8 +19,8 @@ public class ServerPanel extends AppCompatActivity implements ConnectionCallback
 
     int id;
     OrthancServer server = new OrthancServer();
-    public String jsonSetting;
-    public static ViewPager viewPager;
+    String jsonSetting;
+    static ViewPager viewPager;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override

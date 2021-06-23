@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.date.OrthancServer;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -64,7 +64,7 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
                     @Override
                     public CharSequence filter(CharSequence source, int start,
                                                int end, Spanned dest, int dstart, int dend) {
-                        if(source.equals("")){ // for backspace
+                        if(source.equals("")){
                             return source;
                         }
                         if(source.toString().matches("[0-9.]+")){
@@ -82,7 +82,7 @@ public class AddNewServer extends AppCompatActivity implements ConnectionCallbac
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // TODO Auto-generated method stub
+
             }
 
             @Override

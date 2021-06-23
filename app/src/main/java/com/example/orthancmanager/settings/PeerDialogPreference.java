@@ -21,8 +21,8 @@ import java.util.Set;
 
 public class PeerDialogPreference extends DialogPreference
 {
-    private String jsonStr;
-    private static ArrayList<Peer> peers = new ArrayList<>();
+    String jsonStr;
+    static ArrayList<Peer> peers = new ArrayList<>();
 
     public PeerDialogPreference(Context context, AttributeSet attrs)
     {

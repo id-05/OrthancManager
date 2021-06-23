@@ -1,19 +1,18 @@
-package com.example.orthancmanager.datastorage;
+package com.example.orthancmanager.date;
 
 import com.google.gson.JsonArray;
 
 public class Serie {
 
-    private String serieDescription;
-    private int nbInstances;
-    private String id;
-    private String seriesNumber;
+    String serieDescription;
+    int nbInstances;
+    String id;
+    String seriesNumber;
+    JsonArray instances;
 
     public JsonArray getInstances() {
         return instances;
     }
-
-    private JsonArray instances;
 
     public Serie(String seriesDescription, String seriesNumber, JsonArray instances, int size, String serieId) {
         this.serieDescription = seriesDescription;

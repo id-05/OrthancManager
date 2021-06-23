@@ -1,15 +1,15 @@
-package com.example.orthancmanager.datastorage;
+package com.example.orthancmanager.date;
 
 import java.util.HashMap;
 
 public class Patient {
 
-    public String name;
-    private String patientId;
-    private String orthancID;
-    private String birthDate;
-    private String sex;
-    private HashMap<String, Study> childStudies;
+    String name;
+    String patientId;
+    String orthancID;
+    String birthDate;
+    String sex;
+    HashMap<String, Study> childStudies;
 
     public Patient(String name, String patientId, String birthDate, String sex, String orthancID) {
         this.name=name;
@@ -45,25 +45,5 @@ public class Patient {
         }
         childStudies.put(study.getOrthancId(), study);
     }
-
-//    public void addStudies(ArrayList<Study> studies) {
-//        if(childStudies==null) {
-//            childStudies= new HashMap<>();
-//        }
-//        for(Study study:studies) {
-//            childStudies.put(study.getOrthancId(), study);
-//        }
-//
-//    }
-
-//    public ArrayList<Study> getStudies(){
-//        Study[] studyArray=childStudies.values().toArray(new Study[0]);
-//        return new ArrayList<>(Arrays.asList(studyArray));
-//    }
-
-//    public Study getChildStudy(String studyOrthancID) {
-//        return childStudies.get(studyOrthancID);
-//    }
-
 }
 

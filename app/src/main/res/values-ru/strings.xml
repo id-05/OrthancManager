@@ -71,7 +71,7 @@
     <string name="TransferSyntax">Синтаксис передачи</string>
     <string name="TransferSyntaxsum">Синтаксисы передачи принятые в Orthanc C-Store SCP</string>
     <string name="JpegTransfer">Jpeg Transfer</string>
-    <string name="Jpeg2000Transfer">"Jpeg2000 Transfer "</string>
+    <string name="Jpeg2000Transfer">Jpeg2000 Transfer</string>
     <string name="JpegLosslessTransfer">Jpeg Lossless Transfer</string>
     <string name="JpipTransferSyntaxAccepted">Jpip Transfer</string>
     <string name="Mpeg2Transfer">Mpeg2 Transfer</string>
@@ -79,7 +79,7 @@
     <string name="UnknownSopClassAccepted">Разрешить принимать данные из неизвестных источников</string>
     <string name="UnknownSopClassAcceptedsum">Принимать или нет, роль S-Store SCP для неизвестных источников («Неразборчивый режим»)</string>
     <string name="DicomScpTimeout">DICOM SCP Timeout</string>
-    <string name="DicomScpTimeoutsum">Установка времени ожидания (в секундах), после которого Orthanc закроет соединение, если больше нет DIMSE-команд от SCU (клиента).</string>
+    <string name="DicomScpTimeoutsum">Установка времени ожидания (в секундах), после которого Orthanc закроет соединение, если больше нет DIMSE-команд от SCU (клиента)</string>
     <string name="Securityhttp">Параметры безопасности HTTP-сервера</string>
     <string name="RegisteredUsers">Регистрация пользователей</string>
     <string name="RegisteredUserssum">Списко зарегистрированных пользователей. Поскольку Orthanc использует HTTP Basic Authentication, пароли хранятся как текст</string>
@@ -115,7 +115,7 @@
     <string name="HttpsVerifyPeers">HTTPS Проверка одноранговых узлов (Verify Peers)</string>
     <string name="HttpsVerifyPeerssum">Включиние проверки одноранговых узлов во время HTTPS-запросов. Выключено, если используются самозаверяющие сертификаты. Обратите внимание, что включение этого параметра приводит к угрозам безопасности! Ссылка: http://curl.haxx.se/docs/sslcerts.html</string>
     <string name="HttpsCACertificates">HTTPS CA Certificates</string>
-    <string name="HttpsCACertificatessum">Путь к сертификатам CA (certification authority) для проверки одноранговых узлов в HTTPS-запросах. Из документации curl (опция "—cacert"): предлагает использовать указанный файл сертификата для проверки одноранговых узлов. Этот файл может содержать несколько сертификатов CA. Сертификат(ы) должен быть в формате PEM. В системах на базе Debian этот параметр может быть установлен в значение: /etc / ssl/certs/ca-certificates.crt </string>
+    <string name="HttpsCACertificatessum">Путь к сертификатам CA (certification authority) для проверки одноранговых узлов в HTTPS-запросах. Из документации curl (опция "—cacert"): предлагает использовать указанный файл сертификата для проверки одноранговых узлов. Этот файл может содержать несколько сертификатов CA. Сертификат(ы) должен быть в формате PEM. В системах на базе Debian этот параметр может быть установлен в значение: /etc/ssl/certs/ca-certificates.crt </string>
     <string name="Advancedoptions">Дополнительные параметры</string>
     <string name="StableAge">Stable Age</string>
     <string name="StableAgesum">Количество секунд без получения какого-либо экземпляра, до того как пациент, исследование или серия считаются стабильными</string>
@@ -162,7 +162,7 @@
     <string name="DicomModalities">DICOM Модальности</string>
     <string name="DicomModalitiessum">Список клиентов рабочей группы</string>
     <string name="OrthancPeers">Orthanc peers</string>
-    <string name="OrthancPeerssum">Список одноранговых серверов, в качестве реквизитов доступа используется URL, логин и пароль, как при доступе по HTTP </string>
+    <string name="OrthancPeerssum">Список одноранговых серверов, в качестве реквизитов доступа используется URL, логин и пароль, как при доступе по HTTP</string>
     <string name="url">URL</string>
     <string name="serverreset">Сервер Orthanc Перезагружен</string>
     <string name="resetserver">Сервер Orthanc Перезагружен</string>

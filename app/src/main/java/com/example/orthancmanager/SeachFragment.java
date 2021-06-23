@@ -26,7 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.date.OrthancServer;
 import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -41,24 +41,31 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class SeachFragment extends Fragment implements ConnectionCallback{
 
-    private Button butFromDate;
-    private Button butToDate, month, week, today, yesterday;
-    private final Calendar calendarFromDate  = Calendar.getInstance();
-    private final Calendar calendarToDate = Calendar.getInstance();
-    private int id;
-    public static OrthancServer server = new OrthancServer();
+    Button butFromDate;
+    Button butToDate, month, week, today, yesterday;
+    Calendar calendarFromDate  = Calendar.getInstance();
+    Calendar calendarToDate = Calendar.getInstance();
+    int id;
+    static OrthancServer server = new OrthancServer();
     @SuppressLint("SimpleDateFormat")
-    private final SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
+    SimpleDateFormat format =new SimpleDateFormat("yyyyMMdd");
     static SharedPreferences prefs;
     static SharedPreferences.Editor editor;
-    private ImageView statusImage;
-    private CheckBox cr, ct, mr , nm , pt , us, xa , mg, dx;
-    private TextView customModalities;
-    private ArrayList<String> selectorList = new ArrayList<>();
-    private EditText editIdName;
+    ImageView statusImage;
+    CheckBox cr, ct, mr , nm , pt , us, xa , mg, dx;
+    TextView customModalities;
+    ArrayList<String> selectorList = new ArrayList<>();
+    EditText editIdName;
     static boolean newSeach = false;
-    public String selectSeachMetod;
+    String selectSeachMetod;
 
+    public static SharedPreferences getPrefs() {
+        return prefs;
+    }
+
+    public void setPrefs(SharedPreferences prefs) {
+        SeachFragment.prefs = prefs;
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
@@ -73,9 +80,6 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
             id = getArguments().getInt("serverid");
         }
         server = MainActivity.getServerById(id);
-//        calendarFromDate.set(Calendar.YEAR, 2015);
-//        calendarFromDate.set(Calendar.MONTH, 1);
-//        calendarFromDate.set(Calendar.DAY_OF_MONTH, 1);
         cr = fragmentView.findViewById(R.id.cbCR);
         ct = fragmentView.findViewById(R.id.cbCT);
         mr = fragmentView.findViewById(R.id.cbMR);
@@ -284,7 +288,8 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
     };
 
     private void getOrthancData(final OrthancServer server, final String param) {
-        @SuppressLint("StaticFieldLeak") AsyncTask<Void, Void, String> execute = new AbstractAsyncWorker<String>(this, server, param) {
+        @SuppressLint("StaticFieldLeak")
+        AsyncTask<Void, Void, String> execute = new AbstractAsyncWorker<String>(this, server, param) {
             @SuppressLint("StaticFieldLeak")
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
@@ -296,6 +301,8 @@ public class SeachFragment extends Fragment implements ConnectionCallback{
                 try {
                     String fulladdress = "http://" + server.ipaddress + ":" + server.port;
                     URL url = new URL(fulladdress + "/tools/find");
+                    MainActivity.print("url = "+url.toString());
+                    MainActivity.print("param = "+param);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoOutput(true);
                     connection.setRequestProperty("Authorization", "Basic " + base64);

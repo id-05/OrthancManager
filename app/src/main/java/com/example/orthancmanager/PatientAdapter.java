@@ -7,12 +7,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.orthancmanager.datastorage.Patient;
+import com.example.orthancmanager.date.Patient;
 import java.util.ArrayList;
 
 public class PatientAdapter extends RecyclerView.Adapter<PatientAdapter.PatientViewHolder>{
 
-    private ArrayList<Patient> patients;
+    ArrayList<Patient> patients;
 
     PatientAdapter(ArrayList<Patient> patients) {
         this.patients = patients;

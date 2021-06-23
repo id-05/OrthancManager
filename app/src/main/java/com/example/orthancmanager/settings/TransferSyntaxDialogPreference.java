@@ -14,21 +14,21 @@ import com.google.gson.JsonParser;
 
 public class TransferSyntaxDialogPreference extends DialogPreference
 {
-    private String jsonStr;
-    private boolean DeflatedTransferSyntaxAccepted;
-    private boolean JpegTransferSyntaxAccepted;
-    private boolean Jpeg2000TransferSyntaxAccepted;
-    private boolean JpegLosslessTransferSyntaxAccepted;
-    private boolean JpipTransferSyntaxAccepted;
-    private boolean Mpeg2TransferSyntaxAccepted;
-    private boolean RleTransferSyntaxAccepted;
-    private Switch DeflatedTransfer;
-    private Switch JpegTransfer;
-    private Switch Jpeg2000Transfer;
-    private Switch JpegLosslessTransfer;
-    private Switch JpipTransfer;
-    private Switch Mpeg2Transfer;
-    private Switch RleTransfer;
+    String jsonStr;
+    boolean DeflatedTransferSyntaxAccepted;
+    boolean JpegTransferSyntaxAccepted;
+    boolean Jpeg2000TransferSyntaxAccepted;
+    boolean JpegLosslessTransferSyntaxAccepted;
+    boolean JpipTransferSyntaxAccepted;
+    boolean Mpeg2TransferSyntaxAccepted;
+    boolean RleTransferSyntaxAccepted;
+    Switch DeflatedTransfer;
+    Switch JpegTransfer;
+    Switch Jpeg2000Transfer;
+    Switch JpegLosslessTransfer;
+    Switch JpipTransfer;
+    Switch Mpeg2Transfer;
+    Switch RleTransfer;
 
     public TransferSyntaxDialogPreference(Context context, AttributeSet attrs)
     {

@@ -10,13 +10,12 @@ import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.date.OrthancServer;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
@@ -89,6 +88,7 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
         return super.onCreateOptionsMenu(menu);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -371,7 +371,6 @@ public class ServerSettings extends AppCompatActivity implements ConnectionCallb
             jsonOb.addProperty("DicomScuTimeout", Integer.valueOf(prefs.getString("DicomScuTimeout", "0")));
             orthancJson = parser.parse(prefs.getString("OrthancPeers", "")).getAsJsonObject();
             jsonOb.add("OrthancPeers",orthancJson);
-            jsonOb.addProperty("DicomAlwaysAllowEcho", prefs.getBoolean("DicomAlwaysAllowEcho", false));
             jsonOb.addProperty("OrthancPeersInDatabase", prefs.getBoolean("OrthancPeersInDatabase", false));
             jsonOb.addProperty("HttpProxy", prefs.getString("HttpProxy", ""));
             jsonOb.addProperty("HttpVerbose", prefs.getBoolean("HttpVerbose", false));

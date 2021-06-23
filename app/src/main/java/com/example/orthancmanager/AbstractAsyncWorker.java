@@ -1,7 +1,7 @@
 package com.example.orthancmanager;
 
 import android.os.AsyncTask;
-import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.date.OrthancServer;
 import static java.lang.Thread.sleep;
 
 public abstract class AbstractAsyncWorker<String> extends AsyncTask<Void, Void, String> {

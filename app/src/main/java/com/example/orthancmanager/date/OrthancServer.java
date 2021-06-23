@@ -1,4 +1,4 @@
-package com.example.orthancmanager.datastorage;
+package com.example.orthancmanager.date;
 
 public class OrthancServer {
 

@@ -22,8 +22,8 @@ import java.util.Set;
 
 public class DicomModalitiesDialogPreference extends DialogPreference
 {
-    private String jsonStr;
-    private static ArrayList<DicomModaliti> dicomModalities = new ArrayList<>();
+    String jsonStr;
+    static ArrayList<DicomModaliti> dicomModalities = new ArrayList<>();
 
     public DicomModalitiesDialogPreference(Context context, AttributeSet attrs)
     {

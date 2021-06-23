@@ -14,8 +14,8 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.orthancmanager.datastorage.OrthancServer;
-import com.example.orthancmanager.datastorage.Study;
+import com.example.orthancmanager.date.OrthancServer;
+import com.example.orthancmanager.date.Study;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -32,12 +32,12 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class StudyFragment extends Fragment implements ConnectionCallback {
 
-    private JsonParser parserJson = new JsonParser();
+    JsonParser parserJson = new JsonParser();
     @SuppressLint("SimpleDateFormat")
-    private SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-    private ArrayList<Study> studys = new ArrayList<>();
+    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+    ArrayList<Study> studys = new ArrayList<>();
     static Boolean newClick = false;
-    private StudyAdapter adapter = new StudyAdapter(studys);
+    StudyAdapter adapter = new StudyAdapter(studys);
 
     @Nullable
     @Override

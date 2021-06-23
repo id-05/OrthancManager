@@ -1,6 +1,6 @@
 package com.example.orthancmanager;
 
-import com.example.orthancmanager.datastorage.OrthancServer;
+import com.example.orthancmanager.date.OrthancServer;
 
 public interface ConnectionCallback <V> {
     void onBegin(); //Асинхронная операция началась
